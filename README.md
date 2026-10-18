@@ -85,16 +85,18 @@ The proposed architecture includes:
 
 | Contributor | Most Used Frameworks/Tools | Notable Contributions |
 | --- | --- | --- |
-| **TBD** <br/> <i>Project Lead</i> | TBD | TBD |
-| **TBD** <br/> <i>Gateway and Integrations</i> | TBD | TBD |
-| **TBD** <br/> <i>Gateway and Integrations</i> | TBD | TBD |
-| **TBD** <br/> <i>Policy and Identity</i> | TBD | TBD |
-| **TBD** <br/> <i>Policy and Identity</i> | TBD | TBD |
-| **TBD** <br/> <i>AI Security Detection</i> | TBD | TBD |
-| **TBD** <br/> <i>AI Security Detection</i> | TBD | TBD |
-| **TBD** <br/> <i>AI Security Detection</i> | TBD | TBD |
-| **TBD** <br/> <i>Dashboard and Observability</i> | TBD | TBD |
-| **TBD** <br/> <i>Dashboard and Observability</i> | TBD | TBD |
+| **TBD** <br/> <i>Frontend</i> | TBD | TBD |
+| **TBD** <br/> <i>Frontend</i> | TBD | TBD |
+| **TBD** <br/> <i>Backend</i> | TBD | TBD |
+| **TBD** <br/> <i>Backend</i> | TBD | TBD |
+| **TBD** <br/> <i>Backend</i> | TBD | TBD |
+| **TBD** <br/> <i>AI/ML & Security</i> | TBD | TBD |
+| **TBD** <br/> <i>AI/ML & Security</i> | TBD | TBD |
+| **TBD** <br/> <i>AI/ML & Security</i> | TBD | TBD |
+| **TBD** <br/> <i>DevOps & Infrastructure</i> | TBD | TBD |
+| **TBD** <br/> <i>DevOps & Infrastructure</i> | TBD | TBD |
+| **TBD** <br/> <i>Full-Stack / Open to Anything</i> | TBD | TBD |
+| **TBD** <br/> <i>Full-Stack / Open to Anything</i> | TBD | TBD |
 
 
 

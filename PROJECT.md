@@ -90,10 +90,10 @@ The showcase should demonstrate a safe request, a blocked request, and an approv
 
 ### Initial Tool Integrations
 
-The first version should support one or two integrations:
+Integration work is staged as follows:
 
 - A simulated email or sandboxed file-system tool for the fall showcase
-- One generic API or MCP integration for the March release
+- One generic API or MCP integration as a target enhancement after the committed release is stable
 
 The team should prioritize depth and security over the total number of connectors.
 
@@ -979,8 +979,8 @@ The project is intended for approximately 12 contributors, including the Project
 - **Frontend:** 2
 - **Backend:** 3
 - **AI/ML & Security:** 3
-- **DevOps & Infrastructure:** 1–2
-- **Full-Stack or flexible contributors:** Work across Frontend and Backend where capacity is needed
+- **DevOps & Infrastructure:** 2
+- **Full-Stack or flexible contributor:** 1, working across Frontend and Backend where capacity is needed
 
 Roles may overlap based on contributor interests and experience. The Project Lead coordinates integration and may contribute across workstreams.
 

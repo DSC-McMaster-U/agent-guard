@@ -68,60 +68,66 @@ The benchmark is a central part of AgentGuard's strategy, not only a testing uti
 
 ## Scope
 
-### Minimum Viable Product
+### Fall Showcase MVP
 
-The fall MVP will support:
+The fall MVP is a focused end-to-end demonstration targeted for the final week of November. It will support:
 
-- A centralized Agent Gateway
-- One normalized tool-call request schema
-- Agent and user identity fields
-- Deterministic allow, block, and approval policies
-- Tool argument validation
-- Redis-backed asynchronous security analysis
-- Prompt-injection detection
-- Sensitive-data detection
-- Goal-alignment analysis
-- A Decision Engine
-- A Human Approval Service
-- A Restricted Tool Executor
-- Two or three demonstration tool integrations
-- PostgreSQL audit storage
-- A basic React approval and trace dashboard
-- A security benchmark with benign and adversarial scenarios
-- Docker-based local development
-- Cloud deployment of the MVP
+- A small FastAPI Agent Gateway
+- One normalized tool-call request schema with agent and user metadata
+- Deterministic allow, block, and approval-required policies
+- Basic tool argument validation
+- One initial prompt-injection or sensitive-data detector with structured findings
+- A synchronous Decision Engine that combines policy and security findings
+- A basic Human Approval API and React approval interface
+- PostgreSQL storage for requests, decisions, and approval events
+- One simulated or sandboxed demonstration tool
+- An activity view showing recent requests and decisions
+- Ten to twenty benign and adversarial benchmark scenarios
+- Docker Compose-based local development
+- GitHub Actions checks for the components that exist
+
+The showcase should demonstrate a safe request, a blocked request, and an approval-required request. A reliable local demonstration is required; public cloud deployment is optional for the showcase.
 
 ### Initial Tool Integrations
 
-The first version should support a small number of integrations:
+The first version should support one or two integrations:
 
-- A sandboxed file-system tool
-- A test email tool or email simulation
-- A generic HTTP or API tool
-- One MCP server integration if feasible during the fall term
+- A simulated email or sandboxed file-system tool for the fall showcase
+- One generic API or MCP integration for the March release
 
 The team should prioritize depth and security over the total number of connectors.
 
-### Winter Product Goals
+### March v0.1 Goals
 
-The winter release may add:
+The release targeted for the end of March should add:
 
-- MCP client and server proxying
-- Tool-description validation
-- Agent, user, task, and tool-level identity
-- OAuth-based authorization
-- Scoped and short-lived credentials
+- Redis-backed asynchronous security analysis
+- A Risk Orchestrator with timeouts and structured worker results
+- Improved prompt-injection and sensitive-data detection
+- A Restricted Tool Executor with execution limits and result sanitization
+- One or two demonstration tool integrations, including basic MCP support if feasible
+- Scoped application credentials or API keys for the supported integrations
+- Improved approval, activity, and trace views
+- Basic OpenTelemetry traces and service health metrics
+- Thirty to fifty benign and adversarial benchmark scenarios
+- A repeatable deployment for one demonstration environment
+- Contributor, architecture, security, and deployment documentation
+- A versioned `v0.1` open-source release
+
+### Stretch Goals
+
+The following features should be attempted only after the March goals are stable:
+
+- Complete OAuth-based authorization
 - Google Secret Manager integration
-- Memory-poisoning protection
+- Production-grade GKE hardening
+- Full Prometheus and Grafana dashboards
 - Sequence-based behaviour anomaly detection
+- Memory-poisoning protection beyond benchmark scenarios
 - Multi-agent trace support
-- Policy templates and policy simulation
 - Organization-level policy management
-- OpenTelemetry traces
-- Prometheus and Grafana dashboards
-- External beta testing
-- Public deployment templates
-- A versioned `v1.0` release
+- Extensive external beta testing
+- More than two production-quality tool integrations
 
 ### Out of Scope for the MVP
 
@@ -215,95 +221,85 @@ For example:
 
 ## Project Timeline
 
-The project will run for approximately eight months and will be divided into six major milestones.
+The active development period runs from late October through the end of March. The schedule assumes approximately 12 students contributing about three hours of total project time per week, including one short team meeting, with reduced availability during exams and holidays. AI-assisted development may speed up scaffolding and routine tasks, but the schedule still reserves time for learning, review, testing, and integration.
 
 ### Milestone 1: Foundations and Onboarding
 
-**Target:** September to early October
+**Target:** Late October
 
 - Introduce contributors to Git, GitHub, pull requests, and open-source workflows.
 - Finalize the threat model and architecture.
 - Set up the `agent-guard` repository.
 - Configure GitHub Projects and contribution guidelines.
-- Create local Docker-based development environments.
+- Create the initial backend, frontend, and local development structure.
 - Define the normalized tool-call schema.
 - Define shared Pydantic models.
 - Create initial dashboard wireframes.
 - Create the first benign and adversarial test scenarios.
 
-### Milestone 2: Gateway and Deterministic Policy Enforcement
+### Milestone 2: Showcase Foundations
 
-**Target:** October
+**Target:** Late October to early November
 
 - Build the FastAPI Agent Gateway.
-- Add agent authentication.
+- Add agent and user metadata to requests.
 - Validate tool names and arguments.
 - Implement allow, block, and approval policies.
-- Add session-level budgets.
-- Add tool-specific parameter restrictions.
+- Add a small set of tool-specific parameter restrictions.
 - Store requests and decisions in PostgreSQL.
-- Create one sandboxed demonstration tool.
+- Create one simulated or sandboxed demonstration tool.
 - Add unit tests for policy evaluation.
 
-### Milestone 3: Security Analysis and Decision Pipeline
+### Milestone 3: Showcase Security and Approval Flow
 
-**Target:** November
+**Target:** Early to mid-November
 
-- Add Redis job queues.
-- Build the Risk Orchestrator.
-- Implement prompt-injection detection.
-- Implement sensitive-data detection.
-- Implement goal-alignment analysis.
+- Implement one initial prompt-injection or sensitive-data detector.
 - Add structured risk findings.
-- Build the Decision Engine.
-- Add retries, timeouts, and failure handling.
-- Integrate the complete security-analysis flow.
+- Build a synchronous Decision Engine.
+- Build the initial approval API and React approval interface.
+- Add activity and decision views.
+- Create the first ten to twenty benchmark scenarios.
 
-### Milestone 4: Fall MVP Integration and Demonstration
+### Milestone 4: Fall Showcase Integration and Stabilization
 
-**Target:** Late November to December
+**Target:** Mid to late November
 
-- Build the Approval Service.
-- Build the initial dashboard.
-- Add live approval updates.
-- Build the Restricted Tool Executor.
-- Add scoped tool credentials.
-- Complete two or three demonstration integrations.
-- Return sanitized tool results through the Agent Gateway.
-- Create at least 50 benchmark scenarios.
-- Deploy the fall MVP.
+- Connect the gateway, policy engine, detector, decision flow, approval interface, and audit storage.
+- Complete one reliable simulated or sandboxed tool integration.
+- Run the application locally with Docker Compose.
+- Add component tests and a small end-to-end test path.
+- Fix integration issues and document known limitations.
 - Demonstrate safe, malicious, and approval-required workflows.
+- Freeze showcase features during the final week and rehearse the demonstration.
 
-### Milestone 5: MCP, Identity, and Observability
+### Milestone 5: Product Expansion
 
 **Target:** January to February
 
-- Add MCP proxy support.
-- Validate MCP tool schemas and descriptions.
-- Add OAuth-based authorization where appropriate.
-- Integrate Google Secret Manager.
-- Add short-lived credential handling.
-- Add OpenTelemetry traces.
-- Add Prometheus metrics.
-- Add Grafana dashboards.
-- Improve the approval interface.
-- Add policy templates and policy simulation.
+- Add Redis-backed analysis jobs and a Risk Orchestrator.
+- Improve prompt-injection and sensitive-data detection.
+- Build the Restricted Tool Executor with execution limits and result sanitization.
+- Add one real API or basic MCP integration.
+- Improve the approval, activity, and trace interfaces.
+- Add scoped credentials for supported integrations.
+- Add basic OpenTelemetry traces and service health metrics.
+- Expand integration and security tests.
 
-### Milestone 6: Advanced Security, Evaluation, and Final Release
+### Milestone 6: Evaluation and v0.1 Release
 
-**Target:** March to April
+**Target:** March
 
-- Add behaviour sequence analysis.
-- Add memory-poisoning scenarios.
-- Add multi-agent trace support if feasible.
-- Expand the benchmark dataset.
+- Expand the benchmark to thirty to fifty scenarios.
 - Measure attack success and benign completion rates.
 - Improve false-positive and false-negative performance.
-- Conduct external beta testing.
-- Harden the GKE deployment.
+- Stabilize one repeatable demonstration deployment.
+- Complete end-to-end, failure-path, and security testing.
 - Finalize documentation and onboarding.
-- Publish a versioned open-source release.
+- Publish a versioned `v0.1` open-source release.
 - Prepare the final project demonstration.
+
+Advanced anomaly detection, complete OAuth support, production GKE hardening, multi-agent tracing, and extensive external testing remain stretch goals.
 
 ---
 
@@ -933,24 +929,22 @@ GitHub Actions will be used for:
 - Linting
 - Unit tests
 - Integration tests
-- Security checks
-- Docker image builds
-- Image pushes to Google Artifact Registry
-- Kubernetes manifest validation
-- Deployment to staging
-- Deployment to production
+- Applicable security checks
+- Docker image builds when Dockerfiles are available
+- Optional deployment to one demonstration environment after the application is stable
+
+Artifact publishing, Kubernetes validation, and automated production deployment are stretch goals.
 
 ### Hosting
 
-- **Frontend:** GKE or another suitable Google Cloud service
-- **Backend Services:** GKE
+- **Frontend:** A suitable static or container hosting service
+- **Backend Services:** One container-based demonstration environment
 - **Queue:** Redis
 - **Database:** PostgreSQL
-- **Container Images:** Google Artifact Registry
-- **Secrets:** Google Secret Manager
-- **Monitoring:** Google Cloud Monitoring, OpenTelemetry, Prometheus, and Grafana
+- **Secrets:** Environment or platform-managed secrets for the supported demonstration integrations
+- **Monitoring:** Basic health checks, structured logs, metrics, and OpenTelemetry traces
 
-The fall MVP may use a simplified deployment before the full GKE architecture is completed.
+The fall showcase must run reliably through Docker Compose and does not require cloud deployment. GKE, Google Artifact Registry, Google Secret Manager, Prometheus, and Grafana may be added later as stretch goals.
 
 ---
 
@@ -958,15 +952,16 @@ The fall MVP may use a simplified deployment before the full GKE architecture is
 
 ## Team Members
 
-The project is intended for approximately 10 contributors.
+The project is intended for approximately 12 contributors, including the Project Lead.
 
 - **Project Lead:** 1
-- **Gateway and Integration Developers:** 2
-- **Policy and Identity Developers:** 2
-- **AI Security Detection Developers:** 3
-- **Dashboard and Observability Developers:** 2
+- **Frontend:** 2
+- **Backend:** 3
+- **AI/ML & Security:** 3
+- **DevOps & Infrastructure:** 1–2
+- **Full-Stack or flexible contributors:** Work across Frontend and Backend where capacity is needed
 
-Roles may overlap based on contributor interests and experience.
+Roles may overlap based on contributor interests and experience. The Project Lead coordinates integration and may contribute across workstreams.
 
 ---
 
@@ -985,50 +980,54 @@ Roles may overlap based on contributor interests and experience.
 - Coordinate integrations between squads.
 - Coordinate project demonstrations and documentation.
 
-### Gateway and Integration Developers
+### Frontend Developers
+
+- Build the React dashboard and application shell.
+- Build approval, activity, and trace views.
+- Handle loading, error, empty, and decision states.
+- Connect the interface to backend APIs.
+- Improve accessibility and responsive behaviour.
+- Write frontend and end-to-end tests.
+
+### Backend Developers
 
 - Build the Agent Gateway.
 - Define normalized request schemas.
-- Add agent authentication.
-- Build MCP and tool adapters.
-- Build the Restricted Tool Executor.
-- Implement response sanitization.
-- Integrate scoped credentials.
-- Write integration tests.
-
-### Policy and Identity Developers
-
 - Build the Policy Engine.
 - Define policy schemas.
 - Add tool and argument authorization.
-- Add user, agent, task, and session permissions.
-- Add session budgets.
-- Integrate PostgreSQL policy storage.
-- Support OAuth and scoped identity in winter.
-- Write policy tests.
+- Build approval and audit APIs.
+- Integrate PostgreSQL and Redis.
+- Build the Restricted Tool Executor and supported tool adapters.
+- Implement response sanitization and scoped credentials.
+- Write unit and integration tests.
 
-### AI Security Detection Developers
+### AI/ML & Security Developers
 
-- Build the Risk Orchestrator.
 - Build prompt-injection detection.
 - Build sensitive-data detection.
-- Build goal-alignment analysis.
-- Build behaviour-anomaly detection.
+- Define structured risk findings and help build the Risk Orchestrator.
 - Create adversarial scenarios.
 - Measure security performance.
 - Improve false-positive and false-negative rates.
+- Review threat models, attack paths, and security-sensitive changes.
 
-### Dashboard and Observability Developers
+### DevOps & Infrastructure Developers
 
-- Build the approval dashboard.
-- Build session timelines.
-- Build tool-call graph visualizations.
-- Add approve and deny workflows.
-- Add live updates.
+- Maintain Docker and Docker Compose development environments.
+- Maintain GitHub Actions and repository checks.
+- Support PostgreSQL and Redis service configuration.
+- Create and document the demonstration deployment.
 - Add OpenTelemetry tracing.
-- Add Prometheus metrics.
-- Build Grafana dashboards.
-- Write frontend and end-to-end tests.
+- Add basic metrics, health checks, logs, and monitoring.
+- Document setup, deployment, and troubleshooting.
+
+### Full-Stack and Flexible Contributors
+
+- Take small issues across Frontend and Backend.
+- Help connect API responses to dashboard views.
+- Add integration tests and developer documentation.
+- Support another workstream when it has a short-term capacity gap.
 
 ---
 
@@ -1041,14 +1040,14 @@ Roles may overlap based on contributor interests and experience.
 
 ### Suggested Schedule
 
-- Two-week development sprints
-- One short asynchronous progress update each week
-- One sprint review and planning meeting every two weeks
+- One-week development sprints
+- One 20–30 minute sprint review and planning meeting each week
+- One short asynchronous progress update before each meeting
 - Optional in-person or virtual work sessions for contributors who need support
 - Monthly project demonstration
 - Additional technical workshops during onboarding when needed
 
-The final cadence should be confirmed with contributors after onboarding and adjusted if meetings begin to reduce development time.
+Each contributor should normally receive one issue or sub-issue sized for one to three hours of work. Larger tasks should be divided across weeks or contributors. Meetings should focus on decisions, blockers, and coordination rather than lengthy status reports.
 
 ### In-Person Sessions
 
@@ -1088,135 +1087,139 @@ A pull request is considered complete when:
 
 ### Sprint Length
 
-- Standard sprint length: two weeks
-- Weekly check-ins may occur within each sprint
+- Standard sprint length: one week
+- Each sprint ends with a 20–30 minute review, blocker discussion, and planning meeting
+- Contributors update their issues before the meeting
+- Tasks should normally fit within one to three hours and be divided when they are larger
+- Contributors should have no more than one main implementation issue in progress at a time
 
-## High-Level Sprint Goals
+The schedule assumes students have competing coursework, exams, and personal commitments. December is treated as a reduced-capacity maintenance period rather than a sequence of required sprints. Unfinished work returns to planning instead of automatically carrying an unrealistic commitment into the next week.
 
-### Sprint 1: Onboarding and Architecture
+## Workstream Plan
 
-- Introduce Git and GitHub workflows.
-- Finalize the threat model.
-- Finalize the architecture.
-- Create the repository structure.
-- Configure GitHub Projects.
-- Set up local development.
-- Create starter issues.
+Each workstream has useful parallel work throughout the project. When implementation is blocked by another workstream, contributors can work on tests, fixtures, documentation, interface contracts, or review tasks that support the same milestone.
 
-### Sprint 2: Shared Schemas and Gateway Foundations
+| Phase | Frontend | Backend | AI/ML & Security | DevOps & Infrastructure |
+| --- | --- | --- | --- | --- |
+| Fall showcase | Application shell, approval flow, activity view, API integration | FastAPI gateway, schema, policies, decisions, audit storage | Threat cases, one initial detector, structured findings, benchmark scenarios | Repository workflow, CI, Docker Compose, PostgreSQL, local runbook |
+| December maintenance | UI fixes, accessibility checks, component tests | Refactoring, API documentation, test coverage | Review results and improve test fixtures | Setup fixes, dependency updates, contributor documentation |
+| January–February expansion | Trace views, richer approval states, integration UX | Redis orchestration, executor, integrations, basic MCP support | Improve detectors, expand attack coverage, evaluate errors | Service health, deployment environment, tracing, logs, CI expansion |
+| March release | Usability fixes, release screenshots and demo flow | Reliability fixes, API freeze, integration tests | Final benchmark, metrics, security review | Release pipeline, deployment stabilization, documentation and release artifacts |
 
-- Define normalized tool-call schemas.
-- Build the initial FastAPI service.
-- Add request validation.
-- Add trace and session identifiers.
-- Build one demonstration tool.
+## High-Level Weekly Sprint Goals
 
-### Sprint 3: Policy Engine
+### Fall Showcase
 
-- Implement allow and block rules.
-- Implement approval rules.
-- Add argument validation.
-- Add tool-specific policies.
-- Add policy unit tests.
+#### Sprint 1: Foundations
 
-### Sprint 4: Persistence and Audit Events
+- Complete onboarding and architecture decisions.
+- Create the backend and frontend application skeletons.
+- Confirm local development, issue, branch, and review workflows.
 
-- Set up PostgreSQL.
-- Store sessions and requests.
-- Store policy decisions.
-- Store audit events.
-- Add database migrations.
+#### Sprint 2: Contracts and Designs
 
-### Sprint 5: Redis and Risk Orchestration
+- Define the normalized tool-call schema and API contract.
+- Complete approval and activity wireframes.
+- Define the initial threat cases and benchmark format.
 
-- Set up Redis.
-- Build job schemas.
-- Publish analysis jobs.
-- Handle retries and timeouts.
-- Aggregate worker results.
+#### Sprint 3: First Decisions
 
-### Sprint 6: Security Workers
+- Implement allow, block, and approval-required policy outcomes.
+- Build the first detector prototype.
+- Build the approval interface with representative mock data.
 
-- Build prompt-injection detection.
-- Build sensitive-data detection.
-- Build goal-alignment analysis.
-- Add structured worker outputs.
+#### Sprint 4: Persistence and Integration
 
-### Sprint 7: Decision Engine
+- Store requests, decisions, and approval events in PostgreSQL.
+- Connect the dashboard to the backend API.
+- Run the implemented services through Docker Compose.
 
-- Combine policy and worker results.
-- Define decision outcomes.
-- Add decision explanations.
-- Add decision tests.
+#### Sprint 5: End-to-End Flow
 
-### Sprint 8: Approval Workflow
+- Connect one simulated or sandboxed tool to the complete decision path.
+- Complete ten to twenty benchmark scenarios.
+- Add integration tests and component-aware CI checks.
 
-- Build the Approval Service.
-- Build the approval dashboard.
-- Add approve and deny actions.
-- Persist reviewer decisions.
-- Add live updates.
+#### Sprint 6: Showcase Stabilization
 
-### Sprint 9: Restricted Tool Execution
+- Freeze showcase features.
+- Fix blocking defects and document known limitations.
+- Rehearse safe, blocked, and approval-required demonstrations.
+- Prepare a fallback recording and setup instructions.
 
-- Build the Tool Executor.
-- Add one MCP or API adapter.
-- Add credential retrieval.
-- Add execution limits.
-- Add result sanitization.
+### Winter Development
 
-### Sprint 10: Fall MVP Integration
+#### Sprint 7: Winter Restart
 
-- Connect the full request flow.
-- Add demonstration scenarios.
-- Fix integration issues.
-- Deploy the MVP.
-- Prepare the fall demonstration.
+- Review the architecture and showcase feedback.
+- Resolve high-priority technical debt.
+- Confirm the March backlog and interface contracts.
 
-### Sprint 11: MCP and Identity
+#### Sprint 8: Asynchronous Analysis Foundations
 
-- Add MCP proxy support.
-- Add tool-description validation.
-- Add OAuth-based authorization.
-- Add scoped credentials.
+- Add Redis and security job contracts.
+- Add worker health checks and development configuration.
+- Design dashboard states for pending and failed analysis.
 
-### Sprint 12: Observability
+#### Sprint 9: Risk Orchestration
 
-- Add OpenTelemetry.
-- Add Prometheus metrics.
-- Add Grafana dashboards.
-- Add security alerts.
+- Build the Risk Orchestrator and worker result aggregation.
+- Integrate improved prompt-injection and sensitive-data workers.
+- Display structured findings in the dashboard.
 
-### Sprint 13: Advanced Security
+#### Sprint 10: Approval Reliability
 
-- Add behaviour anomaly detection.
-- Add memory-poisoning scenarios.
-- Add policy templates.
-- Add policy simulation.
+- Improve approval persistence and failure handling.
+- Complete approval UI states and accessibility checks.
+- Expand audit and decision tests.
 
-### Sprint 14: Evaluation and External Testing
+#### Sprint 11: Restricted Execution
 
-- Expand the benchmark.
-- Measure security metrics.
-- Track false positives.
-- Conduct beta testing.
-- Improve detection and policies.
+- Build the Restricted Tool Executor.
+- Add execution limits, timeouts, and result sanitization.
+- Test executor security boundaries.
 
-### Sprint 15: Production Hardening
+#### Sprint 12: First Real Integration
 
-- Harden GKE deployment.
-- Improve credential isolation.
-- Add load and latency tests.
-- Improve documentation.
-- Fix security findings.
+- Add one supported API or tool integration.
+- Add scoped application credentials.
+- Add the integration to activity and trace views.
 
-### Sprint 16: Final Release
+#### Sprint 13: MCP Prototype
 
-- Finalize CI/CD.
-- Publish deployment documentation.
-- Complete contributor documentation.
-- Prepare the final presentation.
-- Publish the open-source release.
+- Add basic MCP proxy support if the core system is stable.
+- Validate tool schemas and descriptions.
+- Add MCP-specific benign and adversarial scenarios.
+
+#### Sprint 14: Cross-Workstream Hardening
+
+- Improve policies and detector accuracy.
+- Fix integration and dashboard usability problems.
+- Exercise timeout, unavailable-service, and malformed-input paths.
+
+#### Sprint 15: Essential Observability
+
+- Add basic traces, structured logs, service health, and decision metrics.
+- Surface useful operational state without building a large monitoring platform.
+- Document local and deployed troubleshooting.
+
+#### Sprint 16: Benchmark and Evaluation
+
+- Expand the benchmark to thirty to fifty scenarios.
+- Measure attack success, benign completion, false positives, and false negatives.
+- Address the most important findings.
+
+#### Sprint 17: Release Candidate
+
+- Stabilize one repeatable demonstration deployment.
+- Complete onboarding, architecture, security, and deployment documentation.
+- Run the full test and benchmark suite.
+
+#### Sprint 18: Final Release
+
+- Freeze features and fix release-blocking defects only.
+- Publish the `v0.1` release.
+- Rehearse the final demonstration and prepare fallback materials.
 
 ---
 
@@ -1224,7 +1227,7 @@ A pull request is considered complete when:
 
 ### Sprint Duration
 
-- **Sprint Length:** Two weeks
+- **Sprint Length:** One week
 - **Start Date:** TBD
 - **End Date:** TBD
 

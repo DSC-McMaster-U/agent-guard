@@ -68,7 +68,7 @@ Common types are `feature`, `fix`, `docs`, `test`, and `chore`. Use lowercase wo
 
 ## Project Board and Sprints
 
-AgentGuard uses two-week sprints and these board statuses:
+AgentGuard uses one-week sprints and these board statuses:
 
 - **Backlog:** Ideas and tasks that have not been prioritized.
 - **Ready:** Defined tasks that contributors may begin.
@@ -76,11 +76,11 @@ AgentGuard uses two-week sprints and these board statuses:
 - **In Review:** Work with an open pull request awaiting review.
 - **Done:** Completed work, normally with a merged pull request.
 
-New issues begin in **Backlog**. The Project Lead moves sufficiently defined and approved issues to **Ready** during planning. Contributors should update issue status and leave a short progress note before each weekly meeting.
+New issues begin in **Backlog**. The Project Lead moves sufficiently defined and approved issues to **Ready** during planning. Most sprint tasks should fit within one to three hours; larger work should be divided into smaller issues or sub-issues. Contributors should update issue status and leave a short progress note before each weekly meeting.
 
 ## Weekly Team Meeting
 
-The team meets weekly for approximately 20–30 minutes:
+The team meets weekly for approximately 20–30 minutes. The meeting closes the current sprint and plans the next one:
 
 1. **Progress updates (8 minutes):** Each workstream shares completed and ongoing work.
 2. **Blockers (7 minutes):** Discuss technical issues and dependencies.

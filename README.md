@@ -66,20 +66,37 @@ React, FastAPI, Python, PostgreSQL, Docker, and GitHub Actions support the commi
 The November showcase focuses on one reliable end-to-end security decision flow that can run locally with Docker Compose.
 
 ```mermaid
-flowchart LR
-    A[Simulated AI Agent] --> G[FastAPI Agent Gateway]
-    G --> P[Policy Engine]
-    P --> S[Initial Security Detector]
-    S --> D[Decision Engine]
-    D -->|Allow| T[Simulated or Sandboxed Tool]
-    D -->|Block| X[Blocked Response]
-    D -->|Approval Required| H[Approval API and React Dashboard]
-    H -->|Approve| T
-    H -->|Deny| X
-    T --> R[Sanitized Result]
-    G --> DB[(PostgreSQL Audit Log)]
-    D --> DB
-    H --> DB
+flowchart TB
+    agent(["Simulated AI agent"]):::actor
+
+    subgraph mvp["November MVP · local demo"]
+        gateway["FastAPI gateway"]:::service --> policy["Policy engine"]:::service
+        policy --> detector["One security check"]:::security
+        detector --> decision{"Allow, block, or approve?"}:::decision
+
+        decision -->|Allow| tool["Simulated tool"]:::success
+        decision -->|Block| blocked["Blocked response"]:::blocked
+        decision -->|Needs approval| approval["Approval API + React UI"]:::review
+        approval -->|Approve| tool
+        approval -->|Deny| blocked
+
+        tool --> result["Sanitized result to agent"]:::success
+        gateway --> audit[("PostgreSQL audit trail")]:::data
+        decision --> audit
+        approval --> audit
+    end
+
+    agent --> gateway
+
+    classDef actor fill:#e0f2fe,stroke:#0284c7,color:#082f49,stroke-width:2px
+    classDef service fill:#eff6ff,stroke:#3b82f6,color:#172554,stroke-width:1.5px
+    classDef security fill:#f5f3ff,stroke:#8b5cf6,color:#2e1065,stroke-width:1.5px
+    classDef decision fill:#fff7ed,stroke:#f97316,color:#7c2d12,stroke-width:2px
+    classDef review fill:#fef3c7,stroke:#d97706,color:#78350f,stroke-width:1.5px
+    classDef success fill:#dcfce7,stroke:#16a34a,color:#14532d,stroke-width:1.5px
+    classDef blocked fill:#fee2e2,stroke:#dc2626,color:#7f1d1d,stroke-width:1.5px
+    classDef data fill:#f1f5f9,stroke:#64748b,color:#0f172a,stroke-width:1.5px
+    style mvp fill:#ffffff,stroke:#cbd5e1,stroke-width:2px
 ```
 
 The showcase includes one initial prompt-injection or sensitive-data detector. Redis workers, production credentials, expanded MCP support, advanced observability, and cloud hardening are later goals.
@@ -89,60 +106,61 @@ The showcase includes one initial prompt-injection or sensitive-data detector. R
 The March plan separates release requirements from optional enhancements. Solid connections show the committed `v0.1` flow. Dashed connections show target and stretch work that must not delay the release.
 
 ```mermaid
-flowchart LR
-    A[AI Agent Client]
+flowchart TB
+    agent(["AI agent client"]):::actor
 
-    subgraph COMMITTED[Committed March v0.1]
-        G[Agent Gateway]
-        G --> P[Policy Engine]
-        P --> S[Prompt-Injection and Sensitive-Data Checks]
-        S --> D[Decision Engine]
-        D -->|Allow| E[Restricted Tool Executor]
-        D -->|Block| B[Blocked Response]
-        D -->|Approval Required| AP[Approval Service]
-        AP <--> UI[React Approval and Activity Dashboard]
-        AP -->|Approved| E
-        AP -->|Denied| B
-        G --> DB[(PostgreSQL Audit Store)]
-        D --> DB
-        AP --> DB
-        E --> T[Simulated or Sandboxed Tool]
-        T --> SR[Sanitized Result]
-        SR --> G
+    subgraph core["Committed · March v0.1"]
+        gateway["Agent gateway"]:::service --> policy["Policy engine"]:::service
+        policy --> checks["Prompt-injection + sensitive-data checks"]:::security
+        checks --> decision{"Allow, block, or approve?"}:::decision
+
+        decision -->|Allow| executor["Restricted executor"]:::success
+        decision -->|Block| blocked["Blocked response"]:::blocked
+        decision -->|Needs approval| approval["Approval service"]:::review
+        approval <--> dashboard["React approvals + activity"]:::review
+        approval -->|Approve| executor
+        approval -->|Deny| blocked
+
+        executor --> tool["Simulated or sandboxed tool"]:::success
+        tool --> result["Sanitized result to agent"]:::success
+        gateway --> audit[("PostgreSQL audit store")]:::data
+        decision --> audit
+        approval --> audit
+        executor --> audit
     end
 
-    A --> G
-    G -->|Result| A
+    agent --> gateway
 
-    subgraph TARGET[Capacity-Dependent Target Enhancements]
-        RO[Risk Orchestrator]
-        Q[(Redis Queue)]
-        W[Asynchronous Security Workers]
-        I[Real API or Basic MCP Integration]
-        OT[Basic Telemetry]
-        HD[Hosted Demonstration]
-        RO -.-> Q
-        Q -.-> W
-        W -.-> RO
+    subgraph target["Target · if capacity allows"]
+        risk["Redis risk orchestration"]:::optional
+        integration["Real API or basic MCP"]:::optional
+        telemetry["Basic telemetry + hosted demo"]:::optional
     end
 
-    G -.-> RO
-    RO -.-> D
-    E -.-> I
-    G -.-> OT
-    G -.-> HD
-
-    subgraph STRETCH[Optional Stretch Goals]
-        GKE[GKE Production Deployment]
-        SM[Google Secret Manager]
-        ADV[Goal Alignment and Behaviour Analysis]
-        MON[Prometheus and Grafana]
+    subgraph stretch["Stretch · later"]
+        cloud["GKE + Secret Manager"]:::future
+        advanced["Advanced detection + monitoring"]:::future
     end
 
-    G -.-> GKE
-    E -.-> SM
-    W -.-> ADV
-    OT -.-> MON
+    checks -.-> risk
+    executor -.-> integration
+    gateway -.-> telemetry
+    telemetry -.-> cloud
+    risk -.-> advanced
+
+    classDef actor fill:#e0f2fe,stroke:#0284c7,color:#082f49,stroke-width:2px
+    classDef service fill:#eff6ff,stroke:#3b82f6,color:#172554,stroke-width:1.5px
+    classDef security fill:#f5f3ff,stroke:#8b5cf6,color:#2e1065,stroke-width:1.5px
+    classDef decision fill:#fff7ed,stroke:#f97316,color:#7c2d12,stroke-width:2px
+    classDef review fill:#fef3c7,stroke:#d97706,color:#78350f,stroke-width:1.5px
+    classDef success fill:#dcfce7,stroke:#16a34a,color:#14532d,stroke-width:1.5px
+    classDef blocked fill:#fee2e2,stroke:#dc2626,color:#7f1d1d,stroke-width:1.5px
+    classDef data fill:#f1f5f9,stroke:#64748b,color:#0f172a,stroke-width:1.5px
+    classDef optional fill:#f5f3ff,stroke:#a78bfa,color:#4c1d95,stroke-width:1.5px
+    classDef future fill:#f8fafc,stroke:#94a3b8,color:#334155,stroke-width:1.5px
+    style core fill:#ffffff,stroke:#cbd5e1,stroke-width:2px
+    style target fill:#faf5ff,stroke:#c4b5fd,stroke-width:1.5px
+    style stretch fill:#f8fafc,stroke:#cbd5e1,stroke-width:1.5px
 ```
 
 The [original full-cloud architecture diagram](images/architecture.png) is preserved as a reference for possible future expansion.

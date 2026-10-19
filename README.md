@@ -34,7 +34,7 @@ AgentGuard is an open-source security gateway for AI agents that interact with e
 
 AgentGuard is designed to intercept every proposed tool call before execution. It will evaluate actions using authorization policies, argument validation, prompt-injection detection, sensitive-data analysis, and optional human approval.
 
-Based on the evaluation, AgentGuard may allow, block, restrict, rewrite, sandbox, rate-limit, or pause an action for approval.
+The committed versions focus on allowing, blocking, or pausing an action for approval. Restriction, rewriting, sandboxing, and rate limiting are possible later extensions.
 
 The project will also include an open security benchmark for measuring attack success rates, benign task completion, false-positive rates, and false-negative rates.
 
@@ -84,7 +84,7 @@ flowchart LR
 
 The showcase includes one initial prompt-injection or sensitive-data detector. Redis workers, production credentials, expanded MCP support, advanced observability, and cloud hardening are later goals.
 
-### March Architecture
+### March Final Showcase Architecture
 
 The March plan separates release requirements from optional enhancements. Solid connections show the committed `v0.1` flow. Dashed connections show target and stretch work that must not delay the release.
 
@@ -103,9 +103,9 @@ flowchart LR
         AP <--> UI[React Approval and Activity Dashboard]
         AP -->|Approved| E
         AP -->|Denied| B
-        G -.-> DB[(PostgreSQL Audit Store)]
-        D -.-> DB
-        AP -.-> DB
+        G --> DB[(PostgreSQL Audit Store)]
+        D --> DB
+        AP --> DB
         E --> T[Simulated or Sandboxed Tool]
         T --> SR[Sanitized Result]
         SR --> G

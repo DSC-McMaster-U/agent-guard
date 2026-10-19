@@ -67,9 +67,9 @@ The benchmark is a central part of AgentGuard's strategy, not only a testing uti
 
 ## Scope
 
-### Fall Showcase MVP
+### January MVP
 
-The fall MVP is a focused end-to-end demonstration targeted for the final week of November. It will support:
+The January MVP is a focused end-to-end local demonstration targeted for late January. It will support:
 
 - A small FastAPI Agent Gateway
 - One normalized tool-call request schema with agent and user metadata
@@ -85,13 +85,13 @@ The fall MVP is a focused end-to-end demonstration targeted for the final week o
 - Docker Compose-based local development
 - GitHub Actions checks for the components that exist
 
-The showcase should demonstrate a safe request, a blocked request, and an approval-required request. A reliable local demonstration is required; public cloud deployment is optional for the showcase.
+The MVP demo should show a safe request, a blocked request, and an approval-required request. A reliable local demonstration is required; public cloud deployment is optional. If an external showcase is scheduled in January, use the working MVP available by that date and rehearse the supported paths.
 
 ### Initial Tool Integrations
 
 Integration work is staged as follows:
 
-- A simulated email or sandboxed file-system tool for the fall showcase
+- A simulated email or sandboxed file-system tool for the January MVP
 - One generic API or MCP integration as a target enhancement after the committed release is stable
 
 The team should prioritize depth and security over the total number of connectors.
@@ -116,7 +116,7 @@ The release targeted for the end of March commits to a stable and documented ver
 
 These items define release completion. Optional infrastructure must not delay the release.
 
-At the March final showcase, the team should run the safe, blocked, and approval-required paths through the same simulated or sandboxed tool; show the resulting audit trail and basic trace in the dashboard; and present benchmark results with known limitations. The demo should start from the documented local Docker Compose setup.
+For the end-of-year showcase, the team should run the safe, blocked, and approval-required paths through the same simulated or sandboxed tool; show the resulting audit trail and basic trace in the dashboard; and present benchmark results with known limitations. The demo should start from the documented local Docker Compose setup. The event date has not been confirmed, so the March `v0.1` target remains an internal release milestone.
 
 ### Target Enhancements
 
@@ -230,7 +230,7 @@ For example:
 
 The active development period runs from late October through the end of March. The schedule assumes approximately 12 students contributing about three hours of total project time per week, including one short team meeting, with reduced availability during exams and holidays. AI-assisted development may speed up scaffolding and routine tasks, but the schedule still reserves time for learning, review, testing, and integration.
 
-The fall MVP should be ready to demonstrate by the end of Sprint 6 in late November. The committed `v0.1` release is the deliverable for the March final showcase; Sprint 18 is reserved for release and rehearsal. Both demonstrations can run locally with Docker Compose. A hosted deployment is optional.
+The January MVP should be ready to demonstrate by the end of Sprint 9 in late January. November ends with an internal progress checkpoint, while December is a reduced-capacity maintenance period. An external showcase may occur in January, but its date is not confirmed. The committed `v0.1` release remains targeted for late March, with Sprint 18 reserved for release and rehearsal. An end-of-year showcase is expected, but its date is still to be confirmed. Both demos can run locally with Docker Compose. A hosted deployment is optional.
 
 ### Milestone 1: Foundations and Onboarding
 
@@ -246,45 +246,53 @@ The fall MVP should be ready to demonstrate by the end of Sprint 6 in late Novem
 - Create initial dashboard wireframes.
 - Create the first benign and adversarial test scenarios.
 
-### Milestone 2: Showcase Foundations
+### Milestone 2: Core Foundations
 
-**Target:** Late October to early November
+**Target:** Late October to mid-November
 
 - Build the FastAPI Agent Gateway.
 - Add agent and user metadata to requests.
 - Validate tool names and arguments.
 - Implement allow, block, and approval policies.
 - Add a small set of tool-specific parameter restrictions.
-- Store requests and decisions in PostgreSQL.
-- Create one simulated or sandboxed demonstration tool.
+- Define storage models for requests and decisions.
+- Define the contract for one simulated or sandboxed demonstration tool.
 - Add unit tests for policy evaluation.
 
-### Milestone 3: Showcase Security and Approval Flow
+### Milestone 3: Security and Approval Prototypes
 
-**Target:** Early to mid-November
+**Target:** Mid to late November
 
 - Implement one initial prompt-injection or sensitive-data detector.
 - Add structured risk findings.
 - Build a synchronous Decision Engine.
-- Build the initial approval API and React approval interface.
-- Add activity and decision views.
-- Create the first ten to twenty benchmark scenarios.
+- Build an initial approval API and a React approval interface with representative data.
+- Sketch the activity and decision views.
+- Create the first benchmark scenarios and agree on their format.
 
-### Milestone 4: Fall Showcase Integration and Stabilization
+### Milestone 4: November Progress Checkpoint
 
-**Target:** Mid to late November
+**Target:** Late November
 
-- Connect the gateway, policy engine, detector, decision flow, approval interface, and audit storage.
-- Complete one reliable simulated or sandboxed tool integration.
+- Review the implemented API, policy, detector, and interface prototypes together.
+- Demonstrate whichever safe, blocked, or approval-required paths are already working.
+- Identify integration gaps and split them into small January issues.
+- Document the current local setup and known limitations.
+
+### Milestone 5: January MVP Integration and Demonstration
+
+**Target:** January
+
+- Connect the gateway, policy engine, initial detector, decision flow, approval interface, and audit storage.
+- Store requests, decisions, and approval events in PostgreSQL.
+- Complete one simulated or sandboxed demonstration tool and an activity view.
 - Run the application locally with Docker Compose.
-- Add component tests and a small end-to-end test path.
-- Fix integration issues and document known limitations.
-- Demonstrate safe, malicious, and approval-required workflows.
-- Freeze showcase features during the final week and rehearse the demonstration.
+- Reach ten to twenty benchmark scenarios and add a small end-to-end test path.
+- Freeze MVP features before the demo, fix blocking defects, and rehearse the three decision paths.
 
-### Milestone 5: Core Product Hardening
+### Milestone 6: Core Product Hardening
 
-**Target:** January to February
+**Target:** February to early March
 
 - Harden request validation, policies, and decision explanations.
 - Complete documented prompt-injection and sensitive-data checks.
@@ -295,7 +303,7 @@ The fall MVP should be ready to demonstrate by the end of Sprint 6 in late Novem
 - Improve Docker Compose, CI, and contributor documentation.
 - Attempt Redis, a real integration, and telemetry only after the committed work is stable.
 
-### Milestone 6: Evaluation, v0.1 Release, and Final Showcase
+### Milestone 7: Evaluation and v0.1 Release
 
 **Target:** Late March
 
@@ -306,7 +314,7 @@ The fall MVP should be ready to demonstrate by the end of Sprint 6 in late Novem
 - Complete end-to-end, failure-path, and security testing.
 - Finalize documentation and onboarding.
 - Publish a versioned `v0.1` open-source release.
-- Prepare the final project demonstration.
+- Prepare the end-of-year project demonstration when its event date is confirmed.
 
 Redis orchestration, a real API or MCP integration, telemetry, and hosted deployment are capacity-dependent target enhancements. Advanced anomaly detection, complete OAuth support, production GKE hardening, multi-agent tracing, and extensive external testing remain stretch goals.
 
@@ -433,7 +441,7 @@ If implemented, the Risk Orchestrator will:
 
 #### Security Analysis Workers
 
-The November MVP starts with one prompt-injection or sensitive-data check. The committed March `v0.1` includes both, which may run as modules inside the FastAPI application. Moving them into dedicated workers is a target enhancement. Goal-alignment and behaviour-anomaly workers are stretch goals.
+The January MVP starts with one prompt-injection or sensitive-data check. The committed March `v0.1` includes both, which may run as modules inside the FastAPI application. Moving them into dedicated workers is a target enhancement. Goal-alignment and behaviour-anomaly workers are stretch goals.
 
 ##### Prompt Injection Worker
 
@@ -972,7 +980,7 @@ Artifact publishing, Kubernetes validation, and automated production deployment 
 - **Target secrets:** Environment or platform-managed secrets for one supported integration
 - **Target monitoring:** Basic health checks, structured logs, metrics, and OpenTelemetry traces
 
-The fall showcase must run reliably through Docker Compose and does not require cloud deployment. GKE, Google Artifact Registry, Google Secret Manager, Prometheus, and Grafana may be added later as stretch goals.
+The January MVP must run reliably through Docker Compose and does not require cloud deployment. GKE, Google Artifact Registry, Google Secret Manager, Prometheus, and Grafana may be added later as stretch goals.
 
 ---
 
@@ -1120,7 +1128,7 @@ A pull request is considered complete when:
 - Tasks should normally fit within one to three hours and be divided when they are larger
 - Contributors should have no more than one main implementation issue in progress at a time
 
-The schedule assumes students have competing coursework, exams, and personal commitments. December is treated as a reduced-capacity maintenance period rather than a sequence of required sprints. Unfinished work returns to planning instead of automatically carrying an unrealistic commitment into the next week.
+The schedule assumes students have competing coursework, exams, and personal commitments. December is treated as a reduced-capacity maintenance period rather than a sequence of required sprints. Sprint numbering resumes in January. Unfinished work returns to planning instead of automatically carrying an unrealistic commitment into the next week.
 
 ## Workstream Plan
 
@@ -1128,16 +1136,17 @@ Each workstream has useful parallel work throughout the project. When implementa
 
 | Phase | Frontend | Backend | AI/ML & Security | DevOps & Infrastructure |
 | --- | --- | --- | --- | --- |
-| Fall showcase | Application shell, approval flow, activity view, API integration | FastAPI gateway, schema, policies, decisions, audit storage | Threat cases, one initial detector, structured findings, benchmark scenarios | Repository workflow, CI, Docker Compose, PostgreSQL, local runbook |
-| December maintenance | UI fixes, accessibility checks, component tests | Refactoring, API documentation, test coverage | Review results and improve test fixtures | Setup fixes, dependency updates, contributor documentation |
-| January–February hardening | Trace views, approval states, accessibility, component tests | Validation, audit APIs, executor safety, integration tests | Improve both detectors, expand attack coverage, evaluate errors | Docker Compose, CI expansion, setup reliability, release documentation |
-| March final showcase and release | Usability fixes, release screenshots and demo flow | Reliability fixes, API freeze, integration tests | Final benchmark, metrics, security review | Release process, local demo stabilization, documentation and release artifacts |
+| October–November foundations | Application shell, approval wireframes and prototypes | FastAPI skeleton, schema, initial policies, storage design | Threat cases, detector prototype, benchmark format | Repository workflow, initial CI, Docker plan, local setup |
+| December light maintenance | UI fixes, accessibility checks, component tests | Refactoring, API documentation, test coverage | Review results and improve test fixtures | Setup fixes, dependency updates, contributor documentation |
+| January MVP | Approval and activity views, API integration | Gateway, policies, decisions, approvals, audit storage, simulated tool | One initial detector, structured findings, ten to twenty scenarios | Docker Compose, PostgreSQL, component-aware CI, demo runbook |
+| February–early March hardening | Trace views, approval states, accessibility, component tests | Validation, audit APIs, executor safety, integration tests | Complete both checks, expand attack coverage, evaluate errors | Docker Compose, CI expansion, setup reliability, release documentation |
+| March v0.1 release | Usability fixes, release screenshots and demo flow | Reliability fixes, API freeze, integration tests | Final benchmark, metrics, security review | Release process, local demo stabilization, documentation and release artifacts |
 
 If committed work finishes early, contributors may take target enhancement issues for Redis, a real API or MCP integration, basic telemetry, or a hosted demonstration.
 
 ## High-Level Weekly Sprint Goals
 
-### Fall Showcase
+### October–November Foundations
 
 #### Sprint 1: Foundations
 
@@ -1159,42 +1168,44 @@ If committed work finishes early, contributors may take target enhancement issue
 
 #### Sprint 4: Persistence and Integration
 
-- Store requests, decisions, and approval events in PostgreSQL.
-- Connect the dashboard to the backend API.
-- Run the implemented services through Docker Compose.
+- Define storage models and add the first database migration.
+- Connect one dashboard view to a backend endpoint.
+- Start the local Docker Compose setup for the implemented services.
 
-#### Sprint 5: End-to-End Flow
+#### Sprint 5: Integration Slice
 
-- Connect one simulated or sandboxed tool to the complete decision path.
-- Complete ten to twenty benchmark scenarios.
-- Add integration tests and component-aware CI checks.
+- Connect the first policy decision path to a simulated tool or a controlled stub.
+- Add the first benchmark fixtures and component tests.
+- Identify missing approval, audit, and Docker integration work.
 
-#### Sprint 6: Showcase Stabilization
+#### Sprint 6: November Progress Checkpoint
 
-- Freeze showcase features.
-- Fix blocking defects and document known limitations.
-- Rehearse safe, blocked, and approval-required demonstrations.
-- Prepare a fallback recording and setup instructions.
+- Show the working gateway, policy, detector, and interface pieces.
+- Document what runs end to end and what is still mocked or incomplete.
+- Split January integration gaps into small issues for each workstream.
+- Keep December work optional and focused on setup, tests, and fixes.
 
-### Winter Development
+### January MVP
 
-#### Sprint 7: Winter Restart
+#### Sprint 7: Resume and Connect
 
-- Review the architecture and showcase feedback.
-- Resolve high-priority technical debt.
-- Confirm the March backlog and interface contracts.
+- Review the November checkpoint and confirm the January demo paths.
+- Connect the gateway, policies, detector, approval API, and dashboard.
+- Persist requests, decisions, and approval events in PostgreSQL.
 
-#### Sprint 8: Core Contract Hardening
+#### Sprint 8: Complete the MVP Flow
 
-- Improve schema validation and policy edge cases.
-- Stabilize API contracts between the backend and dashboard.
-- Complete loading, empty, invalid, and failed-request UI states.
+- Complete one simulated or sandboxed tool and the activity view.
+- Demonstrate safe, blocked, and approval-required requests through the same flow.
+- Reach ten to twenty benchmark scenarios and add an end-to-end test path.
 
-#### Sprint 9: Security Detection
+#### Sprint 9: MVP Stabilization and Demo
 
-- Complete documented prompt-injection and sensitive-data checks.
-- Standardize structured security findings.
-- Display structured findings in the dashboard.
+- Freeze MVP features and fix blocking defects.
+- Verify fresh local setup with Docker Compose and document limitations.
+- Rehearse the three demo paths and prepare fallback materials.
+
+### February–March v0.1 Development
 
 #### Sprint 10: Approval Reliability
 
@@ -1202,49 +1213,52 @@ If committed work finishes early, contributors may take target enhancement issue
 - Complete approval UI states and accessibility checks.
 - Expand audit and decision tests.
 
-#### Sprint 11: Restricted Execution
+#### Sprint 11: Second Security Check
+
+- Complete the second of the prompt-injection and sensitive-data checks.
+- Standardize structured findings and display them in the dashboard.
+- Expand detector tests and document known limitations.
+
+#### Sprint 12: Restricted Execution
 
 - Build the Restricted Tool Executor.
 - Add execution limits, timeouts, and result sanitization.
 - Test executor security boundaries.
 
-#### Sprint 12: Audit and Activity
+#### Sprint 13: Audit and Activity
 
 - Complete audit storage and query APIs.
 - Complete activity and basic trace views.
 - Test database migrations and common recovery paths.
 
-#### Sprint 13: Integrated Release Path
+#### Sprint 14: Integrated Release Path
 
 - Connect the complete request, decision, approval, and tool-result flow.
 - Add end-to-end tests for safe, blocked, and approval-required requests.
 - Verify setup from a fresh clone with Docker Compose.
 
-#### Sprint 14: Cross-Workstream Hardening
+#### Sprint 15: Cross-Workstream Hardening
 
 - Improve policies and detector accuracy.
 - Fix integration and dashboard usability problems.
 - Exercise timeout, unavailable-service, and malformed-input paths.
 
-#### Sprint 15: CI and Documentation
+#### Sprint 16: CI, Documentation, and Benchmark
 
 - Complete component-aware linting, tests, and build checks.
 - Complete contributor, architecture, security, and local setup documentation.
 - Document common failures and troubleshooting steps.
+- Expand the benchmark toward twenty to thirty scenarios and measure early results.
 
-#### Sprint 16: Benchmark and Evaluation
+#### Sprint 17: Evaluation and Release Candidate
 
-- Complete twenty to thirty benchmark scenarios.
-- Measure attack success, benign completion, false positives, and false negatives.
-- Address the most important findings.
-
-#### Sprint 17: Release Candidate
-
+- Complete twenty to thirty benchmark scenarios and report attack success, benign completion, false positives, and false negatives.
+- Address release-blocking findings and document the rest.
 - Stabilize the Docker Compose demonstration and release process.
 - Complete onboarding, architecture, security, and deployment documentation.
 - Run the full test and benchmark suite.
 
-#### Sprint 18: Final Showcase and Release
+#### Sprint 18: v0.1 Release and Demo Preparation
 
 - Freeze features and fix release-blocking defects only.
 - Publish the `v0.1` release.

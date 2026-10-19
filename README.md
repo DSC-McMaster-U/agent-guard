@@ -14,11 +14,11 @@
     An open-source runtime authorization and security gateway for AI agent tool calls.
     <br />
     <br />
-    <a href="https://github.com/DSC-McMaster-U/agent-gaurd">View Demo</a>
+    <a href="https://github.com/DSC-McMaster-U/agent-guard">View Repository</a>
     ·
-    <a href="https://github.com/DSC-McMaster-U/agent-gaurd/issues/new?labels=bug">Report Bug</a>
+    <a href="https://github.com/DSC-McMaster-U/agent-guard/issues/new?template=bug.yml">Report Bug</a>
     ·
-    <a href="https://github.com/DSC-McMaster-U/agent-gaurd/issues/new?labels=enhancement">Request Feature</a>
+    <a href="https://github.com/DSC-McMaster-U/agent-guard/issues/new?template=feature.yml">Request Feature</a>
   </p>
 
 </div>
@@ -41,7 +41,7 @@ The project will also include an open security benchmark for measuring attack su
 
 
 
-### Built With
+### Planned Technology Stack
 
 * [![React][React.js]][React-url]
 * [![FastAPI][FastAPI]][FastAPI-url]
@@ -59,11 +59,36 @@ The project will also include an open security benchmark for measuring attack su
 
 
 
-### AgentGuard Architecture
+### Fall Showcase MVP Architecture
+
+The November showcase focuses on one reliable end-to-end security decision flow that can run locally with Docker Compose.
+
+```mermaid
+flowchart LR
+    A[Simulated AI Agent] --> G[FastAPI Agent Gateway]
+    G --> P[Policy Engine]
+    P --> S[Initial Security Detector]
+    S --> D[Decision Engine]
+    D -->|Allow| T[Simulated or Sandboxed Tool]
+    D -->|Block| X[Blocked Response]
+    D -->|Approval Required| H[Approval API and React Dashboard]
+    H -->|Approve| T
+    H -->|Deny| X
+    T --> R[Sanitized Result]
+    G --> DB[(PostgreSQL Audit Log)]
+    D --> DB
+    H --> DB
+```
+
+The showcase includes one initial prompt-injection or sensitive-data detector. Redis workers, production credentials, expanded MCP support, advanced observability, and cloud hardening are later goals.
+
+### Target Architecture
 
 <img src="images/architecture.png" alt="AgentGuard Architecture" width="100%">
 
-The proposed architecture includes:
+The diagram above shows the longer-term architecture that guides development through the March release and possible stretch work. Components will be introduced only when the simpler end-to-end system is stable.
+
+The target architecture includes:
 
 * An Agent Gateway for intercepting and validating tool calls
 * A Policy Engine for deterministic authorization

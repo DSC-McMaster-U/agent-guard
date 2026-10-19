@@ -43,6 +43,8 @@ The project will also include an open security benchmark for measuring attack su
 
 ### Planned Technology Stack
 
+React, FastAPI, Python, PostgreSQL, Docker, and GitHub Actions support the committed release. Redis and OpenTelemetry are target enhancements. Google Cloud, GKE, Prometheus, and Grafana are stretch options.
+
 * [![React][React.js]][React-url]
 * [![FastAPI][FastAPI]][FastAPI-url]
 * [![Python][Python]][Python-url]
@@ -168,6 +170,7 @@ Production GKE hardening, Google Secret Manager, complete monitoring dashboards,
 
 | Contributor | Most Used Frameworks/Tools | Notable Contributions |
 | --- | --- | --- |
+| **TBD** <br/> <i>Project Lead</i> | TBD | TBD |
 | **TBD** <br/> <i>Frontend</i> | TBD | TBD |
 | **TBD** <br/> <i>Frontend</i> | TBD | TBD |
 | **TBD** <br/> <i>Backend</i> | TBD | TBD |
@@ -178,7 +181,6 @@ Production GKE hardening, Google Secret Manager, complete monitoring dashboards,
 | **TBD** <br/> <i>AI/ML & Security</i> | TBD | TBD |
 | **TBD** <br/> <i>DevOps & Infrastructure</i> | TBD | TBD |
 | **TBD** <br/> <i>DevOps & Infrastructure</i> | TBD | TBD |
-| **TBD** <br/> <i>Full-Stack / Open to Anything</i> | TBD | TBD |
 | **TBD** <br/> <i>Full-Stack / Open to Anything</i> | TBD | TBD |
 
 

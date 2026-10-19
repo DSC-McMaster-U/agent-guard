@@ -1,0 +1,25 @@
+name: Repository checks
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  repository-integrity:
+    name: Repository integrity
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Check committed files for whitespace errors
+        run: |
+          empty_tree=$(git hash-object -t tree /dev/null)
+          git diff --check "$empty_tree" HEAD --

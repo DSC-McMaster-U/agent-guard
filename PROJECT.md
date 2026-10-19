@@ -97,26 +97,40 @@ The first version should support one or two integrations:
 
 The team should prioritize depth and security over the total number of connectors.
 
-### March v0.1 Goals
+### Committed March v0.1 Scope
 
-The release targeted for the end of March should add:
+The release targeted for the end of March commits to a stable and documented version of the core showcase system:
 
-- Redis-backed asynchronous security analysis
-- A Risk Orchestrator with timeouts and structured worker results
-- Improved prompt-injection and sensitive-data detection
-- A Restricted Tool Executor with execution limits and result sanitization
-- One or two demonstration tool integrations, including basic MCP support if feasible
-- Scoped application credentials or API keys for the supported integrations
-- Improved approval, activity, and trace views
-- Basic OpenTelemetry traces and service health metrics
-- Thirty to fifty benign and adversarial benchmark scenarios
-- A repeatable deployment for one demonstration environment
-- Contributor, architecture, security, and deployment documentation
+- A modular FastAPI backend containing the gateway, policies, decisions, approvals, and audit APIs
+- A normalized tool-call schema with clear validation errors
+- Deterministic allow, block, and approval-required policies
+- Documented prompt-injection and sensitive-data checks with structured findings
+- A React approval, activity, and basic trace dashboard
+- PostgreSQL storage for requests, findings, decisions, and approval events
+- A Restricted Tool Executor for one simulated or sandboxed tool
+- Execution limits, timeouts, and basic result sanitization
+- Twenty to thirty benign and adversarial benchmark scenarios
+- Docker Compose-based local development
+- Reliable linting, tests, and build checks in GitHub Actions
+- Contributor, architecture, security, and local deployment documentation
 - A versioned `v0.1` open-source release
+
+These items define release completion. Optional infrastructure must not delay the release.
+
+### Target Enhancements
+
+The team may add the following features when the committed scope is stable and capacity remains:
+
+- Redis-backed asynchronous security analysis and a Risk Orchestrator
+- One real API or basic MCP integration
+- Scoped application credentials for the supported integration
+- Basic OpenTelemetry traces and service health metrics
+- A repeatable hosted demonstration environment
+- Expansion to thirty to fifty benchmark scenarios
 
 ### Stretch Goals
 
-The following features should be attempted only after the March goals are stable:
+The following features should be attempted only after the committed scope and target enhancements are stable:
 
 - Complete OAuth-based authorization
 - Google Secret Manager integration
@@ -146,7 +160,7 @@ The MVP will not attempt to provide:
 
 ## System Workflow
 
-A typical AgentGuard workflow will follow these steps:
+The committed AgentGuard workflow will follow these steps:
 
 ```text
 User Request
@@ -164,16 +178,8 @@ Agent Gateway
 Policy Engine
     |
     v
-Risk Orchestrator
-    |
-    v
-Redis Security Analysis Queue
-    |
-    v
-Security Analysis Workers
-    |
-    v
-Risk Orchestrator
+Prompt-Injection and
+Sensitive-Data Checks
     |
     v
 Decision Engine
@@ -192,7 +198,7 @@ Executor                      |
     +------------+------------+
                  |
                  v
-        External MCP or Tool API
+        Simulated or Sandboxed Tool
                  |
                  v
           Sanitized Tool Result
@@ -203,6 +209,8 @@ Executor                      |
                  v
                Agent
 ```
+
+Target enhancements may insert a Redis-backed Risk Orchestrator and replace the simulated tool with one real API or basic MCP integration.
 
 The system will use deterministic authorization before relying on AI-based security analysis.
 
@@ -273,39 +281,41 @@ The active development period runs from late October through the end of March. T
 - Demonstrate safe, malicious, and approval-required workflows.
 - Freeze showcase features during the final week and rehearse the demonstration.
 
-### Milestone 5: Product Expansion
+### Milestone 5: Core Product Hardening
 
 **Target:** January to February
 
-- Add Redis-backed analysis jobs and a Risk Orchestrator.
-- Improve prompt-injection and sensitive-data detection.
-- Build the Restricted Tool Executor with execution limits and result sanitization.
-- Add one real API or basic MCP integration.
-- Improve the approval, activity, and trace interfaces.
-- Add scoped credentials for supported integrations.
-- Add basic OpenTelemetry traces and service health metrics.
-- Expand integration and security tests.
+- Harden request validation, policies, and decision explanations.
+- Complete documented prompt-injection and sensitive-data checks.
+- Build the Restricted Tool Executor for one simulated or sandboxed tool.
+- Add execution limits, timeouts, and basic result sanitization.
+- Improve the approval, activity, and basic trace interfaces.
+- Expand unit, integration, failure-path, and security tests.
+- Improve Docker Compose, CI, and contributor documentation.
+- Attempt Redis, a real integration, and telemetry only after the committed work is stable.
 
 ### Milestone 6: Evaluation and v0.1 Release
 
 **Target:** March
 
-- Expand the benchmark to thirty to fifty scenarios.
+- Complete twenty to thirty benchmark scenarios.
 - Measure attack success and benign completion rates.
 - Improve false-positive and false-negative performance.
-- Stabilize one repeatable demonstration deployment.
+- Stabilize the Docker Compose demonstration and release process.
 - Complete end-to-end, failure-path, and security testing.
 - Finalize documentation and onboarding.
 - Publish a versioned `v0.1` open-source release.
 - Prepare the final project demonstration.
 
-Advanced anomaly detection, complete OAuth support, production GKE hardening, multi-agent tracing, and extensive external testing remain stretch goals.
+Redis orchestration, a real API or MCP integration, telemetry, and hosted deployment are capacity-dependent target enhancements. Advanced anomaly detection, complete OAuth support, production GKE hardening, multi-agent tracing, and extensive external testing remain stretch goals.
 
 ---
 
 ## Technical Architecture
 
-AgentGuard will use a modular, cloud-native architecture.
+AgentGuard will use clear modular boundaries. The committed `v0.1` may keep gateway, policy, detection, decision, approval, and execution modules inside one FastAPI deployment. Redis workers and separate cloud services are capacity-dependent enhancements rather than release requirements.
+
+The following reference flow shows how the modules can evolve when asynchronous analysis is added:
 
 ```text
 AI Agent Client
@@ -395,19 +405,22 @@ The Policy Engine will evaluate deterministic rules based on:
 - Session budget
 - Organization policy
 
-Possible decisions include:
+Committed decisions include:
 
 - Allow
 - Block
 - Require approval
+
+Future target or stretch decisions may include:
+
 - Rewrite
 - Restrict
 - Sandbox
 - Rate limit
 
-#### Risk Orchestrator
+#### Risk Orchestrator (Target Enhancement)
 
-The Risk Orchestrator will:
+If implemented, the Risk Orchestrator will:
 
 - Create security-analysis jobs
 - Publish jobs to Redis
@@ -419,7 +432,7 @@ The Risk Orchestrator will:
 
 #### Security Analysis Workers
 
-The MVP will include four planned workers.
+The committed MVP includes prompt-injection and sensitive-data checks, which may run as modules inside the FastAPI application. Moving them into dedicated workers is a target enhancement. Goal-alignment and behaviour-anomaly workers are stretch goals.
 
 ##### Prompt Injection Worker
 
@@ -440,6 +453,8 @@ The MVP will include four planned workers.
 
 ##### Goal Alignment Worker
 
+This worker is a stretch goal.
+
 - Compare the proposed action with the original user request.
 - Detect actions outside the authorized task scope.
 - Identify unrelated tool usage.
@@ -447,13 +462,15 @@ The MVP will include four planned workers.
 
 ##### Behaviour Anomaly Worker
 
+This worker is a stretch goal.
+
 - Detect repeated blocked actions.
 - Detect unusual tool sequences.
 - Detect sudden escalation from read to write operations.
 - Detect suspicious external destinations.
 - Detect abnormal session behaviour.
 
-This worker may begin with rules and expand to statistical or ML-based methods during winter.
+This worker may begin with rules and expand to statistical or ML-based methods after the committed release is stable.
 
 #### Decision Engine
 
@@ -486,8 +503,8 @@ The Approval Service will:
 The Restricted Tool Executor will:
 
 - Receive only approved or allowed actions.
-- Retrieve scoped credentials from Secret Manager.
-- Call external MCP servers or APIs.
+- Use synthetic or local credentials for the committed simulated tool.
+- Retrieve scoped credentials and call external MCP servers or APIs only for implemented target enhancements.
 - Enforce timeouts and execution limits.
 - Sanitize tool responses.
 - Record execution outcomes.
@@ -512,7 +529,7 @@ PostgreSQL will store:
 - Audit events
 - Benchmark results
 
-Redis will store:
+If the Redis target enhancement is implemented, Redis will store:
 
 - Security-analysis jobs
 - Temporary worker state
@@ -522,7 +539,7 @@ Redis will store:
 
 #### Credential Layer
 
-Google Secret Manager will store:
+If the Google Secret Manager stretch goal is implemented, it will store:
 
 - OAuth client secrets
 - API credentials
@@ -533,13 +550,13 @@ Short-lived access tokens should be issued or retrieved at execution time and sh
 
 #### Observability Layer
 
-The system will use:
+The committed release will use structured application logs. Target and stretch work may add:
 
 - OpenTelemetry for distributed traces
 - Prometheus for metrics
 - Grafana for dashboards
 - Google Cloud Monitoring for infrastructure visibility
-- Structured application logs for security events
+- Additional security-event aggregation and alerting
 
 ---
 
@@ -636,24 +653,25 @@ The project benchmark should include:
 
 ### Queue and Database
 
-- Redis
-- PostgreSQL
+- PostgreSQL (committed)
+- Redis (target enhancement)
 
 ### Cloud and Infrastructure
 
-- Google Kubernetes Engine
-- Google Artifact Registry
-- Google Secret Manager
-- Google Cloud Monitoring
-- Docker
-- Kubernetes
+- Docker and Docker Compose (committed)
+- A simple hosted demonstration environment (target enhancement)
+- Google Kubernetes Engine (stretch)
+- Google Artifact Registry (stretch)
+- Google Secret Manager (stretch)
+- Google Cloud Monitoring (stretch)
+- Kubernetes (stretch)
 
 ### Observability
 
-- OpenTelemetry
-- Prometheus
-- Grafana
-- Structured logging
+- Structured logging (committed)
+- Basic OpenTelemetry traces and service health metrics (target enhancement)
+- Prometheus (stretch)
+- Grafana (stretch)
 
 ### Development and Collaboration
 
@@ -866,15 +884,19 @@ Potential frameworks:
 ### Integration Testing
 
 - Agent Gateway to Policy Engine
-- Risk Orchestrator to Redis
-- Redis to Security Workers
-- Security Workers to Decision Engine
+- Security checks to Decision Engine
 - Decision Engine to Approval Service
 - Approval Service to Tool Executor
-- Tool Executor to MCP or external API
+- Tool Executor to the simulated or sandboxed tool
 - Audit events to PostgreSQL
+- Dashboard requests, approvals, activity, and error states
+
+Conditional integration tests should be added with target or stretch features:
+
+- Risk Orchestrator to Redis and security workers
+- Tool Executor to MCP or an external API
 - Secret Manager access from Tool Executor
-- Dashboard live updates
+- Hosted dashboard live updates
 
 ### Evaluation Dataset
 
@@ -937,12 +959,11 @@ Artifact publishing, Kubernetes validation, and automated production deployment 
 
 ### Hosting
 
-- **Frontend:** A suitable static or container hosting service
-- **Backend Services:** One container-based demonstration environment
-- **Queue:** Redis
-- **Database:** PostgreSQL
-- **Secrets:** Environment or platform-managed secrets for the supported demonstration integrations
-- **Monitoring:** Basic health checks, structured logs, metrics, and OpenTelemetry traces
+- **Committed environment:** Docker Compose running the frontend, backend, and PostgreSQL locally
+- **Target hosting:** One suitable static or container-based demonstration environment
+- **Target queue:** Redis
+- **Target secrets:** Environment or platform-managed secrets for one supported integration
+- **Target monitoring:** Basic health checks, structured logs, metrics, and OpenTelemetry traces
 
 The fall showcase must run reliably through Docker Compose and does not require cloud deployment. GKE, Google Artifact Registry, Google Secret Manager, Prometheus, and Grafana may be added later as stretch goals.
 
@@ -997,16 +1018,16 @@ Roles may overlap based on contributor interests and experience. The Project Lea
 - Define policy schemas.
 - Add tool and argument authorization.
 - Build approval and audit APIs.
-- Integrate PostgreSQL and Redis.
-- Build the Restricted Tool Executor and supported tool adapters.
-- Implement response sanitization and scoped credentials.
+- Integrate PostgreSQL and add Redis only as a target enhancement.
+- Build the Restricted Tool Executor for the simulated or sandboxed tool.
+- Implement response sanitization and support target integration credentials if capacity remains.
 - Write unit and integration tests.
 
 ### AI/ML & Security Developers
 
 - Build prompt-injection detection.
 - Build sensitive-data detection.
-- Define structured risk findings and help build the Risk Orchestrator.
+- Define structured risk findings and help build the Risk Orchestrator if the Redis target is started.
 - Create adversarial scenarios.
 - Measure security performance.
 - Improve false-positive and false-negative rates.
@@ -1016,10 +1037,9 @@ Roles may overlap based on contributor interests and experience. The Project Lea
 
 - Maintain Docker and Docker Compose development environments.
 - Maintain GitHub Actions and repository checks.
-- Support PostgreSQL and Redis service configuration.
-- Create and document the demonstration deployment.
-- Add OpenTelemetry tracing.
-- Add basic metrics, health checks, logs, and monitoring.
+- Support PostgreSQL and optional Redis service configuration.
+- Maintain the reliable local demonstration and attempt hosted deployment only as a target enhancement.
+- Add structured logs and target telemetry only when committed checks are stable.
 - Document setup, deployment, and troubleshooting.
 
 ### Full-Stack and Flexible Contributors
@@ -1103,8 +1123,10 @@ Each workstream has useful parallel work throughout the project. When implementa
 | --- | --- | --- | --- | --- |
 | Fall showcase | Application shell, approval flow, activity view, API integration | FastAPI gateway, schema, policies, decisions, audit storage | Threat cases, one initial detector, structured findings, benchmark scenarios | Repository workflow, CI, Docker Compose, PostgreSQL, local runbook |
 | December maintenance | UI fixes, accessibility checks, component tests | Refactoring, API documentation, test coverage | Review results and improve test fixtures | Setup fixes, dependency updates, contributor documentation |
-| January–February expansion | Trace views, richer approval states, integration UX | Redis orchestration, executor, integrations, basic MCP support | Improve detectors, expand attack coverage, evaluate errors | Service health, deployment environment, tracing, logs, CI expansion |
+| January–February hardening | Trace views, approval states, accessibility, component tests | Validation, audit APIs, executor safety, integration tests | Improve both detectors, expand attack coverage, evaluate errors | Docker Compose, CI expansion, setup reliability, release documentation |
 | March release | Usability fixes, release screenshots and demo flow | Reliability fixes, API freeze, integration tests | Final benchmark, metrics, security review | Release pipeline, deployment stabilization, documentation and release artifacts |
+
+If committed work finishes early, contributors may take target enhancement issues for Redis, a real API or MCP integration, basic telemetry, or a hosted demonstration.
 
 ## High-Level Weekly Sprint Goals
 
@@ -1155,16 +1177,16 @@ Each workstream has useful parallel work throughout the project. When implementa
 - Resolve high-priority technical debt.
 - Confirm the March backlog and interface contracts.
 
-#### Sprint 8: Asynchronous Analysis Foundations
+#### Sprint 8: Core Contract Hardening
 
-- Add Redis and security job contracts.
-- Add worker health checks and development configuration.
-- Design dashboard states for pending and failed analysis.
+- Improve schema validation and policy edge cases.
+- Stabilize API contracts between the backend and dashboard.
+- Complete loading, empty, invalid, and failed-request UI states.
 
-#### Sprint 9: Risk Orchestration
+#### Sprint 9: Security Detection
 
-- Build the Risk Orchestrator and worker result aggregation.
-- Integrate improved prompt-injection and sensitive-data workers.
+- Complete documented prompt-injection and sensitive-data checks.
+- Standardize structured security findings.
 - Display structured findings in the dashboard.
 
 #### Sprint 10: Approval Reliability
@@ -1179,17 +1201,17 @@ Each workstream has useful parallel work throughout the project. When implementa
 - Add execution limits, timeouts, and result sanitization.
 - Test executor security boundaries.
 
-#### Sprint 12: First Real Integration
+#### Sprint 12: Audit and Activity
 
-- Add one supported API or tool integration.
-- Add scoped application credentials.
-- Add the integration to activity and trace views.
+- Complete audit storage and query APIs.
+- Complete activity and basic trace views.
+- Test database migrations and common recovery paths.
 
-#### Sprint 13: MCP Prototype
+#### Sprint 13: Integrated Release Path
 
-- Add basic MCP proxy support if the core system is stable.
-- Validate tool schemas and descriptions.
-- Add MCP-specific benign and adversarial scenarios.
+- Connect the complete request, decision, approval, and tool-result flow.
+- Add end-to-end tests for safe, blocked, and approval-required requests.
+- Verify setup from a fresh clone with Docker Compose.
 
 #### Sprint 14: Cross-Workstream Hardening
 
@@ -1197,21 +1219,21 @@ Each workstream has useful parallel work throughout the project. When implementa
 - Fix integration and dashboard usability problems.
 - Exercise timeout, unavailable-service, and malformed-input paths.
 
-#### Sprint 15: Essential Observability
+#### Sprint 15: CI and Documentation
 
-- Add basic traces, structured logs, service health, and decision metrics.
-- Surface useful operational state without building a large monitoring platform.
-- Document local and deployed troubleshooting.
+- Complete component-aware linting, tests, and build checks.
+- Complete contributor, architecture, security, and local setup documentation.
+- Document common failures and troubleshooting steps.
 
 #### Sprint 16: Benchmark and Evaluation
 
-- Expand the benchmark to thirty to fifty scenarios.
+- Complete twenty to thirty benchmark scenarios.
 - Measure attack success, benign completion, false positives, and false negatives.
 - Address the most important findings.
 
 #### Sprint 17: Release Candidate
 
-- Stabilize one repeatable demonstration deployment.
+- Stabilize the Docker Compose demonstration and release process.
 - Complete onboarding, architecture, security, and deployment documentation.
 - Run the full test and benchmark suite.
 
@@ -1220,6 +1242,17 @@ Each workstream has useful parallel work throughout the project. When implementa
 - Freeze features and fix release-blocking defects only.
 - Publish the `v0.1` release.
 - Rehearse the final demonstration and prepare fallback materials.
+
+### Optional Target Enhancements
+
+Target enhancements are pulled into a weekly sprint only when the committed sprint work is complete and stable:
+
+- Redis-backed asynchronous analysis and a Risk Orchestrator
+- One real API or basic MCP integration
+- Scoped application credentials
+- Basic OpenTelemetry traces and service health metrics
+- One hosted demonstration environment
+- Expansion beyond thirty benchmark scenarios
 
 ---
 

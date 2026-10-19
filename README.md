@@ -82,45 +82,55 @@ flowchart LR
 
 The showcase includes one initial prompt-injection or sensitive-data detector. Redis workers, production credentials, expanded MCP support, advanced observability, and cloud hardening are later goals.
 
-### Target Architecture
+### March Architecture
 
-The March `v0.1` target expands the showcase flow with asynchronous security analysis, restricted execution, one or two integrations, and essential operational visibility. Dashed connections identify optional stretch infrastructure.
+The March plan separates release requirements from optional enhancements. Solid connections show the committed `v0.1` flow. Dashed connections show target and stretch work that must not delay the release.
 
 ```mermaid
 flowchart LR
     A[AI Agent Client]
 
-    subgraph V01[March v0.1]
+    subgraph COMMITTED[Committed March v0.1]
         G[Agent Gateway]
         G --> P[Policy Engine]
-        P --> RO[Risk Orchestrator]
-        RO --> Q[(Redis Queue)]
-        Q --> PI[Prompt-Injection Worker]
-        Q --> SD[Sensitive-Data Worker]
-        PI --> RO
-        SD --> RO
-        RO --> D[Decision Engine]
+        P --> S[Prompt-Injection and Sensitive-Data Checks]
+        S --> D[Decision Engine]
         D -->|Allow| E[Restricted Tool Executor]
         D -->|Block| B[Blocked Response]
         D -->|Approval Required| AP[Approval Service]
-        AP <--> UI[React Approval Dashboard]
+        AP <--> UI[React Approval and Activity Dashboard]
         AP -->|Approved| E
         AP -->|Denied| B
         G -.-> DB[(PostgreSQL Audit Store)]
         D -.-> DB
         AP -.-> DB
-        E --> I[API or MCP Integration]
-        I --> SR[Sanitized Result]
+        E --> T[Simulated or Sandboxed Tool]
+        T --> SR[Sanitized Result]
         SR --> G
-        G -.-> OT[Basic Logs, Health, Metrics, and Traces]
-        RO -.-> OT
-        E -.-> OT
     end
 
     A --> G
     G -->|Result| A
 
-    subgraph STRETCH[Optional Stretch Infrastructure]
+    subgraph TARGET[Capacity-Dependent Target Enhancements]
+        RO[Risk Orchestrator]
+        Q[(Redis Queue)]
+        W[Asynchronous Security Workers]
+        I[Real API or Basic MCP Integration]
+        OT[Basic Telemetry]
+        HD[Hosted Demonstration]
+        RO -.-> Q
+        Q -.-> W
+        W -.-> RO
+    end
+
+    G -.-> RO
+    RO -.-> D
+    E -.-> I
+    G -.-> OT
+    G -.-> HD
+
+    subgraph STRETCH[Optional Stretch Goals]
         GKE[GKE Production Deployment]
         SM[Google Secret Manager]
         ADV[Goal Alignment and Behaviour Analysis]
@@ -129,25 +139,25 @@ flowchart LR
 
     G -.-> GKE
     E -.-> SM
-    Q -.-> ADV
+    W -.-> ADV
     OT -.-> MON
 ```
 
 The [original full-cloud architecture diagram](images/architecture.png) is preserved as a reference for possible future expansion.
 
-The target architecture includes:
+The committed release includes:
 
 * An Agent Gateway for intercepting and validating tool calls
 * A Policy Engine for deterministic authorization
-* A Risk Orchestrator for coordinating security analysis
-* Security workers for prompt-injection and sensitive-data analysis
+* Prompt-injection and sensitive-data checks with structured findings
 * A Decision Engine for allowing, blocking, or pausing actions for approval
 * A Human Approval Service for high-risk actions
-* A Restricted Tool Executor for securely calling one or two supported tools
-* Redis for asynchronous security-analysis jobs
+* A React approval, activity, and basic trace dashboard
+* A Restricted Tool Executor for one simulated or sandboxed tool
 * PostgreSQL for policies, events, decisions, approvals, and audit logs
-* Basic logs, service health, metrics, and OpenTelemetry traces
-* A repeatable deployment for one demonstration environment
+* Docker Compose, CI, tests, documentation, and twenty to thirty benchmark scenarios
+
+Capacity-dependent target enhancements include Redis workers, a Risk Orchestrator, one real API or basic MCP integration, basic telemetry, and a hosted demonstration.
 
 Production GKE hardening, Google Secret Manager, complete monitoring dashboards, and advanced security workers remain stretch goals.
 

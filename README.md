@@ -84,24 +84,72 @@ The showcase includes one initial prompt-injection or sensitive-data detector. R
 
 ### Target Architecture
 
-<img src="images/architecture.png" alt="AgentGuard Architecture" width="100%">
+The March `v0.1` target expands the showcase flow with asynchronous security analysis, restricted execution, one or two integrations, and essential operational visibility. Dashed connections identify optional stretch infrastructure.
 
-The diagram above shows the longer-term architecture that guides development through the March release and possible stretch work. Components will be introduced only when the simpler end-to-end system is stable.
+```mermaid
+flowchart LR
+    A[AI Agent Client]
+
+    subgraph V01[March v0.1]
+        G[Agent Gateway]
+        G --> P[Policy Engine]
+        P --> RO[Risk Orchestrator]
+        RO --> Q[(Redis Queue)]
+        Q --> PI[Prompt-Injection Worker]
+        Q --> SD[Sensitive-Data Worker]
+        PI --> RO
+        SD --> RO
+        RO --> D[Decision Engine]
+        D -->|Allow| E[Restricted Tool Executor]
+        D -->|Block| B[Blocked Response]
+        D -->|Approval Required| AP[Approval Service]
+        AP <--> UI[React Approval Dashboard]
+        AP -->|Approved| E
+        AP -->|Denied| B
+        G -.-> DB[(PostgreSQL Audit Store)]
+        D -.-> DB
+        AP -.-> DB
+        E --> I[API or MCP Integration]
+        I --> SR[Sanitized Result]
+        SR --> G
+        G -.-> OT[Basic Logs, Health, Metrics, and Traces]
+        RO -.-> OT
+        E -.-> OT
+    end
+
+    A --> G
+    G -->|Result| A
+
+    subgraph STRETCH[Optional Stretch Infrastructure]
+        GKE[GKE Production Deployment]
+        SM[Google Secret Manager]
+        ADV[Goal Alignment and Behaviour Analysis]
+        MON[Prometheus and Grafana]
+    end
+
+    G -.-> GKE
+    E -.-> SM
+    Q -.-> ADV
+    OT -.-> MON
+```
+
+The [original full-cloud architecture diagram](images/architecture.png) is preserved as a reference for possible future expansion.
 
 The target architecture includes:
 
 * An Agent Gateway for intercepting and validating tool calls
 * A Policy Engine for deterministic authorization
 * A Risk Orchestrator for coordinating security analysis
-* Security workers for prompt injection, sensitive data, goal alignment, and behaviour analysis
-* A Decision Engine for allowing, blocking, restricting, rewriting, sandboxing, rate-limiting, or pausing actions
+* Security workers for prompt-injection and sensitive-data analysis
+* A Decision Engine for allowing, blocking, or pausing actions for approval
 * A Human Approval Service for high-risk actions
-* A Restricted Tool Executor for securely calling external MCP servers and APIs
+* A Restricted Tool Executor for securely calling one or two supported tools
 * Redis for asynchronous security-analysis jobs
 * PostgreSQL for policies, events, decisions, approvals, and audit logs
-* Google Secret Manager for scoped credentials and short-lived access tokens
-* OpenTelemetry, Prometheus, Grafana, and Google Cloud Monitoring for logs, metrics, traces, and security alerts
-* A GitHub Actions pipeline that builds container images, pushes them to Artifact Registry, and deploys AgentGuard to GKE
+* Basic logs, service health, metrics, and OpenTelemetry traces
+* A repeatable deployment for one demonstration environment
+
+Production GKE hardening, Google Secret Manager, complete monitoring dashboards, and advanced security workers remain stretch goals.
 
 
 

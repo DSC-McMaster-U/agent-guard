@@ -80,6 +80,8 @@ AgentGuard uses one-week sprints and these board statuses:
 
 New issues begin in **Backlog**. The Project Lead moves sufficiently defined and approved issues to **Ready** during planning. Most sprint tasks should fit within one to three hours; larger work should be divided into smaller issues or sub-issues. The initial broad starter issues are parent tasks and should be split this way before assignment to a weekly sprint. Contributors should update issue status and leave a short progress note before each weekly meeting.
 
+Some research and design issues specify an issue comment or linked design as their deliverable. Post that evidence on the issue; the Project Lead checks the acceptance criteria and closes it. Code and repository documentation changes still use pull requests.
+
 ## Weekly Team Meeting
 
 The team meets weekly for approximately 20–30 minutes. The meeting closes the current sprint and plans the next one:

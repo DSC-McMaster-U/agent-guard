@@ -7,7 +7,6 @@
 - [Stakeholders](#stakeholders)
 - [Scope](#scope)
 - [System Workflow](#system-workflow)
-- [Implementation Plan](#implementation-plan)
 - [Project Timeline](#project-timeline)
 - [Technical Architecture](#technical-architecture)
 - [Security Model](#security-model)
@@ -31,9 +30,9 @@ AgentGuard is an open-source runtime authorization and security gateway for AI a
 
 AI agents are increasingly being connected to email services, databases, file systems, browsers, code execution environments, APIs, and Model Context Protocol servers. These integrations make agents more capable, but they also introduce risks such as unauthorized actions, excessive permissions, indirect prompt injection, sensitive-data exposure, unsafe tool parameters, and credential misuse.
 
-AgentGuard will sit between an AI agent and the tools it attempts to call. Every proposed tool action will be intercepted before execution and evaluated using deterministic authorization policies, argument validation, security analysis, scoped credentials, and optional human approval.
+AgentGuard will sit between an AI agent and the tools it attempts to call. The committed gateway will evaluate proposed actions using deterministic authorization policies, argument validation, security analysis, and optional human approval. Scoped credentials for a real integration are a target enhancement.
 
-The system will be capable of allowing, blocking, restricting, rewriting, sandboxing, rate-limiting, or pausing an action for approval.
+The committed versions focus on allowing, blocking, or pausing an action for approval. Restriction, rewriting, sandboxing, and rate limiting are possible later extensions.
 
 AgentGuard will also include an open security benchmark so that its protection can be measured using repeatable benign and adversarial scenarios rather than relying only on qualitative claims.
 
@@ -116,6 +115,8 @@ The release targeted for the end of March commits to a stable and documented ver
 - A versioned `v0.1` open-source release
 
 These items define release completion. Optional infrastructure must not delay the release.
+
+At the March final showcase, the team should run the safe, blocked, and approval-required paths through the same simulated or sandboxed tool; show the resulting audit trail and basic trace in the dashboard; and present benchmark results with known limitations. The demo should start from the documented local Docker Compose setup.
 
 ### Target Enhancements
 
@@ -225,11 +226,11 @@ For example:
 
 ---
 
-## Implementation Plan
-
 ## Project Timeline
 
 The active development period runs from late October through the end of March. The schedule assumes approximately 12 students contributing about three hours of total project time per week, including one short team meeting, with reduced availability during exams and holidays. AI-assisted development may speed up scaffolding and routine tasks, but the schedule still reserves time for learning, review, testing, and integration.
+
+The fall MVP should be ready to demonstrate by the end of Sprint 6 in late November. The committed `v0.1` release is the deliverable for the March final showcase; Sprint 18 is reserved for release and rehearsal. Both demonstrations can run locally with Docker Compose. A hosted deployment is optional.
 
 ### Milestone 1: Foundations and Onboarding
 
@@ -294,9 +295,9 @@ The active development period runs from late October through the end of March. T
 - Improve Docker Compose, CI, and contributor documentation.
 - Attempt Redis, a real integration, and telemetry only after the committed work is stable.
 
-### Milestone 6: Evaluation and v0.1 Release
+### Milestone 6: Evaluation, v0.1 Release, and Final Showcase
 
-**Target:** March
+**Target:** Late March
 
 - Complete twenty to thirty benchmark scenarios.
 - Measure attack success and benign completion rates.
@@ -313,7 +314,7 @@ Redis orchestration, a real API or MCP integration, telemetry, and hosted deploy
 
 ## Technical Architecture
 
-AgentGuard will use clear modular boundaries. The committed `v0.1` may keep gateway, policy, detection, decision, approval, and execution modules inside one FastAPI deployment. Redis workers and separate cloud services are capacity-dependent enhancements rather than release requirements.
+AgentGuard will use clear modular boundaries. The committed `v0.1` may keep gateway, policy, detection, decision, approval, and execution modules inside one FastAPI deployment. Redis workers and separate cloud services are capacity-dependent enhancements rather than release requirements. The capability lists below describe possible future features; the committed deliverables are defined in the Scope section.
 
 The following reference flow shows how the modules can evolve when asynchronous analysis is added:
 
@@ -350,7 +351,7 @@ Dashboard             MCP Servers and Tool APIs
 Human Reviewer
 ```
 
-The architecture diagram will be stored at:
+The original expanded reference diagram is preserved at:
 
 ```text
 images/architecture.png
@@ -432,7 +433,7 @@ If implemented, the Risk Orchestrator will:
 
 #### Security Analysis Workers
 
-The committed MVP includes prompt-injection and sensitive-data checks, which may run as modules inside the FastAPI application. Moving them into dedicated workers is a target enhancement. Goal-alignment and behaviour-anomaly workers are stretch goals.
+The November MVP starts with one prompt-injection or sensitive-data check. The committed March `v0.1` includes both, which may run as modules inside the FastAPI application. Moving them into dedicated workers is a target enhancement. Goal-alignment and behaviour-anomaly workers are stretch goals.
 
 ##### Prompt Injection Worker
 
@@ -627,6 +628,8 @@ The project benchmark should include:
 
 ## Tech Stack
 
+These are technology options, not a checklist for the March release. Choose only what a committed feature needs; React Flow, live updates, model-based classification, and separate services can wait.
+
 ### Frontend
 
 - React
@@ -685,6 +688,8 @@ The project benchmark should include:
 
 ## Project Structure
 
+This tree illustrates possible future growth, not directories to create at the start. Begin with a small frontend app and modular FastAPI package. Add a directory only when implemented code needs it.
+
 ```text
 agent-guard/
 ├── apps/
@@ -735,7 +740,7 @@ agent-guard/
 │   └── security/
 │
 ├── images/
-│   ├── logo.png
+│   ├── gdglogo.png
 │   └── architecture.png
 │
 ├── README.md
@@ -916,6 +921,8 @@ The team will create scenarios such as:
 
 ### Evaluation Metrics
 
+The committed evaluation reports attack success, benign task completion, false positives, and false negatives on the published scenarios. The additional measures below are useful when the corresponding features exist.
+
 - Attack success rate
 - Benign task completion rate
 - False-positive rate
@@ -971,7 +978,7 @@ The fall showcase must run reliably through Docker Compose and does not require 
 
 ## Team Management
 
-## Team Members
+### Team Members
 
 The project is intended for approximately 12 contributors, including the Project Lead.
 
@@ -1124,7 +1131,7 @@ Each workstream has useful parallel work throughout the project. When implementa
 | Fall showcase | Application shell, approval flow, activity view, API integration | FastAPI gateway, schema, policies, decisions, audit storage | Threat cases, one initial detector, structured findings, benchmark scenarios | Repository workflow, CI, Docker Compose, PostgreSQL, local runbook |
 | December maintenance | UI fixes, accessibility checks, component tests | Refactoring, API documentation, test coverage | Review results and improve test fixtures | Setup fixes, dependency updates, contributor documentation |
 | January–February hardening | Trace views, approval states, accessibility, component tests | Validation, audit APIs, executor safety, integration tests | Improve both detectors, expand attack coverage, evaluate errors | Docker Compose, CI expansion, setup reliability, release documentation |
-| March release | Usability fixes, release screenshots and demo flow | Reliability fixes, API freeze, integration tests | Final benchmark, metrics, security review | Release pipeline, deployment stabilization, documentation and release artifacts |
+| March final showcase and release | Usability fixes, release screenshots and demo flow | Reliability fixes, API freeze, integration tests | Final benchmark, metrics, security review | Release process, local demo stabilization, documentation and release artifacts |
 
 If committed work finishes early, contributors may take target enhancement issues for Redis, a real API or MCP integration, basic telemetry, or a hosted demonstration.
 
@@ -1237,7 +1244,7 @@ If committed work finishes early, contributors may take target enhancement issue
 - Complete onboarding, architecture, security, and deployment documentation.
 - Run the full test and benchmark suite.
 
-#### Sprint 18: Final Release
+#### Sprint 18: Final Showcase and Release
 
 - Freeze features and fix release-blocking defects only.
 - Publish the `v0.1` release.
@@ -1270,14 +1277,13 @@ Target enhancements are pulled into a weekly sprint only when the committed spri
 2. Goal 2
 3. Goal 3
 
-### User Stories
+### Sprint Issues
 
-| ID | User Story | Priority | Story Points | Assignee |
+Select defined issues from **Ready**. Each contributor normally takes one issue estimated at one to three hours, including handoff and review preparation.
+
+| GitHub issue | Workstream | Estimated hours | Assignee | Status |
 | --- | --- | --- | --- | --- |
-| US01 | As an agent developer, I want all tool calls to pass through AgentGuard so that unauthorized actions can be prevented. | High | 5 | TBD |
-| US02 | As a security administrator, I want deterministic policies so that sensitive tools cannot be called without authorization. | High | 5 | TBD |
-| US03 | As a reviewer, I want to see why an action was flagged so that I can make an informed approval decision. | High | 3 | TBD |
-| US04 | As a contributor, I want clear local setup instructions so that I can begin development quickly. | Medium | 2 | TBD |
+| Link to issue | Frontend / Backend / AI/ML & Security / DevOps & Infrastructure | 1–3 | TBD | Ready |
 
 ### Sprint Review Questions
 

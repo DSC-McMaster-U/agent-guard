@@ -61,15 +61,15 @@ React, FastAPI, Python, PostgreSQL, Docker, and GitHub Actions support the commi
 
 
 
-### Fall Showcase MVP Architecture
+### January MVP Architecture
 
-The November showcase focuses on one reliable end-to-end security decision flow that can run locally with Docker Compose.
+The team targets one reliable end-to-end security decision flow by late January for a local MVP demo. An external showcase may take place in January, but its date has not been confirmed.
 
 ```mermaid
 flowchart TB
     agent(["Simulated AI agent"]):::actor
 
-    subgraph mvp["November MVP · local demo"]
+    subgraph mvp["January MVP · local demo"]
         gateway["FastAPI gateway"]:::service --> policy["Policy engine"]:::service
         policy --> detector["One security check"]:::security
         detector --> decision{"Allow, block, or approve?"}:::decision
@@ -99,11 +99,11 @@ flowchart TB
     style mvp fill:#ffffff,stroke:#cbd5e1,stroke-width:2px
 ```
 
-The showcase includes one initial prompt-injection or sensitive-data detector. Redis workers, production credentials, expanded MCP support, advanced observability, and cloud hardening are later goals.
+The internal MVP includes one initial prompt-injection or sensitive-data detector. Redis workers, production credentials, expanded MCP support, advanced observability, and cloud hardening are later goals.
 
-### March Final Showcase Architecture
+### March v0.1 Architecture
 
-The March plan separates release requirements from optional enhancements. Solid connections show the committed `v0.1` flow. Dashed connections show target and stretch work that must not delay the release.
+The March release plan separates requirements from optional enhancements. The end-of-year showcase is expected, but its date has not been confirmed. Solid connections show the committed `v0.1` flow. Dashed connections show target and stretch work that must not delay the release.
 
 ```mermaid
 flowchart TB

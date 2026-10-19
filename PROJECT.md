@@ -1097,8 +1097,8 @@ A pull request is considered complete when:
 - Audit logging is added where appropriate.
 - Documentation is updated.
 - The pull request has a clear description.
-- The pull request is reviewed by at least one contributor.
-- The Project Lead or assigned reviewer approves the change.
+- Contributor pull requests are approved by the Project Lead.
+- Pull requests authored by the Project Lead may be merged by the Project Lead without another approval after all required checks pass.
 - The branch has no unresolved merge conflicts.
 
 ---

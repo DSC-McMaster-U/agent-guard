@@ -21,7 +21,7 @@ Thank you for contributing to AgentGuard. This guide describes how our team plan
 7. Commit your work and push the branch.
 8. Open a pull request into `main`.
 9. Link the pull request to its issue with a closing keyword such as `Closes #12`.
-10. Request a review.
+10. Request a review from the Project Lead.
 11. Address requested changes and resolve review conversations.
 12. Squash merge after approval and after all required checks pass.
 13. Confirm the linked issue is closed and appears in **Done**.
@@ -55,7 +55,9 @@ Common types are `feature`, `fix`, `docs`, `test`, and `chore`. Use lowercase wo
 - Include screenshots for visual UI changes.
 - Add `Closes #ISSUE_NUMBER` to the pull request description so GitHub closes the issue when the pull request is merged.
 - Update documentation when behaviour, setup, or contributor workflows change.
-- Respond respectfully and constructively during code review.
+- The Project Lead is the sole required reviewer for contributor pull requests.
+- Pull requests authored by the Project Lead may be merged by the Project Lead after all required checks pass.
+- Respond respectfully and constructively to code review feedback.
 
 ## Development Expectations
 
@@ -63,7 +65,7 @@ Common types are `feature`, `fix`, `docs`, `test`, and `chore`. Use lowercase wo
 - Run the relevant checks before requesting review.
 - Keep your assigned GitHub issues updated, including status and blockers.
 - Ask in the project Discord channel when you are blocked.
-- Review teammates' code respectfully and explain requested changes clearly.
+- Discuss technical questions and review feedback respectfully.
 - Coordinate changes that affect another workstream before implementation.
 
 ## Project Board and Sprints

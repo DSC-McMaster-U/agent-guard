@@ -196,7 +196,7 @@ Production GKE hardening, Google Secret Manager, complete monitoring dashboards,
 | Sheraz Arshad | Backend | TBD | TBD |
 | Pranoy Mukherjee | AI/ML & Security | TBD | TBD |
 | MD Mahib | Full Stack | TBD | TBD |
-| Billy Wu | Backend | TBD | TBD |
+| Billy Wu | Backend | [Billy423](https://github.com/Billy423) | TBD |
 | Trisha Raj | DevOps & Infrastructure | TBD | TBD |
 | Nelavan Karunanithi | DevOps & Infrastructure | TBD | TBD |
 

@@ -188,17 +188,17 @@ Production GKE hardening, Google Secret Manager, complete monitoring dashboards,
 
 | Name | Role | GitHub | Notable Contributions |
 | --- | --- | --- | --- |
-| Sana Ashraf | AI/ML & Security | TBD | TBD |
+| Sana Ashraf | AI/ML & Security | [SanaAshraf28](https://github.com/SanaAshraf28) | TBD |
 | Nozhin Azarpanah | Backend | TBD | TBD |
 | Erfan Zamani | AI/ML & Security | TBD | TBD |
-| Naman Sonawane | Full Stack | TBD | TBD |
+| Naman Sonawane | Full Stack | [naman-sonawane](https://github.com/naman-sonawane) | TBD |
 | Barzin Vazifedoost | Full Stack | TBD | TBD |
 | Sheraz Arshad | Backend | [Dev-Scodes5](https://github.com/Dev-Scodes5) | TBD |
 | Pranoy Mukherjee | AI/ML & Security | TBD | TBD |
 | MD Mahib | Full Stack | TBD | TBD |
 | Billy Wu | Backend | [Billy423](https://github.com/Billy423) | TBD |
 | Trisha Raj | DevOps & Infrastructure | TBD | TBD |
-| Nelavan Karunanithi | DevOps & Infrastructure | TBD | TBD |
+| Nelavan Karunanithi | DevOps & Infrastructure | [nelavan](https://github.com/nelavan) | TBD |
 
 
 <!-- MARKDOWN LINKS -->

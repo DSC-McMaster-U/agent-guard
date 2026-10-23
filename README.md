@@ -193,7 +193,7 @@ Production GKE hardening, Google Secret Manager, complete monitoring dashboards,
 | Erfan Zamani | AI/ML & Security | TBD | TBD |
 | Naman Sonawane | Full Stack | [naman-sonawane](https://github.com/naman-sonawane) | TBD |
 | Barzin Vazifedoost | Full Stack | TBD | TBD |
-| Sheraz Arshad | Backend | TBD | TBD |
+| Sheraz Arshad | Backend | [Dev-Scodes5](https://github.com/Dev-Scodes5) | TBD |
 | Pranoy Mukherjee | AI/ML & Security | TBD | TBD |
 | MD Mahib | Full Stack | TBD | TBD |
 | Billy Wu | Backend | [Billy423](https://github.com/Billy423) | TBD |

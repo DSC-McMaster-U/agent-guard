@@ -186,21 +186,19 @@ Production GKE hardening, Google Secret Manager, complete monitoring dashboards,
 
 ## Contributors
 
-| Contributor | Most Used Frameworks/Tools | Notable Contributions |
-| --- | --- | --- |
-| **TBD** <br/> <i>Project Lead</i> | TBD | TBD |
-| **TBD** <br/> <i>Frontend</i> | TBD | TBD |
-| **TBD** <br/> <i>Frontend</i> | TBD | TBD |
-| **TBD** <br/> <i>Backend</i> | TBD | TBD |
-| **TBD** <br/> <i>Backend</i> | TBD | TBD |
-| **TBD** <br/> <i>Backend</i> | TBD | TBD |
-| **TBD** <br/> <i>AI/ML & Security</i> | TBD | TBD |
-| **TBD** <br/> <i>AI/ML & Security</i> | TBD | TBD |
-| **TBD** <br/> <i>AI/ML & Security</i> | TBD | TBD |
-| **TBD** <br/> <i>DevOps & Infrastructure</i> | TBD | TBD |
-| **TBD** <br/> <i>DevOps & Infrastructure</i> | TBD | TBD |
-| **TBD** <br/> <i>Full-Stack / Open to Anything</i> | TBD | TBD |
-
+| Name | Role | GitHub | Notable Contributions |
+| --- | --- | --- | --- |
+| Sana Ashraf | AI/ML & Security | TBD | TBD |
+| Nozhin Azarpanah | Backend | TBD | TBD |
+| Erfan Zamani | AI/ML & Security | TBD | TBD |
+| Naman Sonawane | Full Stack | TBD | TBD |
+| Barzin Vazifedoost | Full Stack | TBD | TBD |
+| Sheraz Arshad | Backend | TBD | TBD |
+| Pranoy Mukherjee | AI/ML & Security | TBD | TBD |
+| MD Mahib | Full Stack | TBD | TBD |
+| Billy Wu | Backend | TBD | TBD |
+| Trisha Raj | DevOps & Infrastructure | TBD | TBD |
+| Nelavan Karunanithi | DevOps & Infrastructure | TBD | TBD |
 
 
 <!-- MARKDOWN LINKS -->

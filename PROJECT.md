@@ -230,7 +230,7 @@ For example:
 
 The active development period runs from late October through the end of March. The schedule assumes the Project Lead and 11 contributors each have about three hours of total project time per week, including a short Tuesday meeting, with reduced availability during exams and holidays. AI-assisted development may speed up scaffolding and routine tasks, but the schedule still reserves time for learning, review, testing, and integration.
 
-Sprint 1 starts Tuesday, October 27, 2026. Sprints 1–5 run through the November progress checkpoint; December is a reduced-capacity maintenance period without required weekly sprints. Sprints 6–9 run from January 5 through February 1, targeting a late-January local MVP. The fall showcase is scheduled for January, but the exact date is unannounced; if it is early, show the validated subset available then. Sprints 10–17 harden the product through March, and Sprint 18 begins March 30 for the final showcase and `v0.1` release wrap-up. Prepare a release candidate by the end of Sprint 17 so the final demo does not depend on work completed during showcase week. The exact final showcase date is unannounced. Both demos can run locally with Docker Compose; hosted deployment is optional.
+Sprint 1 starts Tuesday, October 27, 2026. Sprints 1–5 run through the November progress checkpoint; December is a reduced-capacity maintenance period without required weekly sprints. Sprints 6–9 run from January 5 through February 1, targeting a late-January local MVP. The fall showcase is scheduled for January, but the exact date is unannounced; if it is early, show the validated subset available then. Sprints 10–16 harden the product through March 22. Sprint 17 is a stabilization and rehearsal buffer, and Sprint 18 begins March 30 for the final showcase and `v0.1` release wrap-up. Prepare a release candidate by the end of Sprint 16 so an end-of-March event does not depend on last-week implementation. The exact final showcase date is unannounced. Both demos can run locally with Docker Compose; hosted deployment is optional.
 
 This is a capacity plan, not a promise of feature completion. Twelve people at about three hours each provide roughly 36 team-hours in an active week; the meeting alone uses about six of those hours, before reviews, onboarding, and absences. Keep contributor issues small, reserve the Project Lead's time for integration and PR review, and revisit scope at every Tuesday meeting. If the January event is announced for early in the month, freeze and rehearse the November working slice instead of counting on unfinished January features. If any safe, blocked, or approval-required path is still unstable after Sprint 8, prioritize that path over optional polish or infrastructure.
 
@@ -1245,21 +1245,22 @@ If committed work finishes early, contributors may take target enhancement issue
 - Improve policies and detector accuracy.
 - Fix integration and dashboard usability problems.
 - Exercise timeout, unavailable-service, and malformed-input paths.
+- Bring the benchmark to twenty to thirty scenarios and draft the evaluation results.
 
-#### Sprint 16: CI, Documentation, and Benchmark
+#### Sprint 16: Release Candidate
 
 - Complete component-aware linting, tests, and build checks.
 - Complete contributor, architecture, security, and local setup documentation.
 - Document common failures and troubleshooting steps.
-- Expand the benchmark toward twenty to thirty scenarios and measure early results.
+- Finalize benchmark metrics and run the full test and benchmark suite.
+- Freeze features and prepare a documented local release candidate by March 22.
 
-#### Sprint 17: Evaluation and Release Candidate
+#### Sprint 17: Stabilization and Rehearsal
 
-- Complete twenty to thirty benchmark scenarios and report attack success, benign completion, false positives, and false negatives.
-- Address release-blocking findings and document the rest.
-- Stabilize the Docker Compose demonstration and release process.
-- Complete onboarding, architecture, security, and deployment documentation.
-- Run the full test and benchmark suite.
+- Fix release-blocking findings only and document remaining limitations.
+- Rehearse safe, blocked, and approval-required paths using the release candidate.
+- Prepare fallback materials and confirm setup from a fresh clone.
+- Publish the benchmark report with attack success, benign completion, false positives, and false negatives.
 
 #### Sprint 18: v0.1 Release and Demo Preparation
 

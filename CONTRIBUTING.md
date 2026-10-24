@@ -84,7 +84,7 @@ Some research and design issues specify an issue comment or linked design as the
 
 ## Weekly Team Meeting
 
-The team meets weekly for approximately 20–30 minutes. The meeting closes the current sprint and plans the next one:
+The team meets on Tuesdays for approximately 20–30 minutes. Each one-week sprint runs from a Tuesday meeting to the next. The meeting closes the current sprint and plans the next one:
 
 1. **Progress updates (8 minutes):** Each workstream shares completed and ongoing work.
 2. **Blockers (7 minutes):** Discuss technical issues and dependencies.

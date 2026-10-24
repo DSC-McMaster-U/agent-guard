@@ -63,7 +63,7 @@ React, FastAPI, Python, PostgreSQL, Docker, and GitHub Actions support the commi
 
 ### January MVP Architecture
 
-The team targets one reliable end-to-end security decision flow by late January for a local MVP demo. An external showcase may take place in January, but its date has not been confirmed.
+The fall showcase is scheduled for January, with its exact date to be announced. The team targets one reliable end-to-end security decision flow by late January; if the showcase is earlier, it will present the working subset available then.
 
 ```mermaid
 flowchart TB
@@ -80,7 +80,7 @@ flowchart TB
         approval -->|Approve| tool
         approval -->|Deny| blocked
 
-        tool --> result["Sanitized result to agent"]:::success
+        tool --> result["Simulated tool result to agent"]:::success
         gateway --> audit[("PostgreSQL audit trail")]:::data
         decision --> audit
         approval --> audit
@@ -103,7 +103,7 @@ The internal MVP includes one initial prompt-injection or sensitive-data detecto
 
 ### March v0.1 Architecture
 
-The March release plan separates requirements from optional enhancements. The end-of-year showcase is expected, but its date has not been confirmed. Solid connections show the committed `v0.1` flow. Dashed connections show target and stretch work that must not delay the release.
+The final showcase is scheduled for the end of March, with its exact date to be announced. The March release plan separates requirements from optional enhancements. Solid connections show the committed `v0.1` flow. Dashed connections show target and stretch work that must not delay the release.
 
 ```mermaid
 flowchart TB
@@ -190,14 +190,14 @@ Production GKE hardening, Google Secret Manager, complete monitoring dashboards,
 | --- | --- | --- | --- |
 | Sana Ashraf | AI/ML & Security | [SanaAshraf28](https://github.com/SanaAshraf28) | TBD |
 | Nozhin Azarpanah | Backend | [NojinAp](https://github.com/NojinAp) | TBD |
-| Erfan Zamani | AI/ML & Security | TBD | TBD |
+| Erfan Zamani | AI/ML & Security | [Erunixz](https://github.com/Erunixz) | TBD |
 | Naman Sonawane | Full Stack | [naman-sonawane](https://github.com/naman-sonawane) | TBD |
-| Barzin Vazifedoost | Full Stack | TBD | TBD |
+| Barzin Vazifedoost | Full Stack | [Barzin-Vazifedoost](https://github.com/Barzin-Vazifedoost) | TBD |
 | Sheraz Arshad | Backend | [Dev-Scodes5](https://github.com/Dev-Scodes5) | TBD |
-| Pranoy Mukherjee | AI/ML & Security | TBD | TBD |
-| MD Mahib | Full Stack | TBD | TBD |
+| Pranoy Mukherjee | AI/ML & Security | [Pranoym17](https://github.com/Pranoym17) | TBD |
+| MD Tanzeem Mahib | Full Stack | [tanzeemmahib](https://github.com/tanzeemmahib) | TBD |
 | Billy Wu | Backend | [Billy423](https://github.com/Billy423) | TBD |
-| Trisha Raj | DevOps & Infrastructure | TBD | TBD |
+| Trisha Raj | DevOps & Infrastructure | [trisharaj1](https://github.com/trisharaj1) | TBD |
 | Nelavan Karunanithi | DevOps & Infrastructure | [nelavan](https://github.com/nelavan) | TBD |
 
 

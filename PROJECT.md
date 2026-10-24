@@ -85,7 +85,7 @@ The January MVP is a focused end-to-end local demonstration targeted for late Ja
 - Docker Compose-based local development
 - GitHub Actions checks for the components that exist
 
-The MVP demo should show a safe request, a blocked request, and an approval-required request. A reliable local demonstration is required; public cloud deployment is optional. If an external showcase is scheduled in January, use the working MVP available by that date and rehearse the supported paths.
+The MVP demo should show a safe request, a blocked request, and an approval-required request. A reliable local demonstration is required; public cloud deployment is optional. The fall showcase is scheduled for January, but its exact date is not yet announced. If it falls before the full MVP is ready, present the working subset available then and explain its limitations.
 
 ### Initial Tool Integrations
 
@@ -116,7 +116,7 @@ The release targeted for the end of March commits to a stable and documented ver
 
 These items define release completion. Optional infrastructure must not delay the release.
 
-For the end-of-year showcase, the team should run the safe, blocked, and approval-required paths through the same simulated or sandboxed tool; show the resulting audit trail and basic trace in the dashboard; and present benchmark results with known limitations. The demo should start from the documented local Docker Compose setup. The event date has not been confirmed, so the March `v0.1` target remains an internal release milestone.
+For the final showcase at the end of March, the team should run the safe, blocked, and approval-required paths through the same simulated or sandboxed tool; show the resulting audit trail and basic trace in the dashboard; and present benchmark results with known limitations. The demo should start from the documented local Docker Compose setup. The exact showcase date has not yet been announced.
 
 ### Target Enhancements
 
@@ -228,13 +228,15 @@ For example:
 
 ## Project Timeline
 
-The active development period runs from late October through the end of March. The schedule assumes approximately 12 students contributing about three hours of total project time per week, including one short team meeting, with reduced availability during exams and holidays. AI-assisted development may speed up scaffolding and routine tasks, but the schedule still reserves time for learning, review, testing, and integration.
+The active development period runs from late October through the end of March. The schedule assumes the Project Lead and 11 contributors each have about three hours of total project time per week, including a short Tuesday meeting, with reduced availability during exams and holidays. AI-assisted development may speed up scaffolding and routine tasks, but the schedule still reserves time for learning, review, testing, and integration.
 
-The January MVP should be ready to demonstrate by the end of Sprint 9 in late January. November ends with an internal progress checkpoint, while December is a reduced-capacity maintenance period. An external showcase may occur in January, but its date is not confirmed. The committed `v0.1` release remains targeted for late March, with Sprint 18 reserved for release and rehearsal. An end-of-year showcase is expected, but its date is still to be confirmed. Both demos can run locally with Docker Compose. A hosted deployment is optional.
+Sprint 1 starts Tuesday, October 27, 2026. Sprints 1–5 run through the November progress checkpoint; December is a reduced-capacity maintenance period without required weekly sprints. Sprints 6–9 run from January 5 through February 1, targeting a late-January local MVP. The fall showcase is scheduled for January, but the exact date is unannounced; if it is early, show the validated subset available then. Sprints 10–17 harden the product through March, and Sprint 18 begins March 30 for the final showcase and `v0.1` release wrap-up. Prepare a release candidate by the end of Sprint 17 so the final demo does not depend on work completed during showcase week. The exact final showcase date is unannounced. Both demos can run locally with Docker Compose; hosted deployment is optional.
+
+This is a capacity plan, not a promise of feature completion. Twelve people at about three hours each provide roughly 36 team-hours in an active week; the meeting alone uses about six of those hours, before reviews, onboarding, and absences. Keep contributor issues small, reserve the Project Lead's time for integration and PR review, and revisit scope at every Tuesday meeting. If the January event is announced for early in the month, freeze and rehearse the November working slice instead of counting on unfinished January features. If any safe, blocked, or approval-required path is still unstable after Sprint 8, prioritize that path over optional polish or infrastructure.
 
 ### Milestone 1: Foundations and Onboarding
 
-**Target:** Late October
+**Target:** Late October to early November
 
 - Introduce contributors to Git, GitHub, pull requests, and open-source workflows.
 - Finalize the threat model and architecture.
@@ -991,13 +993,12 @@ The January MVP must run reliably through Docker Compose and does not require cl
 The project is intended for approximately 12 contributors, including the Project Lead.
 
 - **Project Lead:** 1
-- **Frontend:** 2
 - **Backend:** 3
 - **AI/ML & Security:** 3
 - **DevOps & Infrastructure:** 2
-- **Full-Stack or flexible contributor:** 1, working across Frontend and Backend where capacity is needed
+- **Full Stack:** 3, covering Frontend and Backend work as needed
 
-Roles may overlap based on contributor interests and experience. The Project Lead coordinates integration and may contribute across workstreams.
+These are the current 11 contributor roles plus one Project Lead. Full Stack is a flexible role, not a separate project-board workstream; its issues use the Frontend or Backend field according to the work. The Project Lead coordinates integration and may contribute across workstreams.
 
 ---
 
@@ -1075,8 +1076,8 @@ Roles may overlap based on contributor interests and experience. The Project Lea
 
 ### Suggested Schedule
 
-- One-week development sprints
-- One 20–30 minute sprint review and planning meeting each week
+- One-week development sprints beginning and ending on Tuesdays
+- One 20–30 minute sprint review and planning meeting each Tuesday
 - One short asynchronous progress update before each meeting
 - Optional in-person or virtual work sessions for contributors who need support
 - Monthly project demonstration
@@ -1128,13 +1129,13 @@ A pull request is considered complete when:
 - Tasks should normally fit within one to three hours and be divided when they are larger
 - Contributors should have no more than one main implementation issue in progress at a time
 
-The schedule assumes students have competing coursework, exams, and personal commitments. December is treated as a reduced-capacity maintenance period rather than a sequence of required sprints. Sprint numbering resumes in January. Unfinished work returns to planning instead of automatically carrying an unrealistic commitment into the next week.
+The schedule assumes students have competing coursework, exams, and personal commitments. December is treated as a reduced-capacity maintenance period rather than a sequence of required sprints. Sprint numbering resumes with Sprint 6 on January 5. Unfinished work returns to planning instead of automatically carrying an unrealistic commitment into the next week.
 
 ## Workstream Plan
 
 Each workstream has useful parallel work throughout the project. When implementation is blocked by another workstream, contributors can work on tests, fixtures, documentation, interface contracts, or review tasks that support the same milestone.
 
-| Phase | Frontend | Backend | AI/ML & Security | DevOps & Infrastructure |
+| Phase | Frontend (Full Stack contributors) | Backend | AI/ML & Security | DevOps & Infrastructure |
 | --- | --- | --- | --- | --- |
 | October–November foundations | Application shell, approval wireframes and prototypes | FastAPI skeleton, schema, initial policies, storage design | Threat cases, detector prototype, benchmark format | Repository workflow, initial CI, Docker plan, local setup |
 | December light maintenance | UI fixes, accessibility checks, component tests | Refactoring, API documentation, test coverage | Review results and improve test fixtures | Setup fixes, dependency updates, contributor documentation |
@@ -1171,27 +1172,29 @@ If committed work finishes early, contributors may take target enhancement issue
 - Define storage models and add the first database migration.
 - Connect one dashboard view to a backend endpoint.
 - Start the local Docker Compose setup for the implemented services.
+- Connect the first policy decision path to a simulated tool or controlled stub if ready.
 
-#### Sprint 5: Integration Slice
-
-- Connect the first policy decision path to a simulated tool or a controlled stub.
-- Add the first benchmark fixtures and component tests.
-- Identify missing approval, audit, and Docker integration work.
-
-#### Sprint 6: November Progress Checkpoint
+#### Sprint 5: November Progress Checkpoint
 
 - Show the working gateway, policy, detector, and interface pieces.
+- Add the first benchmark fixtures and component tests.
 - Document what runs end to end and what is still mocked or incomplete.
 - Split January integration gaps into small issues for each workstream.
 - Keep December work optional and focused on setup, tests, and fixes.
 
 ### January MVP
 
-#### Sprint 7: Resume and Connect
+#### Sprint 6: Resume and Connect
 
 - Review the November checkpoint and confirm the January demo paths.
-- Connect the gateway, policies, detector, approval API, and dashboard.
+- Connect the gateway, policies, initial detector, and decision flow.
+- Confirm the frontend and backend use the same request and decision contract.
+
+#### Sprint 7: Approval and Audit Integration
+
+- Connect the approval API and React approval actions.
 - Persist requests, decisions, and approval events in PostgreSQL.
+- Show recent decisions in an activity view.
 
 #### Sprint 8: Complete the MVP Flow
 

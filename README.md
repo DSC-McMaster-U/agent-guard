@@ -65,6 +65,8 @@ React, FastAPI, Python, PostgreSQL, Docker, and GitHub Actions support the commi
 
 The fall showcase is scheduled for January, with its exact date to be announced. The team targets one reliable end-to-end security decision flow by late January; if the showcase is earlier, it will present the working subset available then.
 
+The demonstration tool is a simulated `email.send` action with a local outbox. It never sends a real email or needs email credentials. The same action can be allowed, blocked, or held for approval based on its validated recipient and policy.
+
 ```mermaid
 flowchart TB
     agent(["Simulated AI agent"]):::actor
@@ -74,13 +76,13 @@ flowchart TB
         policy --> detector["One security check"]:::security
         detector --> decision{"Allow, block, or approve?"}:::decision
 
-        decision -->|Allow| tool["Simulated tool"]:::success
+        decision -->|Allow| tool["Simulated email send"]:::success
         decision -->|Block| blocked["Blocked response"]:::blocked
         decision -->|Needs approval| approval["Approval API + React UI"]:::review
         approval -->|Approve| tool
         approval -->|Deny| blocked
 
-        tool --> result["Simulated tool result to agent"]:::success
+        tool --> result["Simulated send result to agent"]:::success
         gateway --> audit[("PostgreSQL audit trail")]:::data
         decision --> audit
         approval --> audit
@@ -121,7 +123,7 @@ flowchart TB
         approval -->|Approve| executor
         approval -->|Deny| blocked
 
-        executor --> tool["Simulated or sandboxed tool"]:::success
+        executor --> tool["Simulated email send"]:::success
         tool --> result["Sanitized result to agent"]:::success
         gateway --> audit[("PostgreSQL audit store")]:::data
         decision --> audit
@@ -173,7 +175,7 @@ The committed release includes:
 * A Decision Engine for allowing, blocking, or pausing actions for approval
 * A Human Approval Service for high-risk actions
 * A React approval, activity, and basic trace dashboard
-* A Restricted Tool Executor for one simulated or sandboxed tool
+* A Restricted Tool Executor for the simulated email send action
 * PostgreSQL for policies, events, decisions, approvals, and audit logs
 * Docker Compose, CI, tests, documentation, and twenty to thirty benchmark scenarios
 

@@ -79,7 +79,7 @@ The January MVP is a focused end-to-end local demonstration targeted for late Ja
 - A synchronous Decision Engine that combines policy and security findings
 - A basic Human Approval API and React approval interface
 - PostgreSQL storage for requests, decisions, and approval events
-- One simulated or sandboxed demonstration tool
+- One simulated `email.send` tool with a local outbox and no real email delivery
 - An activity view showing recent requests and decisions
 - Ten to twenty benign and adversarial benchmark scenarios
 - Docker Compose-based local development
@@ -87,11 +87,13 @@ The January MVP is a focused end-to-end local demonstration targeted for late Ja
 
 The MVP demo should show a safe request, a blocked request, and an approval-required request. A reliable local demonstration is required; public cloud deployment is optional. The fall showcase is scheduled for January, but its exact date is not yet announced. If it falls before the full MVP is ready, present the working subset available then and explain its limitations.
 
+Use the same `email.send` action for all three demo paths. Its initial arguments are `recipient`, `subject`, and `body`, using fictional addresses and text only. For example, an internal `@example.com` recipient can be allowed, an address at the explicitly denied `@example.net` domain can be blocked, and an external `@example.org` recipient can require approval. Invalid arguments are blocked. The simulated executor records an outcome in a local outbox and audit trail; it must not deliver email or require provider credentials. These example domains and rules are starting fixtures, not production policy.
+
 ### Initial Tool Integrations
 
 Integration work is staged as follows:
 
-- A simulated email or sandboxed file-system tool for the January MVP
+- The simulated `email.send` tool for the January MVP
 - One generic API or MCP integration as a target enhancement after the committed release is stable
 
 The team should prioritize depth and security over the total number of connectors.
@@ -106,7 +108,7 @@ The release targeted for the end of March commits to a stable and documented ver
 - Documented prompt-injection and sensitive-data checks with structured findings
 - A React approval, activity, and basic trace dashboard
 - PostgreSQL storage for requests, findings, decisions, and approval events
-- A Restricted Tool Executor for one simulated or sandboxed tool
+- A Restricted Tool Executor for the simulated `email.send` tool
 - Execution limits, timeouts, and basic result sanitization
 - Twenty to thirty benign and adversarial benchmark scenarios
 - Docker Compose-based local development
@@ -116,7 +118,7 @@ The release targeted for the end of March commits to a stable and documented ver
 
 These items define release completion. Optional infrastructure must not delay the release.
 
-For the final showcase at the end of March, the team should run the safe, blocked, and approval-required paths through the same simulated or sandboxed tool; show the resulting audit trail and basic trace in the dashboard; and present benchmark results with known limitations. The demo should start from the documented local Docker Compose setup. The exact showcase date has not yet been announced.
+For the final showcase at the end of March, the team should run the safe, blocked, and approval-required paths through the same simulated `email.send` tool; show the resulting audit trail and basic trace in the dashboard; and present benchmark results with known limitations. The demo should start from the documented local Docker Compose setup. The exact showcase date has not yet been announced.
 
 ### Target Enhancements
 
@@ -211,7 +213,7 @@ Executor                      |
                Agent
 ```
 
-Target enhancements may insert a Redis-backed Risk Orchestrator and replace the simulated tool with one real API or basic MCP integration.
+Target enhancements may insert a Redis-backed Risk Orchestrator and add one real API or basic MCP integration after the simulated email flow is stable.
 
 The system will use deterministic authorization before relying on AI-based security analysis.
 
@@ -258,7 +260,7 @@ This is a capacity plan, not a promise of feature completion. Twelve people at a
 - Implement allow, block, and approval policies.
 - Add a small set of tool-specific parameter restrictions.
 - Define storage models for requests and decisions.
-- Define the contract for one simulated or sandboxed demonstration tool.
+- Define the contract for the simulated `email.send` tool.
 - Add unit tests for policy evaluation.
 
 ### Milestone 3: Security and Approval Prototypes
@@ -287,7 +289,7 @@ This is a capacity plan, not a promise of feature completion. Twelve people at a
 
 - Connect the gateway, policy engine, initial detector, decision flow, approval interface, and audit storage.
 - Store requests, decisions, and approval events in PostgreSQL.
-- Complete one simulated or sandboxed demonstration tool and an activity view.
+- Complete the simulated `email.send` tool and an activity view.
 - Run the application locally with Docker Compose.
 - Reach ten to twenty benchmark scenarios and add a small end-to-end test path.
 - Freeze MVP features before the demo, fix blocking defects, and rehearse the three decision paths.
@@ -298,7 +300,7 @@ This is a capacity plan, not a promise of feature completion. Twelve people at a
 
 - Harden request validation, policies, and decision explanations.
 - Complete documented prompt-injection and sensitive-data checks.
-- Build the Restricted Tool Executor for one simulated or sandboxed tool.
+- Build the Restricted Tool Executor for the simulated `email.send` tool.
 - Add execution limits, timeouts, and basic result sanitization.
 - Improve the approval, activity, and basic trace interfaces.
 - Expand unit, integration, failure-path, and security tests.
@@ -514,7 +516,7 @@ The Approval Service will:
 The Restricted Tool Executor will:
 
 - Receive only approved or allowed actions.
-- Use synthetic or local credentials for the committed simulated tool.
+- Keep the simulated email outbox local; no email provider credentials or outbound delivery are needed.
 - Retrieve scoped credentials and call external MCP servers or APIs only for implemented target enhancements.
 - Enforce timeouts and execution limits.
 - Sanitize tool responses.
@@ -902,7 +904,7 @@ Potential frameworks:
 - Security checks to Decision Engine
 - Decision Engine to Approval Service
 - Approval Service to Tool Executor
-- Tool Executor to the simulated or sandboxed tool
+- Tool Executor to the simulated email outbox
 - Audit events to PostgreSQL
 - Dashboard requests, approvals, activity, and error states
 
@@ -1035,7 +1037,7 @@ These are the current 11 contributor roles plus one Project Lead. Full Stack is 
 - Add tool and argument authorization.
 - Build approval and audit APIs.
 - Integrate PostgreSQL and add Redis only as a target enhancement.
-- Build the Restricted Tool Executor for the simulated or sandboxed tool.
+- Build the Restricted Tool Executor for the simulated `email.send` tool.
 - Implement response sanitization and support target integration credentials if capacity remains.
 - Write unit and integration tests.
 
@@ -1172,7 +1174,7 @@ If committed work finishes early, contributors may take target enhancement issue
 - Define storage models and add the first database migration.
 - Connect one dashboard view to a backend endpoint.
 - Start the local Docker Compose setup for the implemented services.
-- Connect the first policy decision path to a simulated tool or controlled stub if ready.
+- Connect the first policy decision path to a simulated `email.send` stub if ready.
 
 #### Sprint 5: November Progress Checkpoint
 
@@ -1198,7 +1200,7 @@ If committed work finishes early, contributors may take target enhancement issue
 
 #### Sprint 8: Complete the MVP Flow
 
-- Complete one simulated or sandboxed tool and the activity view.
+- Complete the simulated `email.send` tool and the activity view.
 - Demonstrate safe, blocked, and approval-required requests through the same flow.
 - Reach ten to twenty benchmark scenarios and add an end-to-end test path.
 

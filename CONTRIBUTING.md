@@ -78,7 +78,7 @@ AgentGuard uses one-week sprints and these board statuses:
 - **In Review:** Work with an open pull request awaiting review.
 - **Done:** Completed work, normally with a merged pull request.
 
-New issues begin in **Backlog**. The Project Lead moves sufficiently defined and approved issues to **Ready** during planning. Most sprint tasks should fit within one to three hours; larger work should be divided into smaller issues or sub-issues. The initial broad starter issues are parent tasks and should be split this way before assignment to a weekly sprint. Contributors should update issue status and leave a short progress note before each weekly meeting.
+New issues begin in **Backlog**. The Project Lead moves sufficiently defined and approved issues to **Ready** during planning. Each sprint issue should define a complete weekly deliverable with clear acceptance criteria and dependencies, building on the contributor's previous results. Use useful module boundaries when work needs to be divided, and keep PRs focused and reviewable. The initial broad parent tasks guide the roadmap; weekly issues identify the implementation and validation expected next. Contributors should update issue status and leave a short progress note before each weekly meeting.
 
 Some research and design issues specify an issue comment or linked design as their deliverable. Post that evidence on the issue; the Project Lead checks the acceptance criteria and closes it. Code and repository documentation changes still use pull requests.
 

@@ -1,12 +1,12 @@
-# Sprint 2: First Working Prototypes
+# Sprint 2: Foundations and First Components
 
 **Dates:** Tuesday, November 3 to the Tuesday meeting on November 10, 2026.
 **Lead:** Aryan (@rinnegannn).
-**Capacity:** About three hours per person for the whole week, including the 20–30 minute meeting, setup, handoff, and review preparation.
+**Weekly cap:** Three hours per person total, including the 20–30 minute meeting, implementation, testing, PR preparation, and handoff. Aim for 2–2.5 hours of task work; stop and record remaining work when the cap is reached.
 
-The goal is a working policy-decision API, a usable dashboard prototype, the first prompt-injection detector, a runnable policy benchmark, and reproducible development checks. Build each assignment from its owner's Sprint 1 result. AI assistance is expected during implementation; acceptance is based on demonstrated behaviour and validation results rather than a fixed limit on task size.
+The goal is a set of tested foundations that can be connected next sprint: request models, health-test setup, a policy function, basic Activity/Approval components, shared mocks, a narrow detector, scenario files/checker, and CI for commands that already exist. Each task is scoped to the three-hour total week with AI assistance.
 
-The milestone dates in [PROJECT.md](../../PROJECT.md) remain the planning targets: a November progress checkpoint, optional December maintenance, the late-January local MVP, and a March release candidate by March 22 before the end-of-March showcase. The exact showcase dates are still unannounced. First policy, detector, and dashboard prototypes move into Sprint 2. Sprint 3 connects the detector and API, replaces dashboard mocks with evaluated requests, and stabilizes the combined flow; persistence and broader integration follow in Sprint 4.
+The milestone dates in [PROJECT.md](../../PROJECT.md) remain the planning targets: a November progress checkpoint, optional December maintenance, the late-January local MVP, and a March release candidate by March 22 before the end-of-March showcase. Exact showcase dates are still unannounced. Sprint 3 adds the policy endpoint, dashboard state/integration, backend container, and the next validation increments; Sprint 4 focuses on persistence and broader API integration.
 
 ## Starting point from Sprint 1
 
@@ -79,7 +79,7 @@ Use these fields for TypeScript types, mock data, and the planned API examples:
 
 For the three initial fixtures, use `not_required` for allow/block and `pending` for approval-required. `approved` and `denied` are vocabulary for later approval events; mocks do not implement persistence or safe execution.
 
-The Sprint 2 `POST /api/v1/tool-calls` endpoint returns this summary for a valid evaluated request. A `200` response records the policy decision; email execution, audit persistence, detector composition, and approval persistence follow in later integration tasks. The dashboard's Approve/Deny buttons update clearly labelled local demo state in Sprint 2.
+The planned Sprint 3 `POST /api/v1/tool-calls` endpoint will return this summary for a valid evaluated request. A `200` response records the policy decision; execution, audit persistence, detector composition, and approval persistence follow in later integration tasks. Sprint 2 builds the separate components and typed mocks; the Approval component emits callbacks, with parent state/integration added in Sprint 3.
 
 ## Implementation interfaces
 
@@ -87,19 +87,19 @@ Agree these names at kickoff so work can proceed in parallel:
 
 | Module | Interface | Owner / consumer |
 | --- | --- | --- |
-| `backend/app/schemas.py` | `TriggerSource`, `ToolCallRequest`, `EmailSendArguments`, `ToolCallSummary` | Nozhin; Sheraz imports the models. |
+| `backend/app/schemas.py` | `TriggerSource`, `ToolCallRequest`, `EmailSendArguments`; response models follow in Sprint 3. | Nozhin; Sheraz uses them when adding the endpoint. |
 | `backend/app/policy.py` | `evaluate_policy(agent_id, tool, arguments)` returns a dictionary with `decision` and `reason`. | Billy; Sheraz and Pranoy call it. |
 | `backend/app/security/prompt_injection.py` | `detect_prompt_injection(text, source_type="unknown")` returns a list of finding dictionaries using #31's category/severity/confidence/method/reason/evidence fields. | Erfan; detector integration follows in Sprint 3. |
 | `frontend/src/types/toolCall.ts` | Export `ToolCallDecision`, `ApprovalStatus`, and `ToolCallSummary` matching the fields above. | MD Tanzeem publishes this early. |
-| `frontend/src/components/ActivityList.tsx` | Props: `items: ToolCallSummary[]`, `onSelect(requestId: string)`, optional `loading: boolean`, `error: string`, and `onRetry()`. | Naman; MD Tanzeem integrates it. |
-| `frontend/src/components/ApprovalDetails.tsx` | Props: `request` (a `ToolCallSummary` or null), `onDecision(requestId, action)` with action `approve` or `deny`, optional `busy: boolean` and `error: string`. | Barzin; MD Tanzeem integrates it. |
-| `backend/app/benchmark.py` | From `backend/`, run `python -m app.benchmark --cases ../evaluation/scenarios`. | Pranoy; reads the base/adversarial fixture files. |
+| `frontend/src/components/ActivityList.tsx` | Sprint 2 props: `items: ToolCallSummary[]` and `onSelect(requestId: string)`; loading/error/retry follow later. | Naman; MD Tanzeem integrates it next sprint. |
+| `frontend/src/components/ApprovalDetails.tsx` | Sprint 2 props: `request` (a `ToolCallSummary` or null), `onDecision(requestId, action)` with action `approve` or `deny`; busy/error handling follows later. | Barzin; MD Tanzeem integrates it next sprint. |
+| `evaluation/run_policy_cases.py` | From the repo root, run `python evaluation/run_policy_cases.py`; load `base.json`, call the policy, and fail on a mismatch. | Pranoy; broader file loading/reporting follows in Sprint 3. |
 
-Only pending approval requests can transition to approved/denied in the local UI. Preserve the original `decision` value and update `approval_status`; repeated clicks cannot approve twice. Show the demo-data status so viewers know the buttons do not send email.
+The basic Approval component offers actions only for pending approvals and emits a callback. In Sprint 3, App state will preserve the original decision, update approval_status once, and prevent repeated transitions. Preview data and screenshots must be labelled as simulated; no email is sent.
 
-The policy module remains independent of FastAPI/Pydantic. It checks the server-owned permission table, rejects obviously missing/malformed recipient data defensively, and compares exact domains. The HTTP route performs full supported-tool input validation and converts validation failures to FastAPI-style 422 errors. No endpoint calls the executor in this sprint.
+The policy module remains independent of FastAPI/Pydantic. It checks the server-owned permission table, rejects obviously missing/malformed recipient data defensively, and compares exact domains. The Sprint 3 HTTP route will perform supported-tool validation and convert failures to FastAPI-style 422 errors. No executor is required for these policy/validation tasks.
 
-The first detector follows Erfan's recommendation: normalize case and a documented set of invisible characters, inspect explicit role markers/override phrases, and return bounded evidence plus heuristic findings. Override-only is low, marker-only medium, and both high. These scores are not measured accuracy; known false positives/bypasses stay documented. Detector findings do not grant permission or override a policy block.
+The first detector implements one narrow part of Erfan's recommendation: normalize case and flag text containing both an explicit fake role marker and an override phrase. Return a high-severity heuristic finding with bounded evidence and otherwise no findings. Four focused tests cover a clear attack, case variation, a benign message, and empty text. Unicode handling, lower-severity partial matches, and a larger fixture suite are tracked for Sprint 3. This limited signal cannot override policy or claim complete injection coverage.
 
 ## Scenario format and benchmark meaning
 
@@ -111,52 +111,65 @@ Preserve Pranoy's useful separation between context and proposed action. Both sc
 - `evaluation_scope: "policy_only"`, `expected_decision`, `rule`, and `rationale`.
 - Optional `expected_detector_flag` as separate detector metadata.
 
-The runner maps `context.agent` to the policy's `agent_id`. It checks expected policy decisions only. A prompt injection aimed at an otherwise allowed internal send may be allowed by this policy prototype; label the missing detector protection rather than inventing an implemented rule. Report policy-decision agreement and distinguish benign/adversarial totals; do not describe this as end-to-end attack prevention.
+The checker maps `context.agent` to the policy's `agent_id` and checks expected policy decisions only. A prompt injection aimed at an otherwise allowed internal send may pass this policy alone; label that gap rather than inventing a rule. Describe results as policy-decision agreement, not end-to-end attack prevention.
 
-Pranoy's six base cases include the four corrected Sprint 1 examples plus two benign controls (at least four benign cases in the base set). Sana contributes eight adversarial cases derived from her five threats. The combined set is fourteen cases, within the January target of ten to twenty, and can be refined during integration. Erfan owns separate detector text cases/tests; a policy decision and a detector flag are different assertions.
+Pranoy saves the four corrected Sprint 1 cases in `base.json` and implements a script that reads that file, prints expected/actual decisions and pass/fail counts, and exits nonzero on a mismatch. Sana writes four additional adversarial cases in `adversarial.json`. Multi-file loading, detailed input validation, reports, detector integration, and expansion toward the January ten-to-twenty scenario target follow in later sprints. The Sprint 2 checker does not need a database, live server, or benchmark dependency.
 
-## Student assignments
+## Student assignments and time
 
-All assignments below are Ready for November 3–10. Each is a complete prototype/module deliverable with tests or demonstration evidence. Completion of previous Sprint 1 work is the planning assumption for every student. Keep changes focused enough to review, and raise integration blockers early.
+All eleven assignments remain Ready for November 3–10, assuming Sprint 1 completion. The scope below targets **2–2.5 hours per issue with AI assistance**, including validation and PR preparation. The meeting and handoff use the remainder of the **three-hour maximum weekly commitment**. If work exceeds that cap, record the remaining step and replan it; extra hours are not required.
 
-| Owner | Workstream | Issue | Builds on | Sprint 2 deliverable | Estimated effort |
+| Owner | Workstream | Issue | Builds on | Sprint 2 deliverable | Task effort |
 | --- | --- | --- | --- | --- | --- |
-| Nozhin | Backend | #58 | #26 glossary / PR #55 | Validated request/email/response models with tests. | 3–5 hours |
-| Sheraz | Backend | #59 | #25 health app / PR #53 | Working policy-decision endpoint, test setup, and API tests. | 4–6 hours |
-| Billy | Backend | #60 | #27 decision examples | Real allow/block/approval policy evaluator and tests. | 2–4 hours |
-| Naman | Full Stack / Frontend | #61 | #28 React shell / PR #56 | Activity component with loading/empty/error states. | 3–5 hours |
-| Barzin | Full Stack / Frontend | #62 | #29 accepted wireframes | Approval detail component with local decision callbacks. | 3–5 hours |
-| MD Tanzeem | Full Stack / Frontend | #63 | #35 user journeys | Shared types/mocks and integrated local dashboard flow. | 4–6 hours |
-| Erfan | AI/ML & Security | #64 | #31 accepted detector recommendation | Rule-based detector prototype, tests, and limitations. | 3–5 hours |
-| Sana | AI/ML & Security | #65 | Corrected #30 threat cases | Eight adversarial fixtures and a threat-to-test map. | 2–3 hours |
-| Pranoy | AI/ML & Security | #66 | Corrected #32 scenario format | Six base scenarios and a runnable policy benchmark. | 4–6 hours |
-| Nelavan | DevOps & Infrastructure | #67 | #33 PostgreSQL Compose | Backend container/Compose service and backend test/build CI. | 4–6 hours |
-| Trisha | DevOps & Infrastructure | #68 | #34 security guide | Frontend lint/tooling ownership and passing lint/type/build CI. | 2–4 hours |
+| Nozhin | Backend | #58 | #26 glossary / PR #55 | Request/email models and representative tests. | 2–2.5 hours |
+| Sheraz | Backend | #59 | #25 health app / PR #53 | Health/404 tests and repeatable dev test setup. | 2–2.5 hours |
+| Billy | Backend | #60 | #27 decision examples | First policy function and focused tests. | 2–2.5 hours |
+| Naman | Full Stack / Frontend | #61 | #28 React shell / PR #56 | Activity rows, View callback, and empty state. | 2–2.5 hours |
+| Barzin | Full Stack / Frontend | #62 | #29 accepted wireframes | Basic Approval panel and callbacks. | 2–2.5 hours |
+| MD Tanzeem | Full Stack / Frontend | #63 | #35 user journeys | Shared types and three mock requests. | 2–2.5 hours |
+| Erfan | AI/ML & Security | #64 | #31 detector recommendation | One combined-pattern detector and four tests. | 2–2.5 hours |
+| Sana | AI/ML & Security | #65 | Corrected #30 threat cases | Four adversarial fixtures and source mapping. | 2–2.5 hours |
+| Pranoy | AI/ML & Security | #66 | Corrected #32 scenario format | Four base cases and a single-file policy checker. | 2–2.5 hours |
+| Nelavan | DevOps & Infrastructure | #67 | #33 PostgreSQL Compose | Backend syntax/test CI and Compose config validation. | 2–2.5 hours |
+| Trisha | DevOps & Infrastructure | #68 | #34 security guide | Frontend type/build CI using existing commands. | 2–2.5 hours |
 
-## Effort estimates and Lead time
+These are planning estimates with a real stopping point. The eleven student tasks total 22–27.5 focused hours; meetings and handoff fit within the team's existing weekly availability. All issues retain the Sprint 1 description format, their original assignees, and clear completion checks.
 
-These are planning ranges for students using AI assistance and starting from completed Sprint 1 deliverables. They include implementation, learning/debugging, relevant tests, PR preparation, and routine review fixes. They exclude the 20–30 minute meeting, time waiting for another PR, and unusually large integration problems. They are estimates, not artificial task-size limits or guaranteed completion times.
+## Lead time
 
-Student implementation effort totals approximately **34–55 hours**. The original three-hour weekly commitment includes the meeting, leaving about 2.5 focused hours per student. Several expanded Sprint 2 assignments exceed that original availability even with AI assistance. Keep the full Ready commitments requested for this plan, record actual effort, and check availability at the November 3 meeting; the estimates make the added effort visible.
-
-| Lead work | Related issue | Estimated effort |
+| Lead work | Related issue | Budget |
 | --- | --- | --- |
-| Review the plan/contracts and verify assignments with Codex assistance | #57, already completed | 30–45 minutes |
-| Review eleven student PRs, answer interface questions, and coordinate merges | Ongoing Sprint 2 Lead responsibility | 3–5 hours |
+| Preparation/contracts/assigned-plan review with Codex | #57, already completed before Sprint 2 | 30–45 minutes already spent |
+| Batch PR reviews, interface questions, and merge coordination with Codex assistance | Ongoing Lead responsibility | About 2 hours during Sprint 2 |
 | Tuesday meeting | Team cadence | 20–30 minutes |
+| Blocker/handoff buffer | Weekly budget | Remaining time, up to a three-hour total week |
 
-The ongoing review estimate assumes focused PRs and use of the agreed interfaces. The preparation task is already Done; the 3–5 hours of review/coordination plus the meeting still belong to the sprint's Lead workload.
+Prioritize the shared models, policy, types, and test setup when reviewing. If the review queue reaches the weekly cap, record its order and continue in the next budget; do not waive checks or assume extra Lead hours.
 
-## Integration order and file ownership
+## Integration order and ownership
 
-1. At kickoff, confirm the interfaces above. Nozhin publishes schemas early, Billy publishes policy early, and Sheraz publishes the test setup before final endpoint integration. Start from the fixed contracts and merge the shared modules before final endpoint integration.
-2. MD Tanzeem publishes shared types/mocks early. Naman and Barzin own their component files and styles; MD Tanzeem owns `App.tsx`, selection, and local approval state. Temporary local component previews are useful, but only the integration task commits App changes.
-3. Trisha owns frontend dependency/lockfile and ESLint configuration changes. Component owners use those commands when available and coordinate minimal lint fixes. This avoids three conflicting package manifests.
-4. Sana and Pranoy agree the published fixture shape at kickoff and own separate files. The benchmark works on the base cases before the adversarial file merges, then is checked against the combined set.
-5. Nelavan extends the completed PostgreSQL Compose setup with the backend and adds test/build CI. Runtime requirements belong to Nozhin's model task; development test setup belongs to Sheraz. CI is merged only after the commands it invokes exist and pass.
-6. Merge focused PRs in dependency order and validate the combined result. All tasks remain Ready for planning; actual progress should be updated as contributors begin. Existing branch protection remains in effect, and new CI checks become required only once operational and reliable.
+1. Nozhin owns schemas and schema tests. Sheraz owns the development test manifest and health tests. Billy's pure policy function is independent of both, while Pranoy can draft the checker against its fixed interface.
+2. MD Tanzeem publishes shared types/mocks early. Naman and Barzin own their component files and can preview locally; committed App integration belongs to Sprint 3.
+3. Sana and Pranoy use the agreed scenario wrapper and separate files. Erfan owns detector code/tests and keeps its findings separate from policy decisions.
+4. Nelavan merges CI after Sheraz's real test commands exist; Trisha uses the existing frontend type/build commands now. No invented passing tests or changes to required branch checks are needed.
+5. Merge focused PRs in dependency order, update progress before Tuesday, and keep the whole weekly contribution at or below three hours. Sprint 1 completion remains the planning assumption; actual issue closure still requires reviewed evidence.
 
-The Lead reviews contributors' PRs and handles interface/merge blockers. Use `Closes #number`, include the requested validation evidence, and update issues before Tuesday's meeting. January/March stay focused on the same simulated-email system: Sprint 3 adds detector/API/dashboard integration, Sprint 4 adds persistence, and Sprint 5 reviews a working November slice. Redis, real providers, cloud deployment, and model training remain capacity-dependent later work.
+## Deferred work and milestone path
+
+The reduced task estimates come from moving these implementation steps into later weekly assignments:
+
+| Next work | Planned timing / workstream |
+| --- | --- |
+| Policy-decision endpoint, response model, and API tests | Sprint 3 Backend, using #58–#60 outputs. |
+| App selection/approval state and component integration | Sprint 3 Full Stack, using #61–#63 outputs. |
+| Loading/error/busy/reviewed states and layout polish | Sprint 3 onward Frontend. |
+| Wider detector patterns, normalization, and detector/API composition | Sprint 3 onward Backend + AI/ML & Security. |
+| Multi-file checker, fixture validation/reporting, and more scenarios | Sprint 3–5 AI/ML & Security; ten to twenty total by January MVP. |
+| Backend Docker/Compose service and image-build checks | Sprint 3 DevOps, after the backend foundation. |
+| ESLint setup and frontend lint CI | Sprint 3 DevOps. |
+| Storage models/migration, activity API wiring, and simulated executor integration | Sprint 4 onward; demonstrate the working subset at the November checkpoint. |
+
+At the November 10 planning meeting, turn the next steps into assignments sized within the same three-hour weekly cap. December stays light. January completes and stabilizes the local allow/block/approval flow with the required audit trail, and February–March hardens that same core for the final showcase. Deferred work stays visible without promising that every larger feature fits into a single week.
 
 ## Useful references
 

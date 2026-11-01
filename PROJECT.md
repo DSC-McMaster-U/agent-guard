@@ -1130,6 +1130,7 @@ A pull request is considered complete when:
 - Contributors update their issues before the meeting
 - Assign complete weekly deliverables based on prior results, using AI assistance where useful; keep code changes reviewable and leave time for validation/integration
 - Contributors should have no more than one main implementation issue in progress at a time
+- Each person's total weekly contribution is capped at three hours, including the meeting, testing, review preparation, and handoff; scope issues to about 2–2.5 focused hours with AI assistance
 
 The schedule assumes students have competing coursework, exams, and personal commitments. December is treated as a reduced-capacity maintenance period rather than a sequence of required sprints. Sprint numbering resumes with Sprint 6 on January 5. Unfinished work returns to planning instead of automatically carrying an unrealistic commitment into the next week.
 
@@ -1157,20 +1158,21 @@ If committed work finishes early, contributors may take target enhancement issue
 - Create the backend and frontend application skeletons.
 - Confirm local development, issue, branch, and review workflows.
 
-#### Sprint 2: First Working Prototypes
+#### Sprint 2: Foundations and First Components
 
-Sprint 2 runs November 3–10, 2026. Use the [assigned implementation plan and shared contracts](docs/sprints/sprint-2.md), assuming Sprint 1 deliverables are complete at kickoff. Every contributor has a defined implementation assignment built on their previous result. AI assistance supports the fuller prototype deliverables; the overall three-hour weekly capacity assumption still includes meeting, validation, review, and coordination.
+Sprint 2 runs November 3–10, 2026. Use the [assigned plan and shared contracts](docs/sprints/sprint-2.md), assuming Sprint 1 completion at kickoff. Each issue targets 2–2.5 hours with AI assistance, leaving time for the meeting and handoff within a maximum three-hour week per person.
 
-- Implement validated request/response models, deterministic policy, and the first policy-decision API.
-- Build the Activity/Approval components and integrate the three local dashboard journeys.
-- Implement the recommended prompt-injection prototype, reusable scenarios, and a policy benchmark.
-- Extend local Compose with the backend and add passing backend/frontend checks.
+- Implement request/email models, repeatable health tests, and the first policy function.
+- Build basic Activity/Approval components and shared mock data independently.
+- Implement a narrow detector, four base/four adversarial scenarios, and a simple policy checker.
+- Add backend test CI and frontend type/build CI using existing commands.
 
-#### Sprint 3: Integrate First Decisions
+#### Sprint 3: Connect the Foundations
 
-- Connect detector findings to the gateway without weakening deterministic policy blocks.
-- Connect dashboard requests to the decision API and verify the combined flow.
-- Develop the first approval-service slice and stabilize contracts, tests, and CI.
+- Add the policy-decision endpoint and API tests using the merged models and policy.
+- Integrate dashboard components with local selection/approval state and improve key UI states.
+- Extend the detector/checker and plan their composition with the gateway.
+- Add the backend Docker service and frontend linting. Split these steps across owners within the same three-hour weekly cap.
 
 #### Sprint 4: Persistence and Integration
 

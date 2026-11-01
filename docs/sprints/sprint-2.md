@@ -119,19 +119,33 @@ Pranoy's six base cases include the four corrected Sprint 1 examples plus two be
 
 All assignments below are Ready for November 3–10. Each is a complete prototype/module deliverable with tests or demonstration evidence. Completion of previous Sprint 1 work is the planning assumption for every student. Keep changes focused enough to review, and raise integration blockers early.
 
-| Owner | Workstream | Issue | Builds on | Sprint 2 deliverable |
-| --- | --- | --- | --- | --- |
-| Nozhin | Backend | #58 | #26 glossary / PR #55 | Validated request/email/response models with tests. |
-| Sheraz | Backend | #59 | #25 health app / PR #53 | Working policy-decision endpoint, test setup, and API tests. |
-| Billy | Backend | #60 | #27 decision examples | Real allow/block/approval policy evaluator and tests. |
-| Naman | Full Stack / Frontend | #61 | #28 React shell / PR #56 | Activity component with loading/empty/error states. |
-| Barzin | Full Stack / Frontend | #62 | #29 accepted wireframes | Approval detail component with local decision callbacks. |
-| MD Tanzeem | Full Stack / Frontend | #63 | #35 user journeys | Shared types/mocks and integrated local dashboard flow. |
-| Erfan | AI/ML & Security | #64 | #31 accepted detector recommendation | Rule-based detector prototype, tests, and limitations. |
-| Sana | AI/ML & Security | #65 | Corrected #30 threat cases | Eight adversarial fixtures and a threat-to-test map. |
-| Pranoy | AI/ML & Security | #66 | Corrected #32 scenario format | Six base scenarios and a runnable policy benchmark. |
-| Nelavan | DevOps & Infrastructure | #67 | #33 PostgreSQL Compose | Backend container/Compose service and backend test/build CI. |
-| Trisha | DevOps & Infrastructure | #68 | #34 security guide | Frontend lint/tooling ownership and passing lint/type/build CI. |
+| Owner | Workstream | Issue | Builds on | Sprint 2 deliverable | Estimated effort |
+| --- | --- | --- | --- | --- | --- |
+| Nozhin | Backend | #58 | #26 glossary / PR #55 | Validated request/email/response models with tests. | 3–5 hours |
+| Sheraz | Backend | #59 | #25 health app / PR #53 | Working policy-decision endpoint, test setup, and API tests. | 4–6 hours |
+| Billy | Backend | #60 | #27 decision examples | Real allow/block/approval policy evaluator and tests. | 2–4 hours |
+| Naman | Full Stack / Frontend | #61 | #28 React shell / PR #56 | Activity component with loading/empty/error states. | 3–5 hours |
+| Barzin | Full Stack / Frontend | #62 | #29 accepted wireframes | Approval detail component with local decision callbacks. | 3–5 hours |
+| MD Tanzeem | Full Stack / Frontend | #63 | #35 user journeys | Shared types/mocks and integrated local dashboard flow. | 4–6 hours |
+| Erfan | AI/ML & Security | #64 | #31 accepted detector recommendation | Rule-based detector prototype, tests, and limitations. | 3–5 hours |
+| Sana | AI/ML & Security | #65 | Corrected #30 threat cases | Eight adversarial fixtures and a threat-to-test map. | 2–3 hours |
+| Pranoy | AI/ML & Security | #66 | Corrected #32 scenario format | Six base scenarios and a runnable policy benchmark. | 4–6 hours |
+| Nelavan | DevOps & Infrastructure | #67 | #33 PostgreSQL Compose | Backend container/Compose service and backend test/build CI. | 4–6 hours |
+| Trisha | DevOps & Infrastructure | #68 | #34 security guide | Frontend lint/tooling ownership and passing lint/type/build CI. | 2–4 hours |
+
+## Effort estimates and Lead time
+
+These are planning ranges for students using AI assistance and starting from completed Sprint 1 deliverables. They include implementation, learning/debugging, relevant tests, PR preparation, and routine review fixes. They exclude the 20–30 minute meeting, time waiting for another PR, and unusually large integration problems. They are estimates, not artificial task-size limits or guaranteed completion times.
+
+Student implementation effort totals approximately **34–55 hours**. The original three-hour weekly commitment includes the meeting, leaving about 2.5 focused hours per student. Several expanded Sprint 2 assignments exceed that original availability even with AI assistance. Keep the full Ready commitments requested for this plan, record actual effort, and check availability at the November 3 meeting; the estimates make the added effort visible.
+
+| Lead work | Related issue | Estimated effort |
+| --- | --- | --- |
+| Review the plan/contracts and verify assignments with Codex assistance | #57, already completed | 30–45 minutes |
+| Review eleven student PRs, answer interface questions, and coordinate merges | Ongoing Sprint 2 Lead responsibility | 3–5 hours |
+| Tuesday meeting | Team cadence | 20–30 minutes |
+
+The ongoing review estimate assumes focused PRs and use of the agreed interfaces. The preparation task is already Done; the 3–5 hours of review/coordination plus the meeting still belong to the sprint's Lead workload.
 
 ## Integration order and file ownership
 

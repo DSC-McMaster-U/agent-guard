@@ -1,5 +1,7 @@
 # Tool-Call Contract
 
+The [Sprint 2 handoff](sprints/sprint-2.md#shared-request-contract) resolves the initial assumptions and open questions below for the local demo. Use those decisions when implementing the models and API; this document preserves the Sprint 1 glossary and its original rationale.
+
 A normalized tool call is the standard JSON format AgentGuard uses to describe an action an AI agent wants to take, before that action runs. Using this format, every request has the same set of fields, no matter which agent sent it. AgentGuard's policies and security checks use these fields to allow the action, block it, or send it to a person for approval.
 
 

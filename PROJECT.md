@@ -234,7 +234,7 @@ The active development period runs from late October through the end of March. T
 
 Sprint 1 starts Tuesday, October 27, 2026. Sprints 1–5 run through the November progress checkpoint; December is a reduced-capacity maintenance period without required weekly sprints. Sprints 6–9 run from January 5 through February 1, targeting a late-January local MVP. The fall showcase is scheduled for January, but the exact date is unannounced; if it is early, show the validated subset available then. Sprints 10–16 harden the product through March 22. Sprint 17 is a stabilization and rehearsal buffer, and Sprint 18 begins March 30 for the final showcase and `v0.1` release wrap-up. Prepare a release candidate by the end of Sprint 16 so an end-of-March event does not depend on last-week implementation. The exact final showcase date is unannounced. Both demos can run locally with Docker Compose; hosted deployment is optional.
 
-This is a capacity plan, not a promise of feature completion. Twelve people at about three hours each provide roughly 36 team-hours in an active week; the meeting alone uses about six of those hours, before reviews, onboarding, and absences. Keep contributor issues small, reserve the Project Lead's time for integration and PR review, and revisit scope at every Tuesday meeting. If the January event is announced for early in the month, freeze and rehearse the November working slice instead of counting on unfinished January features. If any safe, blocked, or approval-required path is still unstable after Sprint 8, prioritize that path over optional polish or infrastructure.
+This is a capacity plan, not a promise of feature completion. Twelve people at about three hours each provide roughly 36 team-hours in an active week; the meeting alone uses about six of those hours, before reviews, onboarding, and absences. Assign complete weekly prototype/module deliverables, reserve the Project Lead's time for integration and PR review, and revisit progress at every Tuesday meeting. If the January event is announced for early in the month, freeze and rehearse the November working slice instead of counting on unfinished January features. If any safe, blocked, or approval-required path is still unstable after Sprint 8, prioritize that path over optional polish or infrastructure.
 
 ### Milestone 1: Foundations and Onboarding
 
@@ -280,7 +280,7 @@ This is a capacity plan, not a promise of feature completion. Twelve people at a
 
 - Review the implemented API, policy, detector, and interface prototypes together.
 - Demonstrate whichever safe, blocked, or approval-required paths are already working.
-- Identify integration gaps and split them into small January issues.
+- Identify integration gaps and split them into scoped January integration issues.
 - Document the current local setup and known limitations.
 
 ### Milestone 5: January MVP Integration and Demonstration
@@ -1062,7 +1062,7 @@ These are the current 11 contributor roles plus one Project Lead. Full Stack is 
 
 ### Full-Stack and Flexible Contributors
 
-- Take small issues across Frontend and Backend.
+- Take implementation issues across Frontend and Backend.
 - Help connect API responses to dashboard views.
 - Add integration tests and developer documentation.
 - Support another workstream when it has a short-term capacity gap.
@@ -1085,7 +1085,7 @@ These are the current 11 contributor roles plus one Project Lead. Full Stack is 
 - Monthly project demonstration
 - Additional technical workshops during onboarding when needed
 
-Each contributor should normally receive one issue or sub-issue sized for one to three hours of work. Larger tasks should be divided across weeks or contributors. Meetings should focus on decisions, blockers, and coordination rather than lengthy status reports.
+Each contributor should normally own one complete weekly deliverable with clear acceptance criteria and coordination points. Use the previous sprint's results to choose the next implementation step; divide work at useful module boundaries when needed. Meetings should focus on decisions, blockers, and coordination rather than lengthy status reports.
 
 ### In-Person Sessions
 
@@ -1128,7 +1128,7 @@ A pull request is considered complete when:
 - Standard sprint length: one week
 - Each sprint ends with a 20–30 minute review, blocker discussion, and planning meeting
 - Contributors update their issues before the meeting
-- Tasks should normally fit within one to three hours and be divided when they are larger
+- Assign complete weekly deliverables based on prior results, using AI assistance where useful; keep code changes reviewable and leave time for validation/integration
 - Contributors should have no more than one main implementation issue in progress at a time
 
 The schedule assumes students have competing coursework, exams, and personal commitments. December is treated as a reduced-capacity maintenance period rather than a sequence of required sprints. Sprint numbering resumes with Sprint 6 on January 5. Unfinished work returns to planning instead of automatically carrying an unrealistic commitment into the next week.
@@ -1157,19 +1157,20 @@ If committed work finishes early, contributors may take target enhancement issue
 - Create the backend and frontend application skeletons.
 - Confirm local development, issue, branch, and review workflows.
 
-#### Sprint 2: Contracts and Designs
+#### Sprint 2: First Working Prototypes
 
-Sprint 2 runs November 3–10, 2026. Use the [assigned task plan and shared contracts](docs/sprints/sprint-2.md); finish or replan remaining Sprint 1 work before taking a conditional follow-up. Keep time for the meeting, review, and handoff within each person's three-hour week.
+Sprint 2 runs November 3–10, 2026. Use the [assigned implementation plan and shared contracts](docs/sprints/sprint-2.md), assuming Sprint 1 deliverables are complete at kickoff. Every contributor has a defined implementation assignment built on their previous result. AI assistance supports the fuller prototype deliverables; the overall three-hour weekly capacity assumption still includes meeting, validation, review, and coordination.
 
-- Define the normalized tool-call schema and API contract.
-- Complete approval and activity wireframes.
-- Define the initial threat cases and benchmark format.
+- Implement validated request/response models, deterministic policy, and the first policy-decision API.
+- Build the Activity/Approval components and integrate the three local dashboard journeys.
+- Implement the recommended prompt-injection prototype, reusable scenarios, and a policy benchmark.
+- Extend local Compose with the backend and add passing backend/frontend checks.
 
-#### Sprint 3: First Decisions
+#### Sprint 3: Integrate First Decisions
 
-- Implement allow, block, and approval-required policy outcomes.
-- Build the first detector prototype.
-- Build the approval interface with representative mock data.
+- Connect detector findings to the gateway without weakening deterministic policy blocks.
+- Connect dashboard requests to the decision API and verify the combined flow.
+- Develop the first approval-service slice and stabilize contracts, tests, and CI.
 
 #### Sprint 4: Persistence and Integration
 
@@ -1183,7 +1184,7 @@ Sprint 2 runs November 3–10, 2026. Use the [assigned task plan and shared cont
 - Show the working gateway, policy, detector, and interface pieces.
 - Add the first benchmark fixtures and component tests.
 - Document what runs end to end and what is still mocked or incomplete.
-- Split January integration gaps into small issues for each workstream.
+- Assign January integration gaps to the relevant workstreams with clear completion criteria.
 - Keep December work optional and focused on setup, tests, and fixes.
 
 ### January MVP
@@ -1301,11 +1302,11 @@ Target enhancements are pulled into a weekly sprint only when the committed spri
 
 ### Sprint Issues
 
-Select defined issues from **Ready**. Each contributor normally takes one issue estimated at one to three hours, including handoff and review preparation.
+Select defined issues from **Ready**. Each contributor normally owns one complete weekly deliverable, chosen from the previous sprint's results and the project milestones. Record dependencies and leave room for handoff, validation, review, and the meeting.
 
 | GitHub issue | Workstream | Estimated hours | Assignee | Status |
 | --- | --- | --- | --- | --- |
-| Link to issue | Frontend / Backend / AI/ML & Security / DevOps & Infrastructure | 1–3 | TBD | Ready |
+| Link to issue | Frontend / Backend / AI/ML & Security / DevOps & Infrastructure | Team estimate | TBD | Ready |
 
 ### Sprint Review Questions
 

@@ -1159,6 +1159,8 @@ If committed work finishes early, contributors may take target enhancement issue
 
 #### Sprint 2: Contracts and Designs
 
+Sprint 2 runs November 3–10, 2026. Use the [assigned task plan and shared contracts](docs/sprints/sprint-2.md); finish or replan remaining Sprint 1 work before taking a conditional follow-up. Keep time for the meeting, review, and handoff within each person's three-hour week.
+
 - Define the normalized tool-call schema and API contract.
 - Complete approval and activity wireframes.
 - Define the initial threat cases and benchmark format.

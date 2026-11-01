@@ -95,7 +95,7 @@ Discord is the primary communication channel. GitHub Issues remain the source of
 
 ## Continuous Integration
 
-The current repository contains project documentation, so CI performs repository integrity checks on pull requests and pushes to `main`. As implementation is added, CI should be expanded only when the matching dependency manifest and configuration exist:
+The current required CI check is Repository integrity, which checks committed files for whitespace errors on pull requests and pushes to `main`. Backend and frontend scaffolds now exist; component checks are planned in the [Sprint 2 handoff](docs/sprints/sprint-2.md). Expand CI only when the matching dependency manifest and commands exist:
 
 - Python: Ruff, Pytest, and import or syntax checks.
 - React and TypeScript: TypeScript type checking, ESLint, tests, and a production build.

@@ -186,6 +186,29 @@ Production GKE hardening, Google Secret Manager, complete monitoring dashboards,
 
 
 
+## Local PostgreSQL
+
+Requires Docker with Docker Compose.
+
+```bash
+cp .env.example .env
+docker compose up -d db
+```
+
+Then run `docker compose ps` and check that `db` shows `healthy`.
+
+| Command | What it does |
+| --- | --- |
+| `docker compose up -d db` | Start PostgreSQL in the background |
+| `docker compose ps` | Show whether `db` is `healthy` |
+| `docker compose down` | Stop PostgreSQL and keep its data |
+| `docker compose down -v` | Stop PostgreSQL and delete its data |
+
+Connect with `postgresql://agentguard:agentguard_dev@localhost:5432/agentguard`. Other Compose services use host `db` instead of `localhost`.
+
+
+
+
 ## Contributors
 
 | Name | Role | GitHub | Notable Contributions |

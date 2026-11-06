@@ -1,0 +1,83 @@
+.approval-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 28rem;
+}
+
+.approval-card {
+  /* Light panels so the wireframe's white cards read in both color schemes. */
+  background: #fff;
+  color: #111;
+  border-radius: 4px;
+  padding: 1rem 1.5rem;
+}
+
+.approval-card p,
+.approval-card h3 {
+  margin: 0;
+}
+
+.approval-card-request h3 {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.approval-card .approval-details-agent {
+  margin: 1rem 0 0 1rem;
+}
+
+.approval-details-action {
+  margin: 1rem 0 0 3rem;
+}
+
+.approval-details-action p + p {
+  margin-top: 0.5rem;
+}
+
+.approval-details-body {
+  white-space: pre-wrap;
+}
+
+.approval-card-tools {
+  align-self: flex-start;
+  min-width: 14rem;
+}
+
+.approval-card .approval-details-tool {
+  margin-left: 1.5rem;
+}
+
+.approval-card-decision {
+  text-align: center;
+}
+
+.approval-details-prompt {
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.approval-details-status {
+  margin-top: 0.5rem;
+}
+
+.approval-details-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.approval-details-actions button {
+  padding: 0.5rem 1.25rem;
+  font: inherit;
+  color: #111;
+  background: #d3d3d3;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.approval-details-note {
+  margin: 0;
+  font-size: 0.875rem;
+  opacity: 0.8;
+}

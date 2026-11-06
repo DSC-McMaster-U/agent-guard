@@ -23,7 +23,7 @@
   font-weight: 400;
 }
 
-.approval-details-agent {
+.approval-card .approval-details-agent {
   margin: 1rem 0 0 1rem;
 }
 
@@ -44,7 +44,7 @@
   min-width: 14rem;
 }
 
-.approval-details-tool {
+.approval-card .approval-details-tool {
   margin-left: 1.5rem;
 }
 

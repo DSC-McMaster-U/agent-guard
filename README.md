@@ -204,7 +204,7 @@ Then run `docker compose ps` and check that `db` shows `healthy`.
 | `docker compose down` | Stop PostgreSQL and keep its data |
 | `docker compose down -v` | Stop PostgreSQL and delete its data |
 
-Connect with `postgresql://agentguard:agentguard_dev@localhost:5432/agentguard`. Other Compose services use host `db` instead of `localhost`.
+The published database port is bound to `127.0.0.1` for local development. Connect with `postgresql://agentguard:agentguard_dev@localhost:5432/agentguard`. Other Compose services use host `db` instead of `localhost`.
 
 
 

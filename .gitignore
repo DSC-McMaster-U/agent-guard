@@ -8,3 +8,6 @@ venv/
 
 # OS files
 .DS_Store
+
+# Local environment
+.env

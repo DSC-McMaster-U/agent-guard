@@ -10,8 +10,28 @@ Navigate to the `backend/` directory.
 
 ## Installation
 
+Create and activate a virtual environment:
+
 ```bash
-pip install -r requirements.txt
+python -m venv venv
+```
+
+Windows:
+
+```powershell
+venv\Scripts\activate
+```
+
+macOS/Linux:
+
+```bash
+source venv/bin/activate
+```
+
+Install dependencies (runtime and test tools):
+
+```bash
+python -m pip install -r requirements-dev.txt
 ```
 
 ## Running the App
@@ -22,7 +42,13 @@ python -m uvicorn app.main:app --reload
 
 ## Testing
 
-Visit `http://127.0.0.1:8000/health` in a browser (with the app running) to confirm the `/health` endpoint. Expected response:
+Run the automated tests from `backend/` (no running server, Docker, or database needed):
+
+```bash
+python -m pytest
+```
+
+Manual check: with the app running (see above), visit `http://127.0.0.1:8000/health` in a browser. Expected response:
 
 ```json
 {"status": "ok"}

@@ -105,3 +105,28 @@ def test_unchanged_result_is_a_copy():
     result = combine_decision(BLOCK, [])
     assert result == BLOCK
     assert result is not BLOCK
+
+
+@pytest.mark.parametrize("value", [[], {}])
+def test_unhashable_policy_decision_blocks(value):
+    assert combine_decision({"decision": value, "reason": "Invalid."}, []) == {
+        "decision": "block", "reason": INVALID_POLICY_REASON,
+    }
+
+
+@pytest.mark.parametrize("value", [[], {}])
+def test_unhashable_severity_requires_review(value):
+    assert combine_decision(ALLOW, [finding(value)]) == {
+        "decision": "approval_required", "reason": UNKNOWN_SEVERITY_REASON,
+    }
+
+
+@pytest.mark.parametrize("value", [[], {}])
+@pytest.mark.parametrize("high_first", [True, False])
+def test_high_and_unhashable_severity_keep_high_reason(value, high_first):
+    findings = [finding("high"), finding(value)]
+    if not high_first:
+        findings.reverse()
+    assert combine_decision(ALLOW, findings) == {
+        "decision": "approval_required", "reason": SECURITY_REVIEW_REASON,
+    }

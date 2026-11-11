@@ -57,6 +57,7 @@ def combine_decision(policy_result: Any, findings: Any) -> PolicyResult:
 def _is_valid_policy(policy_result: Any) -> bool:
     return (
         isinstance(policy_result, Mapping)
+        and isinstance(policy_result.get("decision"), str)
         and policy_result.get("decision") in DECISIONS
         and isinstance(policy_result.get("reason"), str)
     )
@@ -70,6 +71,8 @@ def _severities(findings: Any) -> set[Any]:
     if not isinstance(findings, (list, tuple)):
         return {None}
     return {
-        finding.get("severity") if isinstance(finding, Mapping) else None
+        finding.get("severity")
+        if isinstance(finding, Mapping) and isinstance(finding.get("severity"), str)
+        else None
         for finding in findings
     }

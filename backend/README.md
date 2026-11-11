@@ -48,6 +48,8 @@ Run the automated tests from `backend/` (no running server, Docker, or database 
 python -m pytest
 ```
 
+CI runs the same checks on pull requests to `main` and pushes to `main` (see `.github/workflows/backend-checks.yml`): `python -m compileall -q app`, `python -m pytest`, and `docker compose --env-file .env.example config --quiet` from the repository root.
+
 Manual check: with the app running (see above), visit `http://127.0.0.1:8000/health` in a browser. Expected response:
 
 ```json

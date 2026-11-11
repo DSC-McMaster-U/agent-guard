@@ -16,13 +16,26 @@
   letter-spacing: 0.03em;
 }
 
-.activity-list button {
+.activity-filter {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.activity-list button,
+.activity-filter button {
   font: inherit;
   padding: 0.25rem 0.75rem;
   cursor: pointer;
 }
 
-.activity-list button:focus-visible {
+.activity-filter button[aria-pressed='true'] {
+  font-weight: 600;
+  outline: 2px solid #4a90e2;
+}
+
+.activity-list button:focus-visible,
+.activity-filter button:focus-visible {
   outline: 2px solid #4a90e2;
   outline-offset: 2px;
 }

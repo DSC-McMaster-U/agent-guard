@@ -4,6 +4,7 @@ Thank you for contributing to AgentGuard. This guide describes how our team plan
 
 ## Before You Start
 
+- Follow [Start here](docs/getting-started.md) for workstream setup, common fixes, and a short handoff template.
 - Join the project Discord channel for announcements and questions.
 - Read the [README](README.md) for an overview and [project plan](PROJECT.md) for the architecture and scope.
 - Open the [AgentGuard Development project](https://github.com/orgs/DSC-McMaster-U/projects/22) and find an issue in **Ready**.
@@ -95,10 +96,17 @@ Discord is the primary communication channel. GitHub Issues remain the source of
 
 ## Continuous Integration
 
-The current required CI check is Repository integrity, which checks committed files for whitespace errors on pull requests and pushes to `main`. Backend and frontend scaffolds now exist; component checks are planned in the [Sprint 2 handoff](docs/sprints/sprint-2.md). Expand CI only when the matching dependency manifest and commands exist:
+Current workflows run on pull requests to `main` and pushes to `main`:
 
-- Python: Ruff, Pytest, and import or syntax checks.
-- React and TypeScript: TypeScript type checking, ESLint, tests, and a production build.
-- Docker: image build validation for committed Dockerfiles.
+- **Repository integrity:** committed-file whitespace checks (currently required by branch protection).
+- **Backend checks:** Python 3.14 syntax checks and pytest from `backend/`, plus Compose configuration validation from the repository root.
+- **Frontend checks:** Node.js 24, `npm ci`, TypeScript checks, and production build from `frontend/`.
+
+Evaluation tests currently run separately using the commands in
+[evaluation/README.md](evaluation/README.md); #110 tracks adding them to CI.
+Frontend lint and component tests, and Docker image-build checks, should be added
+when their tools and files exist. See the [dated checkpoint](docs/sprints/sprint-3-checkpoint.md)
+for the verified implementation state. An optional skipped check is not evidence
+that its underlying behavior was tested.
 
 New checks must pass reliably before they become required branch protection checks.

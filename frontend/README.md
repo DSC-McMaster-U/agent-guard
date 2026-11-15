@@ -5,11 +5,11 @@ React and TypeScript dashboard for AgentGuard, built with Vite.
 
 ## Setup
 
-Requires Node.js 20.19+ or 22.12+.
+Use Node.js 24 to match CI. Vite also supports Node.js 20.19+ or 22.12+.
 
 ```bash
 cd frontend
-npm install
+npm ci
 npm start
 ```
 

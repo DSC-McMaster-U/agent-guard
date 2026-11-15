@@ -1,6 +1,6 @@
 # Tool-Call Contract
 
-The [Sprint 2 handoff](sprints/sprint-2.md#shared-request-contract) resolves the initial assumptions and open questions below for the local demo. Use those decisions when implementing the models and API; this document preserves the Sprint 1 glossary and its original rationale.
+This glossary describes the current local-demo contract. The [Pydantic models](../backend/app/schemas.py) and [email validation helper](../backend/app/validation.py) implement it; the [Sprint 2 handoff](sprints/sprint-2.md#shared-request-contract) records the design decisions. The HTTP endpoint is tracked separately in [#83](https://github.com/DSC-McMaster-U/agent-guard/issues/83).
 
 A normalized tool call is the standard JSON format AgentGuard uses to describe an action an AI agent wants to take, before that action runs. Using this format, every request has the same set of fields, no matter which agent sent it. AgentGuard's policies and security checks use these fields to allow the action, block it, or send it to a person for approval.
 
@@ -19,13 +19,26 @@ A normalized tool call is the standard JSON format AgentGuard uses to describe a
 | `trigger_source` | What led the agent to make this call and how much it can be trusted, such as a direct user instruction (`trusted`) | No |
 
 
-## Assumptions
+## Agreed validation rules
 
-- **Field names:** In issue #26, the two fields are mentioned as "original user task" and "tool name". I used `original_goal` and `tool` to match the example in PROJECT.md.
-- **Required fields:** PROJECT.md doesn't say which fields are required, so I marked the six fields named in issue #26 as required. I also made `session_id` required, because the session trace endpoints and session-based policies in PROJECT.md depend on it. `trigger_source` appears in the PROJECT.md example but wasn't in the issue's list, so I left it optional for now.
-- **Arguments:** `arguments` is an object, and its keys depend on the tool. For `email.send` they are `recipient`, `subject`, and `body`. The PROJECT.md example doesn't include `body`, but the MVP scope section lists it, so I included it in the examples.
-- **Request ID:** It isn't decided whether the agent or AgentGuard creates `request_id`. I assumed the agent sends it with each request, which is why it's marked required. If AgentGuard ends up generating it instead, it would come back in the response rather than being required in the request.
-
+- The demo caller supplies `request_id`; `session_id` groups related requests.
+  Neither ID nor a caller-supplied `agent_id` authenticates a user or agent.
+- The seven required fields are listed above. Unknown top-level request keys are
+  rejected. `arguments` is an object so unsupported tools can reach policy and be
+  blocked without pretending their arguments are email arguments.
+- For `email.send`, validate `arguments` separately with `EmailSendArguments` (or
+  `validate_email_arguments`). It requires a valid recipient, subject (1–200
+  characters), and body (1–10,000 characters); extra keys such as `cc` are rejected.
+  The demo has no attachment support.
+- Missing `trigger_source` defaults to type/trust_level `unknown` and empty
+  content. Explicit `null` is also accepted; callers of the model must handle it.
+  Supported source types are `user_instruction`, `untrusted_email_body`,
+  `untrusted_webpage`, `untrusted_document`, `tool_result`, and `unknown`.
+  Trust levels are `trusted`, `untrusted`, and `unknown`; source content is limited
+  to 10,000 characters. Caller-provided trust must never bypass policy.
+- Models raise Pydantic `ValidationError`. The planned HTTP route translates
+  invalid payloads to FastAPI's normal `422` detail array. Unsupported tools are
+  policy blocks, not email-shape validation errors.
 
 ## Valid Example
 
@@ -40,7 +53,7 @@ A normalized tool call is the standard JSON format AgentGuard uses to describe a
   "arguments": {
     "recipient": "lead@example.com",
     "subject": "Approved Report",
-    "body": "Hi, please see the report attached."
+    "body": "Hi, here is the fictional report summary."
   },
   "trigger_source": {
     "type": "user_instruction",
@@ -62,7 +75,7 @@ A normalized tool call is the standard JSON format AgentGuard uses to describe a
   "arguments": {
     "recipient": "lead@example.com",
     "subject": "Approved Report",
-    "body": "Hi, please see the report attached."
+    "body": "Hi, here is the fictional report summary."
   },
   "trigger_source": {
     "type": "user_instruction",
@@ -72,19 +85,19 @@ A normalized tool call is the standard JSON format AgentGuard uses to describe a
 ```
 
 - **Why it's invalid:** `user_id` is a required field, but it's missing from this request.
-- **Expected API response:** `422 Unprocessable Entity`, with an error that names the missing field. Below is an example error response, though the exact format has not been decided yet:
+- **Planned HTTP response:** `422 Unprocessable Entity`, using FastAPI's normal
+  validation detail array identifying `body.user_id`. The HTTP endpoint must be
+  implemented before this can be tested as a live request. At the model layer,
+  `ToolCallRequest.model_validate(...)` raises `ValidationError` now.
 
-```json
-{
-  "error": "validation_error",
-  "field": "user_id",
-  "message": "user_id is required."
-}
-```
+## Decision response
 
+`ToolCallSummary` matches the [frontend summary type](../frontend/src/types/toolCall.ts):
+`request_id`, `agent_id`, `tool`, `arguments`, `decision`, `reason`, `timestamp`,
+and `approval_status`. Decisions are `allow`, `block`, or `approval_required`.
+Approval status is `not_required`, `pending`, `approved`, or `denied`. Timestamps
+must be timezone-aware and serialize in UTC. Initial evaluated decisions use
+`pending` only for `approval_required`, and `not_required` otherwise.
 
-## Open Questions for Sprint 2
-
-1. **What should validation errors look like?** Should we keep FastAPI's default `422` error format, or define our own simpler one with the field name and a message, like the example above?
-2. **Where are each tool's arguments defined?** PROJECT.md says every tool will have a tool definition with an input schema. Should the gateway check `arguments` against that definition, and reject any keys it doesn't list?
-3. **Should `trigger_source` be required, and what values can it have?** PROJECT.md lists possible trust levels, such as untrusted email or webpage, but the exact values for `type` and `trust_level` are not clear.
+These models define data, not approval persistence or execution. See the
+[dated checkpoint](sprints/sprint-3-checkpoint.md) for current implementation limits.

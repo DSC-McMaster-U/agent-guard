@@ -28,6 +28,8 @@
 
 
 <!-- ABOUT THE PROJECT -->
+New contributor? Follow [Start here](docs/getting-started.md). See the [dated implementation checkpoint](docs/sprints/sprint-3-checkpoint.md) for what currently runs.
+
 ## About The Project
 
 AgentGuard is an open-source security gateway for AI agents that interact with external tools such as email services, databases, file systems, APIs, code execution environments, and Model Context Protocol servers.
@@ -182,6 +184,29 @@ The committed release includes:
 Capacity-dependent target enhancements include Redis workers, a Risk Orchestrator, one real API or basic MCP integration, basic telemetry, and a hosted demonstration.
 
 Production GKE hardening, Google Secret Manager, complete monitoring dashboards, and advanced security workers remain stretch goals.
+
+
+
+
+## Local PostgreSQL
+
+Requires Docker with Docker Compose.
+
+```bash
+cp .env.example .env
+docker compose up -d db
+```
+
+Then run `docker compose ps` and check that `db` shows `healthy`.
+
+| Command | What it does |
+| --- | --- |
+| `docker compose up -d db` | Start PostgreSQL in the background |
+| `docker compose ps` | Show whether `db` is `healthy` |
+| `docker compose down` | Stop PostgreSQL and keep its data |
+| `docker compose down -v` | Stop PostgreSQL and delete its data |
+
+The published database port is bound to `127.0.0.1` for local development. Connect with `postgresql://agentguard:agentguard_dev@localhost:5432/agentguard`. Other Compose services use host `db` instead of `localhost`.
 
 
 

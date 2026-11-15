@@ -1,6 +1,9 @@
+from datetime import timezone
 from typing import Any, Literal
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import AwareDatetime, BaseModel, EmailStr, Field, field_validator
+
+from app.policy import Decision
 
 
 class TriggerSource(BaseModel):
@@ -35,3 +38,21 @@ class EmailSendArguments(BaseModel):
     recipient: EmailStr
     subject: str = Field(min_length=1, max_length=200)
     body: str = Field(min_length=1, max_length=10000)
+
+
+class ToolCallSummary(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    request_id: str
+    agent_id: str
+    tool: str
+    arguments: dict[str, Any]
+    decision: Decision
+    reason: str
+    timestamp: AwareDatetime
+    approval_status: Literal["not_required", "pending", "approved", "denied"]
+
+    @field_validator("timestamp")
+    @classmethod
+    def convert_timestamp_to_utc(cls, value):
+        return value.astimezone(timezone.utc)

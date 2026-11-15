@@ -60,6 +60,9 @@ Common types are `feature`, `fix`, `docs`, `test`, and `chore`. Use lowercase wo
 - Pull requests authored by the Project Lead may be merged by the Project Lead after all required checks pass.
 - Respond respectfully and constructively to code review feedback.
 
+For private vulnerability reports and accidental secret exposure, follow
+[SECURITY.md](SECURITY.md).
+
 ## Development Expectations
 
 - Never commit API keys, passwords, access tokens, private keys, or other secrets.

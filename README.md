@@ -28,6 +28,8 @@
 
 
 <!-- ABOUT THE PROJECT -->
+New contributor? Follow [Start here](docs/getting-started.md). See the [dated implementation checkpoint](docs/sprints/sprint-3-checkpoint.md) for what currently runs.
+
 ## About The Project
 
 AgentGuard is an open-source security gateway for AI agents that interact with external tools such as email services, databases, file systems, APIs, code execution environments, and Model Context Protocol servers.

@@ -1,6 +1,7 @@
+from datetime import timezone
 from typing import Any, Literal
 
-from pydantic import AwareDatetime, BaseModel, EmailStr, Field
+from pydantic import AwareDatetime, BaseModel, EmailStr, Field, field_validator
 
 from app.policy import Decision
 
@@ -50,3 +51,8 @@ class ToolCallSummary(BaseModel):
     reason: str
     timestamp: AwareDatetime
     approval_status: Literal["not_required", "pending", "approved", "denied"]
+
+    @field_validator("timestamp")
+    @classmethod
+    def convert_timestamp_to_utc(cls, value):
+        return value.astimezone(timezone.utc)

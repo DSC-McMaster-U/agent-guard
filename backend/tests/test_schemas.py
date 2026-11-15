@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import pytest
 from pydantic import ValidationError
@@ -105,3 +105,10 @@ def test_invalid_approval_status_is_rejected():
     data["approval_status"] = "unknown"
     with pytest.raises(ValidationError):
         ToolCallSummary(**data)
+
+
+def test_non_utc_timestamp_is_converted_to_utc():
+    data = valid_summary()
+    data["timestamp"] = datetime(2026, 11, 3, 13, 0, tzinfo=timezone(timedelta(hours=-5)))
+    summary = ToolCallSummary(**data)
+    assert summary.model_dump(mode="json")["timestamp"] == "2026-11-03T18:00:00Z"

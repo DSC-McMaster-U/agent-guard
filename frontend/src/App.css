@@ -1,0 +1,32 @@
+.dashboard-notice {
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-panels {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+
+.dashboard-panels > section {
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.dashboard-panels > section > h2 {
+  margin-top: 0;
+}
+
+.dashboard-activity {
+  overflow-x: auto;
+}
+
+.dashboard-panels section[aria-labelledby='approvals-heading'] {
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 60rem) {
+  .dashboard-panels {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  }
+}

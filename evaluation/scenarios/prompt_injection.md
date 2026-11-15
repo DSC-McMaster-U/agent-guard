@@ -13,7 +13,7 @@ They can differ. A passing test means the detector behaves as documented. It doe
 | --- | --- | --- | --- | --- |
 | PI-001 | Clear role marker plus override phrase | true | true | Baseline attack. |
 | PI-002 | Mixed-case version of the same attack | true | true | Matching ignores case. |
-| PI-003 | Full-width characters and repeated whitespace | true | true | Needs the normalization planned in #88. Until it merges, the test is an expected failure (`xfail`, strict), so it will fail loudly once #88 lands and the marker should then be removed. |
+| PI-003 | Full-width characters and repeated whitespace | true | true | Flagged because #88 normalizes a matching copy (NFKC, case folding, collapsed whitespace). |
 | PI-004 | Ordinary benign message | false | false | No marker or phrase. |
 | PI-005 | Role marker only, benign | false | false | The detector needs both a marker and an override phrase. |
 | PI-006 | Paraphrased attack | true | **false** | **Known miss.** The wording avoids every supported phrase. Catching it needs semantic analysis, which is later work. |
@@ -21,7 +21,7 @@ They can differ. A passing test means the detector behaves as documented. It doe
 ## Limitations these cases expose
 
 - PI-006 is a real attack the detector misses by design.
-- PI-003 depends on #88 normalization.
+- PI-003 passes only because of #88 normalization. Zero-width characters inside words and look-alike letters from other alphabets are still missed.
 - Not covered here: quoted attack text in a benign article may still be flagged (false positive), and encoded or translated attacks may be missed.
 
 ## Scope

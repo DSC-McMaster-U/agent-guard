@@ -48,3 +48,18 @@ The three mock requests demonstrate:
 These shared types and mocks are intended for the ActivityList and ApprovalDetails components.
 
 All mock requests are simulated. No actual emails are sent.
+
+## Continuous integration
+
+The `Frontend checks` workflow runs on pull requests to `main` and pushes to
+`main`. It uses Node.js 24, caches npm downloads using `package-lock.json`, and
+runs these commands from `frontend/`:
+
+```bash
+npm ci
+npm run typecheck
+npm run build
+```
+
+Run the same commands before opening a PR. A failed install, type check, or build
+fails the CI job. This validates the local dashboard; it does not deploy it.

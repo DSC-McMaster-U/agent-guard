@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: 1rem;
   max-width: 28rem;
+  min-width: 0;
 }
 
 .approval-card {
@@ -11,6 +12,8 @@
   color: #111;
   border-radius: 4px;
   padding: 1rem 1.5rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .approval-card p,
@@ -23,12 +26,23 @@
   font-weight: 400;
 }
 
-.approval-card .approval-details-agent {
+.approval-details-meta {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.25rem 1rem;
   margin: 1rem 0 0 1rem;
 }
 
+.approval-details-meta dt {
+  font-weight: 600;
+}
+
+.approval-details-meta dd {
+  margin: 0;
+}
+
 .approval-details-action {
-  margin: 1rem 0 0 3rem;
+  margin: 1rem 0 0 1rem;
 }
 
 .approval-details-action p + p {
@@ -59,6 +73,11 @@
 
 .approval-details-status {
   margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+.approval-card .approval-details-result {
+  margin-top: 0.5rem;
 }
 
 .approval-details-actions {
@@ -74,6 +93,23 @@
   background: #d3d3d3;
   border: 1px solid transparent;
   cursor: pointer;
+}
+
+.approval-details-actions button:focus-visible,
+.approval-details-status:focus-visible {
+  outline: 3px solid #1a5fb4;
+  outline-offset: 2px;
+}
+
+@media (max-width: 30rem) {
+  .approval-card {
+    padding: 1rem;
+  }
+
+  .approval-details-meta,
+  .approval-details-action {
+    margin-left: 0;
+  }
 }
 
 .approval-details-note {

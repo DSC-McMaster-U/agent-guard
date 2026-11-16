@@ -1,7 +1,9 @@
+from datetime import datetime, timedelta, timezone
+
 import pytest
 from pydantic import ValidationError
 
-from app.schemas import EmailSendArguments, ToolCallRequest
+from app.schemas import EmailSendArguments, ToolCallRequest, ToolCallSummary
 
 
 def valid_request():
@@ -61,3 +63,52 @@ def test_extra_email_key_is_rejected():
             body="Hi, please see the report attached.",
             cc="someone@example.com",
         )
+
+
+def valid_summary():
+    return {
+        "request_id": "req_1",
+        "agent_id": "assistant_2",
+        "tool": "email.send",
+        "arguments": {
+            "recipient": "teammate@example.com",
+            "subject": "Hi",
+            "body": "Hello",
+        },
+        "decision": "allow",
+        "reason": "Recipient is inside the organization.",
+        "timestamp": datetime(2026, 11, 3, 18, 0, tzinfo=timezone.utc),
+        "approval_status": "not_required",
+    }
+
+
+def test_valid_summary_serializes_to_frontend_json():
+    summary = ToolCallSummary(**valid_summary())
+    data = summary.model_dump(mode="json")
+    assert data["timestamp"] == "2026-11-03T18:00:00Z"
+    assert data["decision"] == "allow"
+    assert list(data) == [
+        "request_id", "agent_id", "tool", "arguments",
+        "decision", "reason", "timestamp", "approval_status",
+    ]
+
+
+def test_invalid_decision_is_rejected():
+    data = valid_summary()
+    data["decision"] = "maybe"
+    with pytest.raises(ValidationError):
+        ToolCallSummary(**data)
+
+
+def test_invalid_approval_status_is_rejected():
+    data = valid_summary()
+    data["approval_status"] = "unknown"
+    with pytest.raises(ValidationError):
+        ToolCallSummary(**data)
+
+
+def test_non_utc_timestamp_is_converted_to_utc():
+    data = valid_summary()
+    data["timestamp"] = datetime(2026, 11, 3, 13, 0, tzinfo=timezone(timedelta(hours=-5)))
+    summary = ToolCallSummary(**data)
+    assert summary.model_dump(mode="json")["timestamp"] == "2026-11-03T18:00:00Z"

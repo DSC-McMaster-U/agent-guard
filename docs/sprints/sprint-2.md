@@ -1,5 +1,10 @@
 # Sprint 2: Foundations and First Components
 
+This is the historical Sprint 2 plan and shared interface handoff. Assignment
+statuses and forecasts below describe planning at that time, not the live board.
+For current implementation evidence see the [dated checkpoint](sprint-3-checkpoint.md);
+use the [project board](https://github.com/orgs/DSC-McMaster-U/projects/22) for task status.
+
 **Dates:** Tuesday, November 3 to the Tuesday meeting on November 10, 2026.
 **Lead:** Aryan (@rinnegannn).
 **Weekly cap:** Three hours per person total, including the 20–30 minute meeting, implementation, testing, PR preparation, and handoff. Aim for 2–2.5 hours of task work; stop and record remaining work when the cap is reached.

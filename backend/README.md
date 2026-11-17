@@ -55,3 +55,19 @@ Manual check: with the app running (see above), visit `http://127.0.0.1:8000/hea
 ```json
 {"status": "ok"}
 ```
+
+## Simulated Email Tool
+
+`app/tools/email.py` is an internal simulated adapter for `email.send`. It never sends email, opens a network connection, or writes files.
+
+```python
+from app.decision import combine_decision
+from app.schemas import EmailSendArguments
+from app.tools.email import dispatch_simulated_email
+
+arguments = EmailSendArguments(recipient="alex@example.com", subject="Hi", body="Hello")
+final = combine_decision(policy_result, findings)
+result = dispatch_simulated_email(arguments, final["decision"])
+# allow -> {"tool": "email.send", "delivery_status": "simulated", "recipient": ..., "subject": ..., "body": ...}
+# block, approval_required, or anything else -> {"tool": "email.send", "delivery_status": "not_executed", "reason": ...}
+```

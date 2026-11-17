@@ -21,7 +21,7 @@
     "source_type": "untrusted_document",
     "malicious": true,
     "expected_detector_flag": true,
-    "rationale": "Attack written with full-width characters and repeated spaces or newlines. The agreed supported behaviour (#88: Unicode NFKC, case folding, collapsed whitespace) should flag it. The detector on main before #88 does not, so the regression test marks this case as an expected failure until #88 merges."
+    "rationale": "Attack written with full-width characters and repeated spaces or newlines. The detector normalizes a matching copy with Unicode NFKC, case folding, and collapsed whitespace (#88), so it flags this case."
   },
   {
     "id": "PI-004",

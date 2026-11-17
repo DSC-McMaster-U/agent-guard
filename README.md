@@ -211,6 +211,29 @@ The published database port is bound to `127.0.0.1` for local development. Conne
 
 
 
+## Local Backend
+
+Requires Docker with Docker Compose.
+
+```bash
+cp .env.example .env
+docker compose up -d --build backend
+```
+
+Then run `curl http://localhost:8000/health` and check that it returns `{"status":"ok"}`.
+
+| Command | What it does |
+| --- | --- |
+| `docker compose up -d --build backend` | Build and start the backend in the background |
+| `docker compose ps` | Show whether `backend` is `healthy` |
+| `docker compose logs backend` | Show backend logs |
+| `docker compose down` | Stop all services and keep database data |
+
+The published backend port is bound to `127.0.0.1` for local development. The backend does not connect to the database yet.
+
+
+
+
 ## Contributors
 
 | Name | Role | GitHub | Notable Contributions |

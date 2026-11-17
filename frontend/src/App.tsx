@@ -37,9 +37,7 @@ function App() {
         </section>
         <section aria-labelledby="approvals-heading">
           <h2 id="approvals-heading">Approvals</h2>
-          <div aria-live="polite">
-            <ApprovalDetails request={selectedRequest} onDecision={handleDecision} />
-          </div>
+          <ApprovalDetails request={selectedRequest} onDecision={handleDecision} />
         </section>
       </div>
     </main>

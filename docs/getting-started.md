@@ -53,10 +53,10 @@ only when your issue calls for it.
 - **`No module named app` during backend tests:** activate the correct environment,
   install `requirements-dev.txt`, and run pytest from `backend/`.
 - **Vite reports an unsupported Node version:** use Node 24 and rerun `npm ci`.
-- **The dashboard only shows placeholders:** check the dated checkpoint and #85;
-  on the checkpoint commit this is the current application, not an install error.
-- **The decision route returns 404:** check whether #83 is merged. `/health` alone
-  does not mean the decision API exists.
+- **The dashboard still shows placeholders:** the local dashboard landed in PR #117.
+  Check your branch/commit and pull the latest main before creating your next branch.
+- **The decision route returns 404:** use `POST /api/v1/tool-calls` (implemented in
+  PR #121), check your branch/commit, and restart the backend after updating.
 - **The board returns 404:** check you are signed into your team GitHub account,
   then ask the Lead to coordinate project access with an organization owner.
 

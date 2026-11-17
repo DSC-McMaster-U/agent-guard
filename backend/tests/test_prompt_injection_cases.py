@@ -17,15 +17,9 @@ CASES_PATH = Path(__file__).resolve().parents[2] / "evaluation" / "scenarios" / 
 CASES = json.loads(CASES_PATH.read_text(encoding="utf-8"))
 REQUIRED_FIELDS = {"id", "text", "source_type", "malicious", "expected_detector_flag", "rationale"}
 
-# Needs the normalization planned in #88 (NFKC, case folding, collapsed whitespace).
-NEEDS_NORMALIZATION = {"PI-003"}
-
 
 def _param(case):
-    marks = []
-    if case["id"] in NEEDS_NORMALIZATION:
-        marks.append(pytest.mark.xfail(strict=True, reason="needs #88 input normalization"))
-    return pytest.param(case, id=case["id"], marks=marks)
+    return pytest.param(case, id=case["id"])
 
 
 def test_fixture_file_is_well_formed():

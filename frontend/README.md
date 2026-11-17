@@ -26,8 +26,9 @@ Then open http://localhost:5173.
 
 ## Structure
 
-- `src/App.tsx` holds the page shell: the AgentGuard heading and the Activity and Approvals sections.
-- Future Activity and Approvals views should replace those placeholder sections as their own components.
+- `src/App.tsx` connects ActivityList and ApprovalDetails using copied local mock state.
+- Selecting a request shows its details; Approve/Deny updates a pending request once. Refresh resets local state.
+- The dashboard currently uses fictional fixtures, with no API connection or persisted approvals.
 
 ## Shared Dashboard Types and Mock Data
 

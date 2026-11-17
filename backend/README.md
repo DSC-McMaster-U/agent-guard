@@ -56,16 +56,18 @@ Manual check: with the app running (see above), visit `http://127.0.0.1:8000/hea
 {"status": "ok"}
 ```
 
-## Policy decision endpoint
+## Simulated Email Tool
 
-`POST /api/v1/tool-calls` evaluates a proposed tool call against the demo policy and returns a decision summary. This route **evaluates policy only**: it does not store the request and it does not send an email.
+`app/tools/email.py` is an internal simulated adapter for `email.send`. It never sends email, opens a network connection, or writes files.
 
-With the app running (see above), try:
+```python
+from app.decision import combine_decision
+from app.schemas import EmailSendArguments
+from app.tools.email import dispatch_simulated_email
 
-```bash
-curl -X POST http://127.0.0.1:8000/api/v1/tool-calls \
-  -H "Content-Type: application/json" \
-  -d '{"request_id": "req-1", "agent_id": "assistant_2", "user_id": "user-1", "session_id": "session-1", "original_goal": "Send the weekly report", "tool": "email.send", "arguments": {"recipient": "alex@example.com", "subject": "Weekly report", "body": "Report attached."}}'
+arguments = EmailSendArguments(recipient="alex@example.com", subject="Hi", body="Hello")
+final = combine_decision(policy_result, findings)
+result = dispatch_simulated_email(arguments, final["decision"])
+# allow -> {"tool": "email.send", "delivery_status": "simulated", "recipient": ..., "subject": ..., "body": ...}
+# block, approval_required, or anything else -> {"tool": "email.send", "delivery_status": "not_executed", "reason": ...}
 ```
-
-The response is HTTP 200 with `decision` set to `allow`, `block`, or `approval_required`. Invalid request or email data returns HTTP 422.

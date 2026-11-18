@@ -67,6 +67,28 @@ Pytest is included in [`backend/requirements-dev.txt`](../backend/requirements-d
 
 Verified result: **28 tests passed**.
 
+## CI
+
+The [Evaluation checks workflow](../.github/workflows/evaluation-checks.yml) runs
+on pull requests targeting `main` and pushes to `main`, using Python 3.14. It
+caches pip downloads using the backend requirements files and needs no running
+API or database. To run the same checks from the repository root:
+
+```bash
+python -m pip install -r backend/requirements-dev.txt
+python -m pytest evaluation/
+python evaluation/run_policy_cases.py
+```
+
+Either check returning nonzero fails the job. The smoke test explicitly checks
+both policy fixture files and every case ID, with output totals derived from
+their contents so scenario additions do not require a hard-coded test count.
+
+Detector-command wiring is pending
+[#108](https://github.com/DSC-McMaster-U/agent-guard/issues/108). Add its detector
+command to this workflow after its runner is merged; no detector command is
+currently run by this workflow.
+
 ## What agreement means
 
 Agreement does not measure detector accuracy or end-to-end attack prevention. The checker does not call a detector or execute tools. An injected send to an otherwise allowed internal recipient can pass policy alone.

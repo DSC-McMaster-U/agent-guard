@@ -37,19 +37,34 @@ def write_cases(path, cases):
     return path
 
 
-def test_default_command_checks_all_eight_cases_from_another_directory(tmp_path):
+def test_default_command_checks_all_policy_cases_from_another_directory(tmp_path):
+    fixture_paths = (
+        RUNNER_PATH.parent / "scenarios" / "base.json",
+        RUNNER_PATH.parent / "scenarios" / "adversarial.json",
+    )
+    assert runner.CASE_PATHS == fixture_paths
+    expected_results = []
+    for path in fixture_paths:
+        cases = json.loads(path.read_text(encoding="utf-8"))
+        assert cases, f"{path.name} must contain policy cases"
+        for case in cases:
+            decision = case["expected_decision"]
+            expected_results.append(
+                f"{path.name}: {case['id']}: "
+                f"expected={decision}, actual={decision} [PASS]"
+            )
+
     result = subprocess.run(
         [sys.executable, "-B", str(RUNNER_PATH)],
         cwd=tmp_path,
         capture_output=True,
         text=True,
     )
-    assert result.returncode == 0, result.stderr
-    assert result.stdout.count("[PASS]") == 8
-    assert "base.json: BASE-001" in result.stdout
-    assert "adversarial.json: ADV-004" in result.stdout
-    assert "Policy agreement: 8 passed, 0 failed" in result.stdout
-    assert "policy only; not complete attack prevention" in result.stdout
+    assert result.returncode == 0, result.stdout + result.stderr
+    lines = result.stdout.splitlines()
+    assert "policy only; not complete attack prevention" in lines[0]
+    assert lines[1:-1] == expected_results
+    assert lines[-1] == f"Policy agreement: {len(expected_results)} passed, 0 failed"
 
 
 @pytest.mark.parametrize("same_file", [False, True])

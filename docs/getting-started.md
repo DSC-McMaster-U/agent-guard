@@ -32,7 +32,7 @@ for the complete PR workflow. Move your issue to In Progress when you start.
 | Work | Setup | Before requesting review |
 | --- | --- | --- |
 | Backend | [Python setup](../backend/README.md); use Python 3.14.x | From `backend/`: `python -m pytest` |
-| Frontend | [React setup](../frontend/README.md); Node.js 24 matches CI | From `frontend/`: `npm ci`, `npm run typecheck`, `npm run build` |
+| Frontend | [React setup](../frontend/README.md); Node.js 24 matches CI | From `frontend/`: `npm ci`, `npm run lint`, `npm run typecheck`, `npm run build` |
 | Security/evaluation | Backend Python environment, [evaluation commands](../evaluation/README.md) | From root: `python -m pytest evaluation/test_run_policy_cases.py -q` and `python evaluation/run_policy_cases.py`; backend tests for detector changes |
 | Database/infrastructure | [Local PostgreSQL](../README.md#local-postgresql) | Follow your issue's Compose validation/startup checks; preserve the named volume |
 | Documentation | Read the relevant source and follow the documented commands | Check links and `git diff --check`; include actual command results when documenting behavior |

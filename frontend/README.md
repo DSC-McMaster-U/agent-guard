@@ -20,6 +20,7 @@ Then open http://localhost:5173.
 | Command | What it does |
 | --- | --- |
 | `npm start` | Start the dev server (same as `npm run dev`) |
+| `npm run lint` | Check JavaScript, TypeScript, and React Hooks rules |
 | `npm run typecheck` | Run TypeScript type checking |
 | `npm run build` | Type-check and build for production into `dist/` |
 | `npm run preview` | Serve the production build locally |
@@ -103,9 +104,21 @@ runs these commands from `frontend/`:
 
 ```bash
 npm ci
+npm run lint
 npm run typecheck
 npm run build
 ```
 
-Run the same commands before opening a PR. A failed install, type check, or build
+Run the same commands before opening a PR. A failed install, lint check, type check, or build
 fails the CI job. This validates the local dashboard; it does not deploy it.
+
+## Linting
+
+Run `npm run lint` from `frontend/`. The flat `eslint.config.js` uses recommended
+JavaScript, TypeScript, and React Hooks rules. It checks source and configuration
+files, ignores `dist/` and `node_modules/`, and uses browser globals for the app
+and Node globals for tooling. Warnings also fail the check.
+
+Read each reported file, line, and rule name, then fix the cause and rerun lint.
+For an unused variable, remove it or use it; for a Hooks error, call the Hook at
+the component's top level. Avoid disabling rules to get a passing check.

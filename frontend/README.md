@@ -50,6 +50,51 @@ These shared types and mocks are intended for the ActivityList and ApprovalDetai
 
 All mock requests are simulated. No actual emails are sent.
 
+## API client
+
+`src/api/toolCalls.ts` wraps the backend's `/api/v1/tool-calls` routes so
+components don't call `fetch` directly. The dashboard doesn't use it yet.
+
+Exports:
+- `evaluateToolCall(request, signal?)` sends `POST /api/v1/tool-calls` and returns a `ToolCallSummary`
+- `getRecentToolCalls(signal?)` sends `GET /api/v1/tool-calls` and returns `ToolCallSummary[]`
+- `ToolCallRequest` and `TriggerSource`, matching `backend/app/schemas.py`
+- `ToolCallApiError`, with `kind` set to `network`, `validation` (422), `conflict` (409),
+  `unavailable` (502/503/504), `http` (other non-2xx), or `malformed` (2xx with an invalid body)
+- `isToolCallSummary`, the guard used to check every response
+
+Responses are checked before they are returned. A failed request or invalid body is
+thrown as an error and never treated as an allowed result. Aborting via `signal`
+rethrows the browser's `AbortError` unchanged, so callers can ignore it.
+
+`GET /api/v1/tool-calls` comes from backend issue #103. Until that is merged the
+backend responds with 405, which the client reports as an `http` error.
+
+## Running with the local backend
+
+API URLs are relative (`/api/...`). In development, `vite.config.ts` proxies
+`/api` to `http://127.0.0.1:8000`, so the browser never makes a cross-origin
+request and the backend needs no CORS changes.
+
+Run two terminals:
+
+```bash
+# Terminal 1: backend (see ../backend/README.md for setup)
+cd backend
+python -m uvicorn app.main:app --reload
+
+# Terminal 2: frontend
+cd frontend
+npm start
+```
+
+Requests to http://localhost:5173/api/... now reach the backend. If the backend
+isn't running, the proxy returns 502 and the client reports `unavailable`.
+
+The proxy only applies to `npm start`/`npm run dev`. `npm run preview` and any
+production hosting do not proxy `/api`. They need their own API routing, such as
+a reverse proxy that serves the frontend and backend from the same origin.
+
 ## Continuous integration
 
 The `Frontend checks` workflow runs on pull requests to `main` and pushes to

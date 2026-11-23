@@ -17,6 +17,11 @@ services:
 
   backend:
     build: ./backend
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-agentguard}:${POSTGRES_PASSWORD:-agentguard_dev}@db:5432/${POSTGRES_DB:-agentguard}
+    depends_on:
+      db:
+        condition: service_healthy
     ports:
       - "127.0.0.1:8000:8000"
     healthcheck:

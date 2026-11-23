@@ -31,23 +31,15 @@
   }
 }
 
-.dashboard-email-fields {
-  display: grid;
-  gap: 0.75rem;
-  min-width: 0;
+.dashboard-activity-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-.dashboard-email-fields label {
-  display: grid;
-  gap: 0.25rem;
-}
-
-.dashboard-email-fields input,
-.dashboard-email-fields textarea,
-.dashboard-email-fields button {
-  font: inherit;
-}
-
-.dashboard-email-fields button {
-  justify-self: start;
+.dashboard-activity-header h2 {
+  margin: 0;
 }

@@ -218,18 +218,21 @@ Requires Docker with Docker Compose.
 ```bash
 cp .env.example .env
 docker compose up -d --build backend
+docker compose exec -T db psql -v ON_ERROR_STOP=1 -U agentguard -d agentguard < backend/migrations/001_tool_calls.sql
 ```
 
 Then run `curl http://localhost:8000/health` and check that it returns `{"status":"ok"}`.
 
+Apply migration 001 once to the local database. It creates the `tool_calls` table and does not drop tables or data; see [backend/migrations/README.md](backend/migrations/README.md).
+
 | Command | What it does |
 | --- | --- |
-| `docker compose up -d --build backend` | Build and start the backend in the background |
-| `docker compose ps` | Show whether `backend` is `healthy` |
+| `docker compose up -d --build backend` | Build and start the backend and PostgreSQL in the background |
+| `docker compose ps` | Show whether `backend` and `db` are `healthy` |
 | `docker compose logs backend` | Show backend logs |
 | `docker compose down` | Stop all services and keep database data |
 
-The published backend port is bound to `127.0.0.1` for local development. The backend does not connect to the database yet.
+The published backend port is bound to `127.0.0.1` for local development. The backend connects to PostgreSQL with `DATABASE_URL`, using host `db`.
 
 
 

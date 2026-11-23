@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   evaluateToolCall,
   getRecentToolCalls,
@@ -7,100 +7,81 @@ import {
 } from './api/toolCalls'
 import ActivityList from './components/ActivityList'
 import ApprovalDetails, { type ApprovalAction } from './components/ApprovalDetails'
+import ToolCallForm, { type ToolCallFormValues } from './components/ToolCallForm'
 import type { ToolCallSummary } from './types/toolCall'
 import './App.css'
 
-interface EmailFields {
-  original_goal: string
-  recipient: string
-  subject: string
-  body: string
-}
-
-interface DemoEmailFormProps {
-  onSubmit: (fields: EmailFields) => void
-  busy: boolean
+interface History {
+  items: ToolCallSummary[] | null
+  loading: boolean
   error: string | null
 }
 
-type History =
-  | { status: 'loading' }
-  | { status: 'ready'; items: ToolCallSummary[] }
-  | { status: 'error'; message: string }
+interface SubmittedCall {
+  summary: ToolCallSummary
+  revision: number
+}
 
 type ReviewPreview = 'approved' | 'denied'
 
-function DemoEmailForm({ onSubmit, busy, error }: DemoEmailFormProps) {
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const fields = new FormData(event.currentTarget)
-    onSubmit({
-      original_goal: String(fields.get('original_goal') ?? ''),
-      recipient: String(fields.get('recipient') ?? ''),
-      subject: String(fields.get('subject') ?? ''),
-      body: String(fields.get('body') ?? ''),
-    })
-  }
+function isPendingReview(summary: ToolCallSummary) {
+  return summary.decision === 'approval_required' && summary.approval_status === 'pending'
+}
 
-  return (
-    <form onSubmit={handleSubmit} aria-busy={busy}>
-      <fieldset className="dashboard-email-fields" disabled={busy}>
-        <legend>Email details</legend>
-        <label>
-          Original goal
-          <input name="original_goal" required maxLength={4000} />
-        </label>
-        <label>
-          Recipient
-          <input name="recipient" type="email" required />
-        </label>
-        <label>
-          Subject
-          <input name="subject" required maxLength={200} />
-        </label>
-        <label>
-          Body
-          <textarea name="body" required maxLength={10000} rows={3} />
-        </label>
-        <button
-          type="submit"
-          onClick={(event) => {
-            // A fast response can re-enable the button before the second click.
-            if (event.detail > 1) event.preventDefault()
-          }}
-        >
-          {busy ? 'Evaluating…' : 'Evaluate policy'}
-        </button>
-      </fieldset>
-      {error !== null && <p role="alert">{error}</p>}
-    </form>
-  )
+function hasSavedReview(summary: ToolCallSummary) {
+  return summary.approval_status === 'approved' || summary.approval_status === 'denied'
 }
 
 function App() {
-  const [history, setHistory] = useState<History>({ status: 'loading' })
+  const [history, setHistory] = useState<History>({ items: null, loading: true, error: null })
   const [historyAttempt, setHistoryAttempt] = useState(0)
-  const [submitted, setSubmitted] = useState<ToolCallSummary[]>([])
+  const [submitted, setSubmitted] = useState<SubmittedCall[]>([])
   const [selectedRequestId, setSelectedRequestId] = useState<string | null>(null)
   const [reviews, setReviews] = useState(() => new Map<string, ReviewPreview>())
   const [busy, setBusy] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const submitting = useRef(false)
+  const postRevision = useRef(0)
 
   useEffect(() => {
     const controller = new AbortController()
     const { signal } = controller
+    const revisionAtStart = postRevision.current
 
     async function loadHistory() {
       try {
         const items = await getRecentToolCalls(signal)
-        if (!signal.aborted) setHistory({ status: 'ready', items })
+        if (signal.aborted) return
+
+        const stored = new Map(items.map((item) => [item.request_id, item]))
+        // A GET started before a POST completed can carry an older snapshot.
+        // A stored final review is authoritative regardless of request order.
+        setSubmitted((previous) => previous.filter(({ summary, revision }) => {
+          const saved = stored.get(summary.request_id)
+          return saved === undefined || (
+            revision > revisionAtStart &&
+            !hasSavedReview(saved)
+          )
+        }))
+        setReviews((previous) => {
+          const next = new Map(previous)
+          for (const [id, item] of stored) {
+            if (!isPendingReview(item)) next.delete(id)
+          }
+          return next
+        })
+        setHistory({ items, loading: false, error: null })
       } catch (error) {
         if (signal.aborted) return
-        const message = error instanceof ToolCallApiError && error.status === 405
-          ? 'Activity history is unavailable because the server does not support it yet (HTTP 405).'
-          : 'Could not load activity history. Try again.'
-        setHistory({ status: 'error', message })
+        let message = 'Could not load activity history. Try again.'
+        if (error instanceof ToolCallApiError) {
+          if (error.status === 405) {
+            message = 'Activity history is unavailable because the server does not support it yet (HTTP 405).'
+          } else if (error.status === 503) {
+            message = 'Stored activity is temporarily unavailable (HTTP 503). Try again.'
+          }
+        }
+        setHistory((previous) => ({ ...previous, loading: false, error: message }))
       }
     }
 
@@ -108,26 +89,26 @@ function App() {
     return () => controller.abort()
   }, [historyAttempt])
 
-  // Prefer fresh POST responses for IDs that also appear in a history snapshot.
   const serverItems = new Map<string, ToolCallSummary>()
-  for (const item of [...submitted, ...(history.status === 'ready' ? history.items : [])]) {
-    if (!serverItems.has(item.request_id)) serverItems.set(item.request_id, item)
+  for (const item of submitted) serverItems.set(item.summary.request_id, item.summary)
+  for (const item of history.items ?? []) {
+    if (!serverItems.has(item.request_id) || hasSavedReview(item)) {
+      serverItems.set(item.request_id, item)
+    }
   }
+  const items = Array.from(serverItems.values())
+  const selectedRequest = selectedRequestId === null ? null : serverItems.get(selectedRequestId) ?? null
+  const preview = selectedRequest && isPendingReview(selectedRequest)
+    ? reviews.get(selectedRequest.request_id)
+    : undefined
 
-  const items = Array.from(serverItems.values(), (item) => {
-    const review = reviews.get(item.request_id)
-    return item.decision === 'approval_required' && item.approval_status === 'pending' && review
-      ? { ...item, approval_status: review }
-      : item
-  })
-  const selectedRequest = items.find((item) => item.request_id === selectedRequestId) ?? null
-
-  function retryHistory() {
-    setHistory({ status: 'loading' })
+  function refreshHistory() {
+    if (history.loading) return
+    setHistory((previous) => ({ ...previous, loading: true }))
     setHistoryAttempt((attempt) => attempt + 1)
   }
 
-  async function submitEmail({ original_goal, recipient, subject, body }: EmailFields) {
+  async function submitEmail({ original_goal, recipient, subject, body }: ToolCallFormValues) {
     if (submitting.current) return
     submitting.current = true
     setBusy(true)
@@ -144,12 +125,13 @@ function App() {
         arguments: { recipient, subject, body },
       }
 
-      const result = await evaluateToolCall(request)
+      const summary = await evaluateToolCall(request)
+      const revision = ++postRevision.current
       setSubmitted((previous) => [
-        result,
-        ...previous.filter((item) => item.request_id !== result.request_id),
+        { summary, revision },
+        ...previous.filter((item) => item.summary.request_id !== summary.request_id),
       ])
-      setSelectedRequestId(result.request_id)
+      setSelectedRequestId(summary.request_id)
     } catch (error) {
       const detail = error instanceof ToolCallApiError ? ` ${error.message}` : ''
       setSubmitError(`Policy evaluation failed.${detail}`)
@@ -161,10 +143,9 @@ function App() {
 
   function handleDecision(requestId: string, action: ApprovalAction) {
     const request = serverItems.get(requestId)
-    if (request?.decision !== 'approval_required' || request.approval_status !== 'pending') return
+    if (request === undefined || !isPendingReview(request)) return
 
     setReviews((previous) => {
-      if (previous.has(requestId)) return previous
       const next = new Map(previous)
       next.set(requestId, action === 'approve' ? 'approved' : 'denied')
       return next
@@ -174,34 +155,29 @@ function App() {
   return (
     <main>
       <h1>AgentGuard</h1>
-      <section aria-labelledby="evaluate-heading">
-        <h2 id="evaluate-heading">Evaluate an email request</h2>
-        {/* Temporary form until Issue #107 supplies ToolCallForm. */}
-        <DemoEmailForm onSubmit={submitEmail} busy={busy} error={submitError} />
-      </section>
-      <p className="dashboard-notice">Local review preview — not saved; no email is sent.</p>
+      <ToolCallForm onSubmit={submitEmail} busy={busy} error={submitError} />
       <div className="dashboard-panels">
         <section aria-labelledby="activity-heading">
-          <h2 id="activity-heading">Activity</h2>
-          {history.status === 'loading' && <p role="status">Loading activity history…</p>}
-          {history.status === 'error' && (
-            <div>
-              <p role="alert">{history.message}</p>
-              <button type="button" onClick={retryHistory}>Retry history</button>
-            </div>
-          )}
-          {history.status === 'ready' || items.length > 0 ? (
+          <div className="dashboard-activity-header">
+            <h2 id="activity-heading">Activity</h2>
+            <button type="button" onClick={refreshHistory} disabled={history.loading}>
+              Refresh activity
+            </button>
+          </div>
+          {history.loading && <p role="status">Loading activity history…</p>}
+          {history.error !== null && <p role="alert">{history.error}</p>}
+          {(history.items !== null || items.length > 0) && (
             <div className="dashboard-activity" role="region" aria-label="Activity table" tabIndex={0}>
               <ActivityList items={items} onSelect={setSelectedRequestId} />
             </div>
-          ) : null}
+          )}
         </section>
         <section aria-labelledby="approvals-heading">
           <h2 id="approvals-heading">Approvals</h2>
-          {selectedRequest !== null && selectedRequest.approval_status !==
-            serverItems.get(selectedRequest.request_id)?.approval_status && (
-              <p>Server status: Pending approval</p>
-            )}
+          <p className="dashboard-notice">Local review preview — not saved; no email is sent.</p>
+          <div role="status">
+            {preview && <p>Local preview: {preview === 'approved' ? 'Approved' : 'Denied'} (not saved)</p>}
+          </div>
           <ApprovalDetails request={selectedRequest} onDecision={handleDecision} />
         </section>
       </div>

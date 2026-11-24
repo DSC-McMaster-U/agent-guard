@@ -32,7 +32,7 @@ for the complete PR workflow. Move your issue to In Progress when you start.
 | Work | Setup | Before requesting review |
 | --- | --- | --- |
 | Backend | [Python setup](../backend/README.md); use Python 3.14.x | From `backend/`: `python -m pytest` |
-| Frontend | [React setup](../frontend/README.md); Node.js 24 matches CI | From `frontend/`: `npm ci`, `npm run typecheck`, `npm run build` |
+| Frontend | [React setup](../frontend/README.md); Node.js 24 matches CI | From `frontend/`: `npm ci`, `npm run lint`, `npm run typecheck`, `npm run build` |
 | Security/evaluation | Backend Python environment, [evaluation commands](../evaluation/README.md) | From root: `python -m pytest evaluation/test_run_policy_cases.py -q` and `python evaluation/run_policy_cases.py`; backend tests for detector changes |
 | Database/infrastructure | [Local PostgreSQL](../README.md#local-postgresql) | Follow your issue's Compose validation/startup checks; preserve the named volume |
 | Documentation | Read the relevant source and follow the documented commands | Check links and `git diff --check`; include actual command results when documenting behavior |
@@ -53,10 +53,10 @@ only when your issue calls for it.
 - **`No module named app` during backend tests:** activate the correct environment,
   install `requirements-dev.txt`, and run pytest from `backend/`.
 - **Vite reports an unsupported Node version:** use Node 24 and rerun `npm ci`.
-- **The dashboard only shows placeholders:** check the dated checkpoint and #85;
-  on the checkpoint commit this is the current application, not an install error.
-- **The decision route returns 404:** check whether #83 is merged. `/health` alone
-  does not mean the decision API exists.
+- **The dashboard still shows placeholders:** the local dashboard landed in PR #117.
+  Check your branch/commit and pull the latest main before creating your next branch.
+- **The decision route returns 404:** use `POST /api/v1/tool-calls` (implemented in
+  PR #121), check your branch/commit, and restart the backend after updating.
 - **The board returns 404:** check you are signed into your team GitHub account,
   then ask the Lead to coordinate project access with an organization owner.
 

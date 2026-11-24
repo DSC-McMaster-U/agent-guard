@@ -103,11 +103,11 @@ Current workflows run on pull requests to `main` and pushes to `main`:
 
 - **Repository integrity:** committed-file whitespace checks (currently required by branch protection).
 - **Backend checks:** Python 3.14 syntax checks and pytest from `backend/`, plus Compose configuration validation from the repository root.
-- **Frontend checks:** Node.js 24, `npm ci`, TypeScript checks, and production build from `frontend/`.
+- **Frontend checks:** Node.js 24, `npm ci`, ESLint (including React Hooks rules), TypeScript checks, and production build from `frontend/`.
 
 Evaluation tests currently run separately using the commands in
 [evaluation/README.md](evaluation/README.md); #110 tracks adding them to CI.
-Frontend lint and component tests, and Docker image-build checks, should be added
+Frontend component tests and Docker image-build checks should be added
 when their tools and files exist. See the [dated checkpoint](docs/sprints/sprint-3-checkpoint.md)
 for the verified implementation state. An optional skipped check is not evidence
 that its underlying behavior was tested.

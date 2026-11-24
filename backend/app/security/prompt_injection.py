@@ -5,18 +5,33 @@ The detector flags text only when it contains BOTH a fake role marker
 override phrase. It returns heuristic findings for later decision logic.
 It never blocks an action, grants a permission, or overrides a policy block.
 
+Before matching, a copy of the text is normalized with Unicode NFKC and
+casefold, and runs of whitespace are collapsed to one space. So "SYSTEM:",
+"system:", full-width "ＳＹＳＴＥＭ：" and "ignore   previous\ninstructions"
+all match. Evidence is always cut from the original, unnormalized text.
+
+Supported role markers: system:, [system], developer:, [developer],
+<|im_start|>system.
+Supported override phrases: ignore previous instructions, ignore all
+previous instructions, ignore prior instructions, disregard previous
+instructions, ignore the user's request.
+
 Known limitations:
 - Paraphrases ("please set aside what you were told") are missed.
-- Encoded or obfuscated text (base64, other languages, Unicode look-alikes)
-  is missed.
+- Encoded or obfuscated text (base64, other languages, zero-width
+  characters inside words, look-alike letters from other alphabets) is missed.
+- A curly apostrophe in "user’s" does not match "user's".
 - A marker alone or an override phrase alone is not flagged.
 - Benign text that quotes an attack, such as a security article, can still
-  be flagged (false positive).
+  be flagged (false positive). The marker and phrase do not need to be next
+  to each other.
 """
 
+import unicodedata
 from typing import Any
 
-# Matching is done on a lowercased copy, so every entry here is lowercase.
+# Matching is done on a normalized copy, so every entry here is lowercase
+# with single spaces.
 ROLE_MARKERS = (
     "system:",
     "[system]",
@@ -74,15 +89,21 @@ def detect_prompt_injection(text: str, source_type: str = "unknown") -> list[dic
 
 
 def _normalize(text: str) -> tuple[str, list[int]]:
-    """Return a lowercased matching copy of ``text``.
+    """Return a normalized matching copy of ``text``.
 
-    ``origin[i]`` is the index in ``text`` of the character that produced
-    character ``i`` of the copy, so evidence can be cut from the original.
+    Each character is NFKC-normalized and casefolded, and each run of
+    whitespace becomes one space. Characters are normalized one at a time so
+    that ``origin[i]`` is the index in ``text`` of the character that produced
+    character ``i`` of the copy, letting evidence be cut from the original.
     """
     chars: list[str] = []
     origin: list[int] = []
     for index, char in enumerate(text):
-        for piece in char.lower():
+        for piece in unicodedata.normalize("NFKC", char).casefold():
+            if piece.isspace():
+                if chars and chars[-1] == " ":
+                    continue
+                piece = " "
             chars.append(piece)
             origin.append(index)
     return "".join(chars), origin

@@ -235,19 +235,6 @@ Apply migration 001 once to the local database. It creates the `tool_calls` tabl
 The published backend port is bound to `127.0.0.1` for local development. The backend connects to PostgreSQL with `DATABASE_URL`, using host `db`.
 
 
-### How Tool-Call Decisions Are Made
-
-`POST /api/v1/tool-calls` combines the policy engine and the prompt-injection detector into one stored decision. Each request goes through these steps in order:
-
-1. Validate the request. For `email.send`, the email arguments are validated as well. Invalid requests return `422` and are never written to the database.
-2. Evaluate policy for the agent, tool, and arguments.
-3. If the request has a `trigger_source`, scan its `content` with the prompt-injection detector. A missing or `null` source means no findings. The `trust_level` label does not skip scanning, so a source marked `trusted` is scanned like any other.
-4. Combine the policy result and the detector findings. A policy `block` or `approval_required` is never downgraded. A policy `allow` becomes `approval_required` when the detector reports a high-severity finding.
-5. Return and store the combined decision and reason. The `approval_status` is `pending` only when the final decision is `approval_required`; otherwise it is `not_required`.
-
-Detector findings are kept in memory for the request only. They are not returned in the response and are not stored, so raw source content never reaches the database. The response and storage schemas are unchanged.
-
-Approvals and email execution are not implemented. A `pending` status only records that a human review would be needed. There is no endpoint to approve or deny a request, and no email is ever sent.
 
 
 ## Contributors

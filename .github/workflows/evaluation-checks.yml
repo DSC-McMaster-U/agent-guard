@@ -34,3 +34,6 @@ jobs:
 
       - name: Run policy scenarios
         run: python evaluation/run_policy_cases.py
+
+      - name: Run detector scenarios
+        run: python evaluation/run_detector_cases.py

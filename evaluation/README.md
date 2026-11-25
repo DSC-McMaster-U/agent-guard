@@ -1,6 +1,6 @@
 # Policy scenario checks
 
-Checks eight fictional tool-call scenarios against the real [`evaluate_policy`](../backend/app/policy.py) function. The results measure **policy-decision agreement**.
+Checks twelve fictional tool-call scenarios against the real [`evaluate_policy`](../backend/app/policy.py) function. The results measure **policy-decision agreement**.
 
 ## Run
 
@@ -15,7 +15,7 @@ The checker uses only the Python standard library and the policy module. No runn
 It loads exactly these files, without globbing other JSON fixtures:
 
 - [`scenarios/base.json`](scenarios/base.json): four base cases.
-- [`scenarios/adversarial.json`](scenarios/adversarial.json): four adversarial cases; see the [scenario notes](scenarios/adversarial.md).
+- [`scenarios/adversarial.json`](scenarios/adversarial.json): eight adversarial cases; see the [scenario notes](scenarios/adversarial.md).
 
 ## Fixture validation
 
@@ -50,7 +50,11 @@ adversarial.json: ADV-001: expected=block, actual=block [PASS]
 adversarial.json: ADV-002: expected=block, actual=block [PASS]
 adversarial.json: ADV-003: expected=approval_required, actual=approval_required [PASS]
 adversarial.json: ADV-004: expected=block, actual=block [PASS]
-Policy agreement: 8 passed, 0 failed
+adversarial.json: ADV-005: expected=block, actual=block [PASS]
+adversarial.json: ADV-006: expected=block, actual=block [PASS]
+adversarial.json: ADV-007: expected=approval_required, actual=approval_required [PASS]
+adversarial.json: ADV-008: expected=allow, actual=allow [PASS]
+Policy agreement: 12 passed, 0 failed
 ```
 
 Exit code: `0`.

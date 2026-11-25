@@ -9,6 +9,8 @@ from app.policy import evaluate_policy
 from app.schemas import ToolCallRequest, ToolCallSummary
 from app.storage import DuplicateRequestError, list_summaries, save_summary
 from app.validation import validate_email_arguments
+from app.decision import combine_decision
+from app.security.prompt_injection import detect_prompt_injection
 
 app = FastAPI()
 
@@ -36,15 +38,21 @@ def create_tool_call(
 
     result = evaluate_policy(request.agent_id, request.tool, request.arguments)
 
+    if request.trigger_source is None:
+        findings=[]
+    else:
+        findings=detect_prompt_injection(request.trigger_source.content, request.trigger_source.type)
+    final=combine_decision(result,findings)
+
     summary = ToolCallSummary(
         request_id=request.request_id,
         agent_id=request.agent_id,
         tool=request.tool,
         arguments=request.arguments,
-        decision=result["decision"],
-        reason=result["reason"],
+        decision=final["decision"],
+        reason=final["reason"],
         timestamp=datetime.now(timezone.utc),
-        approval_status="pending" if result["decision"] == "approval_required" else "not_required",
+        approval_status="pending" if final["decision"] == "approval_required" else "not_required",
     )
 
     try:

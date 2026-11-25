@@ -72,6 +72,24 @@ result = dispatch_simulated_email(arguments, final["decision"])
 # block, approval_required, or anything else -> {"tool": "email.send", "delivery_status": "not_executed", "reason": ...}
 ```
 
+## Policy and detector decisions
+
+`POST /api/v1/tool-calls` combines the policy engine and the narrow prompt-injection detector. Each request goes through these steps in order:
+
+1. Validate the request. For `email.send`, the email arguments are validated as well. Invalid requests return `422` and nothing is saved.
+2. Evaluate policy with `evaluate_policy`.
+3. If the request has a `trigger_source`, scan its `content` with `detect_prompt_injection`, using the source `type`. A missing or `null` source means no findings. A source with `trust_level` set to `trusted` is still scanned, so the label cannot bypass the detector or policy.
+4. Choose the final decision with `combine_decision`. A policy `block` or `approval_required` is never downgraded. A policy `allow` becomes `approval_required` when the detector reports a high-severity finding.
+5. Return and save the combined decision and reason. The `approval_status` is `pending` only for `approval_required`; otherwise it is `not_required`.
+
+For example, an internal recipient with a source whose content has a fake `SYSTEM:` marker followed by `ignore previous instructions` returns `approval_required` and `pending` instead of `allow`. Full-width characters and irregular whitespace are normalized before matching, so a marker typed with full-width letters or an override phrase split by extra spaces or a newline is still recognized.
+
+Detector findings stay in memory for the request. They are not returned in the response and are not saved, so the raw source content never reaches the database. The response and storage schemas are unchanged.
+
+The POST route does not call the simulated email adapter, and it does not execute email. Approvals are not implemented: `pending` only records that a human review would be needed, and there is no endpoint to approve or deny a request.
+
+
+
 ## Tool call history
 
 `POST /api/v1/tool-calls` evaluates the policy and saves the summary before it returns. It returns `409` for a duplicate `request_id` and a generic `503` if the database is unavailable. Invalid email arguments still return `422` and nothing is saved. `GET /api/v1/tool-calls` returns the newest 20 summaries as a JSON array, or `[]` when nothing is stored. `GET /health` does not use the database.

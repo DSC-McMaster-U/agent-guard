@@ -26,4 +26,4 @@ They can differ. A passing test means the detector behaves as documented. It doe
 
 ## Scope
 
-These are six detector regression cases. They are separate from the eight policy scenarios in `base.json` and `adversarial.json`, so do not report them as 14 end-to-end tests. All data is fictional.
+These are six detector regression cases. They are separate from the twelve policy scenarios in `base.json` and `adversarial.json`, so do not report them as 18 end-to-end tests. All data is fictional.

@@ -22,6 +22,7 @@ Then open http://localhost:5173.
 | `npm start` | Start the dev server (same as `npm run dev`) |
 | `npm run lint` | Check JavaScript, TypeScript, and React Hooks rules |
 | `npm run typecheck` | Run TypeScript type checking |
+| `npm test` | Run the Vitest suite once (no watch mode) |
 | `npm run build` | Type-check and build for production into `dist/` |
 | `npm run preview` | Serve the production build locally |
 
@@ -106,11 +107,26 @@ runs these commands from `frontend/`:
 npm ci
 npm run lint
 npm run typecheck
+npm test
 npm run build
 ```
 
-Run the same commands before opening a PR. A failed install, lint check, type check, or build
+Run the same commands before opening a PR. A failed install, lint check, type check, test, or build
 fails the CI job. This validates the local dashboard; it does not deploy it.
+
+## Testing
+
+Run `npm test` from `frontend/`. It runs Vitest once and exits, so it works the
+same locally and in CI.
+
+- Tests live next to the code they cover as `*.test.ts` or `*.test.tsx`
+  (for example `src/components/ActivityList.test.tsx`).
+- API client tests run in Vitest's default Node environment.
+- Component tests start with a `// @vitest-environment jsdom` comment and use
+  React Testing Library. Query by role or label, as a user would, and call
+  `cleanup` after each test.
+- Use small fictional fixtures inside the test file. Tests need no backend,
+  database, or browser, and do not use snapshots.
 
 ## Linting
 

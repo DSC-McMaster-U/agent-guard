@@ -65,7 +65,7 @@ React, FastAPI, Python, PostgreSQL, Docker, and GitHub Actions support the commi
 
 ### January MVP Architecture
 
-The fall showcase is scheduled for January, with its exact date to be announced. The team targets one reliable end-to-end security decision flow by late January; if the showcase is earlier, it will present the working subset available then.
+The mid-year project showcase takes place the week of January 18–22, 2027. The exact day is TBD. December maintenance will prepare the local demo. At the showcase, the team will present the decision paths it has verified. The full local MVP is targeted for late January.
 
 The demonstration tool is a simulated `email.send` action with a local outbox. It never sends a real email or needs email credentials. The same action can be allowed, blocked, or held for approval based on its validated recipient and policy.
 

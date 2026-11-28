@@ -1132,7 +1132,7 @@ A pull request is considered complete when:
 - Contributors should have no more than one main implementation issue in progress at a time
 - Each person's total weekly contribution is capped at three hours, including the meeting, testing, review preparation, and handoff; scope issues to about 2–2.5 focused hours with AI assistance
 
-The schedule assumes students have competing coursework, exams, and personal commitments. December maintenance focuses on local setup, demo-blocking fixes, and rehearsal as people are available. The next numbered sprint is Sprint 6, starting Tuesday, January 5, 2027. Unfinished work returns to planning instead of automatically carrying an unrealistic commitment into the next week.
+The schedule assumes students have competing coursework, exams, and personal commitments. December maintenance can include implementation and integration needed for the showcase as people are available. Use the browser walkthrough below to decide which gaps to tackle first. The next numbered sprint is Sprint 6, starting Tuesday, January 5, 2027. Unfinished work returns to planning instead of automatically carrying an unrealistic commitment into the next week.
 
 ## Workstream Plan
 
@@ -1188,6 +1188,12 @@ Sprint 2 runs November 3–10, 2026. Use the [assigned plan and shared contracts
 - Document what runs end to end and what is still mocked or incomplete.
 - Assign January integration gaps to the relevant workstreams with clear completion criteria.
 - Use the checkpoint to identify December maintenance priorities. Start by reproducing the demo on a fresh local setup and fixing any issue that prevents a verified path from running.
+
+### December showcase preparation
+
+- Run a fresh local setup and walk through an allowed, blocked, and approval-required email request in the dashboard. Restart the backend and verify that the decisions still appear in activity history.
+- If the approval path still ends at a local preview, prioritize connecting the dashboard action to a server-side approval and saving the review event. Then connect the approved request to the simulated email outbox. Check that blocked, pending, and denied requests leave the outbox empty.
+- Use what passes that walkthrough to choose the live demo. Record the steps and any limitations so another teammate can rehearse it before January 18. Bring remaining gaps to Sprint 6 planning on January 5.
 
 ### January MVP
 

@@ -4,6 +4,8 @@
 
 Aryan owns demo acceptance and contributor coordination. Codex handles reproduction, scoped fixes, and automated checks. Before starting a fix, check the linked issue for an existing contributor PR. Record the commit, result, and any remaining gap on that issue.
 
+Use the [showcase verification checklist](december-verification.md) to record the results of each rehearsal.
+
 ## 1. Make the current demo reproducible
 
 - [ ] **Aryan + Codex — Start from a clean checkout.** Use a fresh local database, apply the documented migration, start the backend and dashboard, then submit one request through the browser. Verify the documented setup on a second machine. Until the dashboard Compose service lands, use the Vite development server. [Local setup](README.md) · [Compose integration #139](https://github.com/DSC-McMaster-U/agent-guard/issues/139)

@@ -85,7 +85,7 @@ The January MVP is a focused end-to-end local demonstration targeted for late Ja
 - Docker Compose-based local development
 - GitHub Actions checks for the components that exist
 
-The MVP demo should show a safe request, a blocked request, and an approval-required request. A reliable local demonstration is required; public cloud deployment is optional. The fall showcase is scheduled for January, but its exact date is not yet announced. If it falls before the full MVP is ready, present the working subset available then and explain its limitations.
+The MVP demo should show a safe request, a blocked request, and an approval-required request. A reliable local demonstration is required; public cloud deployment is optional. The mid-year project showcase takes place the week of January 18–22, 2027. The exact day is TBD. Present the decision paths verified by showcase week and identify any steps that still use a local preview.
 
 Use the same `email.send` action for all three demo paths. Its initial arguments are `recipient`, `subject`, and `body`, using fictional addresses and text only. For example, an internal `@example.com` recipient can be allowed, an address at the explicitly denied `@example.net` domain can be blocked, and an external `@example.org` recipient can require approval. Invalid arguments are blocked. The simulated executor records an outcome in a local outbox and audit trail; it must not deliver email or require provider credentials. These example domains and rules are starting fixtures, not production policy.
 
@@ -232,9 +232,9 @@ For example:
 
 The active development period runs from late October through the end of March. The schedule assumes the Project Lead and 11 contributors each have about three hours of total project time per week, including a short Tuesday meeting, with reduced availability during exams and holidays. AI-assisted development may speed up scaffolding and routine tasks, but the schedule still reserves time for learning, review, testing, and integration.
 
-Sprint 1 starts Tuesday, October 27, 2026. Sprints 1–5 run through the November progress checkpoint; December is a reduced-capacity maintenance period without required weekly sprints. Sprints 6–9 run from January 5 through February 1, targeting a late-January local MVP. The fall showcase is scheduled for January, but the exact date is unannounced; if it is early, show the validated subset available then. Sprints 10–16 harden the product through March 22. Sprint 17 is a stabilization and rehearsal buffer, and Sprint 18 begins March 30 for the final showcase and `v0.1` release wrap-up. Prepare a release candidate by the end of Sprint 16 so an end-of-March event does not depend on last-week implementation. The exact final showcase date is unannounced. Both demos can run locally with Docker Compose; hosted deployment is optional.
+Sprint 1 starts Tuesday, October 27, 2026. Sprint 5 closes at the December 1 checkpoint. In December the team will use its reduced availability to prepare the showcase demo. Sprints 6–9 run from January 5 through February 1, targeting a late-January local MVP. The mid-year showcase falls the week of January 18–22, 2027 (exact day TBD). Sprints 10–16 harden the product through March 22. Sprint 17 is a stabilization and rehearsal buffer, and Sprint 18 begins March 30 for the final showcase and `v0.1` release wrap-up. Prepare a release candidate by the end of Sprint 16 so an end-of-March event does not depend on last-week implementation. The exact final showcase date is unannounced. Both demos can run locally with Docker Compose; hosted deployment is optional.
 
-This is a capacity plan, not a promise of feature completion. Twelve people at about three hours each provide roughly 36 team-hours in an active week; the meeting alone uses about six of those hours, before reviews, onboarding, and absences. Assign complete weekly prototype/module deliverables, reserve the Project Lead's time for integration and PR review, and revisit progress at every Tuesday meeting. If the January event is announced for early in the month, freeze and rehearse the November working slice instead of counting on unfinished January features. If any safe, blocked, or approval-required path is still unstable after Sprint 8, prioritize that path over optional polish or infrastructure.
+This is a capacity plan, not a promise of feature completion. Twelve people at about three hours each provide roughly 36 team-hours in an active week; the meeting alone uses about six of those hours, before reviews, onboarding, and absences. Assign complete weekly prototype/module deliverables, reserve the Project Lead's time for integration and PR review, and revisit progress at every Tuesday meeting. Use the November checkpoint as the fallback demo. Rehearse the verified paths before showcase week so the team can present as early as Monday, January 18. If any safe, blocked, or approval-required path is still unstable after Sprint 8, prioritize that path over optional polish or infrastructure.
 
 ### Milestone 1: Foundations and Onboarding
 
@@ -292,7 +292,7 @@ This is a capacity plan, not a promise of feature completion. Twelve people at a
 - Complete the simulated `email.send` tool and an activity view.
 - Run the application locally with Docker Compose.
 - Reach ten to twenty benchmark scenarios and add a small end-to-end test path.
-- Freeze MVP features before the demo, fix blocking defects, and rehearse the three decision paths.
+- Rehearse the verified showcase paths before January 18. For the late-January MVP, freeze features, fix blocking defects, and verify all three decision paths.
 
 ### Milestone 6: Core Product Hardening
 
@@ -1132,7 +1132,7 @@ A pull request is considered complete when:
 - Contributors should have no more than one main implementation issue in progress at a time
 - Each person's total weekly contribution is capped at three hours, including the meeting, testing, review preparation, and handoff; scope issues to about 2–2.5 focused hours with AI assistance
 
-The schedule assumes students have competing coursework, exams, and personal commitments. December is treated as a reduced-capacity maintenance period rather than a sequence of required sprints. Sprint numbering resumes with Sprint 6 on January 5. Unfinished work returns to planning instead of automatically carrying an unrealistic commitment into the next week.
+The schedule assumes students have competing coursework, exams, and personal commitments. December maintenance focuses on local setup, demo-blocking fixes, and rehearsal as people are available. The next numbered sprint is Sprint 6, starting Tuesday, January 5, 2027. Unfinished work returns to planning instead of automatically carrying an unrealistic commitment into the next week.
 
 ## Workstream Plan
 
@@ -1187,7 +1187,7 @@ Sprint 2 runs November 3–10, 2026. Use the [assigned plan and shared contracts
 - Add the first benchmark fixtures and component tests.
 - Document what runs end to end and what is still mocked or incomplete.
 - Assign January integration gaps to the relevant workstreams with clear completion criteria.
-- Keep December work optional and focused on setup, tests, and fixes.
+- Use the checkpoint to identify December maintenance priorities. Start by reproducing the demo on a fresh local setup and fixing any issue that prevents a verified path from running.
 
 ### January MVP
 
@@ -1199,6 +1199,7 @@ Sprint 2 runs November 3–10, 2026. Use the [assigned plan and shared contracts
 
 #### Sprint 7: Approval and Audit Integration
 
+- Rehearse the showcase demo before January 18 using the verified paths, with the November checkpoint as a fallback.
 - Connect the approval API and React approval actions.
 - Persist requests, decisions, and approval events in PostgreSQL.
 - Show recent decisions in an activity view.
